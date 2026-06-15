@@ -9,3 +9,8 @@ mkdir -p ~/.kube
 chmod 0700 ~/.kube
 su - $USER
 microk8s status --wait-ready
+```
+# Add worker-1 node
+```bash
+microk8s add-node
+```
