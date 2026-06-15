@@ -1,0 +1,35 @@
+# Kubernetes credentials
+.kube/
+*.kubeconfig
+*kubeconfig*
+config
+hetzner-microk8s.yaml
+
+# Secrets
+.env
+.env.*
+*.secret.yaml
+secrets/
+*.key
+*.pem
+*.crt
+*.token
+
+# SSH keys
+id_rsa*
+id_ed25519*
+*.pub
+
+# Terraform / Ansible sensitive files
+*.tfstate
+*.tfstate.*
+vault-password.txt
+*.vault
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+
+# Logs
+*.log
