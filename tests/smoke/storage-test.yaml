@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-test-pvc
+  namespace: cluster-test
+spec:
+  storageClassName: microk8s-hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: storage-test
+  namespace: cluster-test
+spec:
+  restartPolicy: Never
+  containers:
+    - name: storage-test
+      image: busybox:1.36.1
+      command:
+        - sh
+        - -c
+        - |
+          echo "storage works" > /data/test.txt
+          sleep 3600
+      volumeMounts:
+        - name: data
+          mountPath: /data
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: storage-test-pvc

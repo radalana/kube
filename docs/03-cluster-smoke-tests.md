@@ -26,3 +26,15 @@ k wait --for=condition=Ready pod/dns-test -n cluster-test --timeout=120s
 - check DNS from container inside pod to request ip adress of kubernetes.default.svc.cluster.local
 ```bash
 k exec -n cluster-test dns-test -- nslookup kubernetes.default.svc.cluster.local
+```
+## 2. Test if Persistent Volume will be created automatically (dynamic PersistentVolume provisioning)
+
+```bash
+k apply -f .\tests\smoke\storage-test.yaml
+k exec -n cluster-test storage-test -- cat /data/test.txt
+```
+
+Delete
+```bash
+kubectl delete -f .\tests\smoke
+```
