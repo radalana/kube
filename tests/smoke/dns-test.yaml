@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-test
+  namespace: cluster-test
+spec:
+  restartPolicy: Never
+  containers:
+    - name: dns-test
+      image: busybox:1.36.1
+      command:
+        - sleep
+        - "3600"
