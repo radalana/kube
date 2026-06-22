@@ -52,8 +52,39 @@ currentNamespaceOnly: true
 k get pods -n database
 
 expected: 
-mariadb-operator-b6548b959-tqq6t   1/1     Running   0          5m17s (only one pod)
+mariadb-operator-b6548b959-tqq6t   1/1     Running   0          5m17s
 ## Create the root password Secret
+1. On master node check if is encryption on rest in enabled
+sudo grep -- '--encryption-provider-config' \
+  /var/snap/microk8s/current/args/kube-apiserver
+
+if nothing -> encryption is disabled
+
+### 2. Create backup on the master node
+
+a. mkdir -p "$HOME/microk8s-backups"
+chmod 700 "$HOME/microk8s-backups"
+
+b. microk8s dbctl backup \
+  -o "$HOME/microk8s-backups/dqlite-before-encryption-$(date +%F-%H%M%S).tar.gz"
+
+c. check backup
+ls -lh "$HOME/microk8s-backups"
+
+d. create checksum
+sha256sum "$HOME"/microk8s-backups/dqlite-before-encryption-*.tar.gz
+
+e. set rights
+chmod 600 "$HOME"/microk8s-backups/dqlite-before-encryption-*.tar.gz
+
+f. save locally if master node is unavailable: 
+scp sveta@master:/home/sveta/microk8s-backups/dqlite-before-encryption-*.tar.gz .
+
+g. add in backup in .gitignore
+
+ ### 3. Create config encryption file
+a. 
+
 
 ## Deploy the MariaDB Galera cluster
 
