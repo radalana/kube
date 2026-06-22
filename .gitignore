@@ -36,3 +36,6 @@ Thumbs.db
 *.log
 
 tutorial/
+
+#Backup
+dqlite-before-encryption-2026-06-22-140748.tar.gz
