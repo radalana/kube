@@ -27,9 +27,32 @@ k get crds | Select-String "mariadb"
 ```
 
 ## Install MariaDB Operator
-
+Install MariaDB Operator in the database namespace and configure it to watch only resources in this namespace.
+```bash
+helm upgrade --install mariadb-operator `
+  oci://ghcr.io/mariadb-operator/charts/mariadb-operator `
+  --namespace database `
+  --version 26.6.0 `
+  --set currentNamespaceOnly=true `
+  --wait `
+  --timeout 5m
+```   
 ## Verify the Operator
+1. helm list -A | findstr /I mariadb
+expected:
+mariadb-operator         database
+mariadb-operator-crds    operator
+2. helm get values mariadb-operator `
+  --namespace database `
+  --all |
+  Select-String "currentNamespaceOnly"
+expected:
+currentNamespaceOnly: true
+3. check pods:
+k get pods -n database
 
+expected: 
+mariadb-operator-b6548b959-tqq6t   1/1     Running   0          5m17s (only one pod)
 ## Create the root password Secret
 
 ## Deploy the MariaDB Galera cluster
