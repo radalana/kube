@@ -82,9 +82,88 @@ scp sveta@master:/home/sveta/microk8s-backups/dqlite-before-encryption-*.tar.gz 
 
 g. add in backup in .gitignore
 
- ### 3. Create config encryption file
-a. 
+ ### 3. Create config encryption file (inside master)
 
+a. create encryption key:
+ENCRYPTION_KEY="$(openssl rand -base64 32)"
+
+b. create config file:  
+
+sudo tee /var/snap/microk8s/current/args/encryption-config.yaml > /dev/null <<EOF
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+  - resources:
+      - secrets
+    providers:
+      - secretbox:
+          keys:
+            - name: key1
+              secret: ${ENCRYPTION_KEY}
+      - identity: {}
+EOF
+
+c. Delete key from env var 
+unset ENCRYPTION_KEY
+
+d. set rights only root can read this file:
+
+    I. sudo chown root:root \
+  /var/snap/microk8s/current/args/encryption-config.yaml
+    II. sudo chmod 600 \
+  /var/snap/microk8s/current/args/encryption-config.yaml
+    III. check rights:
+    sudo ls -l \
+  /var/snap/microk8s/current/args/encryption-config.yaml
+### 4. Add encryption config in api sevrer config 
+a. backup api server config: 
+sudo cp \
+  /var/snap/microk8s/current/args/kube-apiserver \
+  /var/snap/microk8s/current/args/kube-apiserver.bak-before-encryption
+
+b. add encryption config in api server config:
+FLAG='--encryption-provider-config=/var/snap/microk8s/current/args/encryption-config.yaml'
+
+sudo grep -qxF -- "$FLAG" \
+  /var/snap/microk8s/current/args/kube-apiserver \
+  || printf '%s\n' "$FLAG" | sudo tee -a \
+  /var/snap/microk8s/current/args/kube-apiserver > /dev/null
+
+c. check:
+ sudo grep -- '--encryption-provider-config' \
+  /var/snap/microk8s/current/args/kube-apiserver
+
+expected: --encryption-provider-config=/var/snap/microk8s/current/args/encryption-config.yaml
+
+### 5. restart mikros8k
+a. restart
+sudo snap restart microk8s
+b. wait 
+microk8s status --wait-ready
+c. check nodes
+microk8s kubectl get nodes
+
+### 6. check if new setting are applyed and encryption is before identity
+sudo grep -nE 'secretbox:|identity:' \
+  /var/snap/microk8s/current/args/encryption-config.yaml
+
+expected: 8:      - secretbox:
+13:      - identity: {}
+
+### 7. test with test secret
+a. create ns:
+microk8s kubectl create namespace encryption-test
+b. create secret:
+microk8s kubectl create secret generic encryption-test \
+  --namespace encryption-test \
+  --from-literal=password='test-value'
+c. read secret:
+microk8s kubectl get secret encryption-test \
+  --namespace encryption-test \
+  -o jsonpath='{.data.password}' |
+  base64 -d
+
+echo
 
 ## Deploy the MariaDB Galera cluster
 
