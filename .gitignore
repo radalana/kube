@@ -9,7 +9,10 @@ hetzner-microk8s.yaml
 .env
 .env.*
 *.secret.yaml
-secrets/
+
+secrets/**
+!secrets/**/
+!secrets/**/*.example.yaml
 *.key
 *.pem
 *.crt
