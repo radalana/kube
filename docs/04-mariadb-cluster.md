@@ -53,6 +53,7 @@ k get pods -n database
 
 expected: 
 mariadb-operator-b6548b959-tqq6t   1/1     Running   0          5m17s
+# Secrets configuration
 ## Create the root password Secret
 1. On master node check if is encryption on rest in enabled
 sudo grep -- '--encryption-provider-config' \
@@ -164,6 +165,21 @@ microk8s kubectl get secret encryption-test \
   base64 -d
 
 echo
+
+d. k delete ns encryption-test
+
+## Check rights 
+### i as user have rights to read secrets in database ns
+a. k auth can-i get secrets -n database
+b. k auth can-i list secrets -n database
+
+### if mariadb operator can read secrets inside pod
+k auth can-i get secret/mariadb-root-password `
+   -n database `
+  --as=system:serviceaccount:database:mariadb-operator
+
+## Create root passwort for mariadb
+k apply -f cluster\mariadb\cluster\secrets\mariadb-root-password.secret.yaml 
 
 ## Deploy the MariaDB Galera cluster
 
