@@ -1,0 +1,31 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: mariadb-galera
+  namespace: database
+spec:
+  rootPasswordSecretKeyRef:
+    name: mariadb-root-password
+    key: password
+    generate: false
+
+  replicas: 3
+
+  storage:
+    size: 5Gi
+    storageClassName: microk8s-hostpath
+
+  galera:
+    enabled: true
+
+  affinity:
+    antiAffinityEnabled: true
+
+  service:
+    type: ClusterIP
+
+  primaryService:
+    type: ClusterIP
+
+  secondaryService:
+    type: ClusterIP
