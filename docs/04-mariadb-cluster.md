@@ -182,9 +182,15 @@ k auth can-i get secret/mariadb-root-password `
 k apply -f cluster\mariadb\cluster\secrets\mariadb-root-password.secret.yaml 
 
 ## Deploy the MariaDB Galera cluster
+1. Check whether all three nodes are schedulable - Kuberentes Scheduler can place new pods in this node
+kubectl get nodes `
+  -o custom-columns="NAME:.metadata.name,TAINTS:.spec.taints"
+2. k apply -f .\cluster\mariadb\cluster\mariadb-galera.yaml
 
 ## Verify MariaDB resources
-
+kubectl get mariadb,statefulset,pods,svc,pvc `
+  -n database `
+  -o wide
 ## Test the database connection
 
 ## Cleanup
