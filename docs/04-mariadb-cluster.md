@@ -188,9 +188,61 @@ kubectl get nodes `
 2. k apply -f .\cluster\mariadb\cluster\mariadb-galera.yaml
 
 ## Verify MariaDB resources
+1. Check created resources
 kubectl get mariadb,statefulset,pods,svc,pvc `
   -n database `
   -o wide
+
+  what should be:
+  MariaDB resource has Ready=True,
+  StetefulSet 3/3
+  all pods are running
+  all pvc has Bound,
+  repicalces on different nodes
+
+2. check Galera from one pod (here from mariadb-galera-0): 
+k exec -n database mariadb-galera-0 -c mariadb -- sh -c `
+  'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SHOW STATUS WHERE Variable_name IN (''wsrep_cluster_size'',''wsrep_cluster_status'',''wsrep_ready'',''wsrep_local_state_comment'');"'
+
+  expected:
+  'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SHOW STATUS WHERE Variable_name IN (''wsrep_cluster_size'',''wsrep_cluster_status'',''wsrep_ready'',''wsrep_local_state_comment'');"'
+Variable_name   Value
+wsrep_local_state_comment       Synced #this pode is syncornized with galera cluster
+wsrep_cluster_size      3  #node(pod mariadb-galera0) can see all 3 members of galera node
+wsrep_cluster_status    Primary # - has quorum (can vote)
+wsrep_ready     ON # can accept queries
+
+3. from all pods: 
+0..2 | ForEach-Object {
+  Write-Host "`n=== mariadb-galera-$_ ==="
+   k exec -n database "mariadb-galera-$_" -c mariadb -- sh -c `
+    'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SHOW STATUS WHERE Variable_name IN (''wsrep_cluster_size'',''wsrep_cluster_status'',''wsrep_ready'',''wsrep_local_state_comment'');"'
+ }
+exoected:
+
+wsrep_cluster_size      3
+wsrep_cluster_status    Primary
+wsrep_ready     ON
+
+=== mariadb-galera-1 ===
+Variable_name   Value
+wsrep_local_state_comment       Synced
+wsrep_cluster_size      3
+wsrep_cluster_status    Primary
+wsrep_ready     ON
+
+=== mariadb-galera-2 ===
+Variable_name   Value
+wsrep_local_state_comment       Synced
+wsrep_cluster_size      3
+wsrep_cluster_status    Primary
+wsrep_ready     ON
+
+
+ *in my case error on mariadb-galera-1 Kubernetes API can not connect with tls with kubelet on  10.0.0.2 Node (master node)
+ reaso: tls sertificate for public adress, i use for internal communication private adress - recreate kubelet.crt
 ## Test the database connection
+check with root : DNS, Service, network, root Secret and mariadb work together?
+
 
 ## Cleanup
