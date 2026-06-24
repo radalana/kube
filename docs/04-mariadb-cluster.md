@@ -274,7 +274,7 @@ k get secret app-password -n database
 k get database -n database
 
 ### Create not root user (app-user)
-1. k apply -f .\cluster\mariadb\cluster\user.yaml    
+1. k apply -f .\cluster\mariadb\cluster\users\appuser.yaml
 2. k get users -n database
 
 ### Create grant
