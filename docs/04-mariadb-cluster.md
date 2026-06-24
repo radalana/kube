@@ -4,9 +4,9 @@
 
 Complete the following steps first:
 
-- `02-microk8s-cluster.md`
-- `03-local-kubectl.md`
-- `04-cluster-smoke-tests.md`
+- `01-microk8s-cluster.md`
+- `02-local-kubectl.md`
+- `03-cluster-smoke-tests.md`
 
 The cluster must have working DNS and dynamic PersistentVolume provisioning.
 
@@ -241,8 +241,28 @@ wsrep_ready     ON
 
  *in my case error on mariadb-galera-1 Kubernetes API can not connect with tls with kubelet on  10.0.0.2 Node (master node)
  reaso: tls sertificate for public adress, i use for internal communication private adress - recreate kubelet.crt
-## Test the database connection
-check with root : DNS, Service, network, root Secret and mariadb work together?
+# Test the database connection
+## check with root : DNS, Service, network, root Secret and mariadb work together?
+1. Check Service 
+k get svc -n database mariadb-galera
+ecpexted (port 3306):
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+mariadb-galera   ClusterIP   10.152.183.39   <none>        3306/TCP   22h
+
+2. Service (mariadb-galera) has backend ip-adresses (where kubernetes servise sends connections?)
+k get endpointslice -n database -l kubernetes.io/service-name=mariadb-galera -o wide
+expected:
+NAME                   ADDRESSTYPE   PORTS   ENDPOINTS                              AGE
+mariadb-galera-f6z4b   IPv4          3306    10.1.235.144,10.1.189.76,10.1.219.71   22h
+
+ip adress of all 3 endpoints
+
+3.  Check DNS resolution and connectivity to MariaDB through the ClusterIP Service
+k exec -n database mariadb-galera-0 -c mariadb -- sh -c `
+  'mariadb --protocol=TCP -h mariadb-galera.database.svc.cluster.local -P 3306 -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SELECT VERSION() AS version; SELECT @@hostname AS connected_to; SHOW DATABASES;"'
 
 
+## Create Database, User, Grant
+
+## Check connection via not-root user
 ## Cleanup
