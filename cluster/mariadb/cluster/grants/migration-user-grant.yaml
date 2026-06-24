@@ -1,0 +1,29 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: migration-user-appdb
+  namespace: database
+spec:
+  mariaDbRef:
+    name: mariadb-galera
+
+  username: migrationuser
+  host: "%"
+
+  database: appdb
+  table: "*"
+
+  privileges:
+    - SELECT
+    - INSERT
+    - UPDATE
+    - DELETE
+    - CREATE
+    - ALTER
+    - INDEX
+    - DROP
+
+  grantOption: false
+  cleanupPolicy: Delete
+  requeueInterval: 10h
+  retryInterval: 30s
