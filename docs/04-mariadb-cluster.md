@@ -336,7 +336,12 @@ kubectl logs job/mariadb-migration-test -n database
 3. k logs job/mariadb-app-user-connection-test -n database
 4. kubectl delete -f .\tests\mariadb\app-user-connection-test.yaml
 
-# Check Galera replicaiton across galera cluster
+
+## Verify replication and Pod recovery
+### Verify data replication
+
+Read the test data from every Galera member and confirm that all members
+return the same result.
 ```powershell
 0..2 | ForEach-Object {
   Write-Host "`n=== mariadb-galera-$_ ==="
@@ -348,3 +353,81 @@ kubectl logs job/mariadb-migration-test -n database
     sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SELECT * FROM appdb.connection_test;"'
 }
 ```
+
+### Test Pod recovery
+1. 
+k get mariadb mariadb-galera -n database
+k get statefulset,pods,pvc -n database -o wide
+
+check that all MariaDB pods show 2/2 running, Stateful set 3/3, pvc bound
+
+2. check primary node (not to delete primary node(not belongs to this test))
+k get mariadb mariadb-galera -n database
+3. check uid and node to verify that new pod is created:
+$oldUid = k get pod mariadb-galera-1 `
+  -n database `
+  -o jsonpath='{.metadata.uid}'
+
+$oldNode = k get pod mariadb-galera-1 `
+  -n database `
+  -o jsonpath='{.spec.nodeName}'
+
+Write-Host "Old UID:  $oldUid"
+Write-Host "Old node: $oldNode"   
+ 
+my case: Old UID:  3d0ea6e9-c6f3-4d20-badb-07a59a4fc242
+         Old node: master
+
+1. delete not primary 
+k delete pod mariadb-galera-1 -n database
+2. k wait `                                
+   --for=condition=Ready `
+   pod/mariadb-galera-1 `
+   -n database `
+   --timeout=300s
+3. write down new uid and node
+
+$newUid = k get pod mariadb-galera-1 `
+  -n database `
+  -o jsonpath='{.metadata.uid}'
+
+$newNode = k get pod mariadb-galera-1 `
+  -n database `
+  -o jsonpath='{.spec.nodeName}'
+
+Write-Host "Old UID:  $oldUid"
+Write-Host "New UID:  $newUid"
+Write-Host "Old node: $oldNode"
+Write-Host "New node: $newNode"
+e.x : New UID:  1e346f82-0692-4066-9bde-9d68e75fa04b
+      New node: master
+
+expected: 
+
+Old UID != New UID
+Old node == New node
+
+if galera node fall down, pod should be recreated on the same node, bcs microk8s-hostpath store data on disk of concrete node
+
+4. check if data were recreated:
+
+ k exec `         
+>>   -n database `
+>>   mariadb-galera-1 `
+>>   -c mariadb -- `
+>>   sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SELECT * FROM appdb.connection_test;"'
+id      message
+1       MariaDB connection works
+
+5. check galera 
+
+0..2 | ForEach-Object {
+  Write-Host "`n=== mariadb-galera-$_ ==="
+
+  k exec `
+    -n database `
+    "mariadb-galera-$_" `
+    -c mariadb -- `
+    sh -c `
+    'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SHOW GLOBAL STATUS WHERE Variable_name IN (''wsrep_cluster_size'',''wsrep_cluster_status'',''wsrep_ready'',''wsrep_local_state_comment'');"'
+}
