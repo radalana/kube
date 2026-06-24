@@ -335,4 +335,16 @@ kubectl logs job/mariadb-migration-test -n database
   --timeout=120s
 3. k logs job/mariadb-app-user-connection-test -n database
 4. kubectl delete -f .\tests\mariadb\app-user-connection-test.yaml
-## Cleanup
+
+# Check Galera replicaiton across galera cluster
+```powershell
+0..2 | ForEach-Object {
+  Write-Host "`n=== mariadb-galera-$_ ==="
+
+  k exec `
+    -n database `
+    "mariadb-galera-$_" `
+    -c mariadb -- `
+    sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "SELECT * FROM appdb.connection_test;"'
+}
+```
