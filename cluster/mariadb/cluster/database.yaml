@@ -1,0 +1,22 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Database
+metadata:
+  #name of resource
+  name: app-database
+  namespace: database
+spec:
+  # real database name in mariadb
+  name: appdb
+
+  # Ссылка на существующий объект MariaDB
+  mariaDbRef:
+    name: mariadb-galera
+
+  characterSet: utf8mb4
+  collate: utf8mb4_unicode_ci
+
+  # by delete of resource db and data stay
+  cleanupPolicy: Skip
+
+  requeueInterval: 10h
+  retryInterval: 30s

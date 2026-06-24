@@ -263,6 +263,20 @@ k exec -n database mariadb-galera-0 -c mariadb -- sh -c `
 
 
 ## Create Database, User, Grant
+### Create password for not root user
+1. k apply -f .\cluster\mariadb\cluster\secrets\app-password.secret.yaml
+2. check :
+k get secret app-password -n database
 
+### Create database
+1. k apply -f .\cluster\mariadb\cluster\database.yaml
+2. check:
+k get database -n database
+
+### Create not root user (app-user)
+1. k apply -f .\cluster\mariadb\cluster\user.yaml    
+2. k get users -n database
+
+### Create grant
 ## Check connection via not-root user
 ## Cleanup

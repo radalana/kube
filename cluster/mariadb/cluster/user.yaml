@@ -1,0 +1,25 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: app-user
+  namespace: database
+spec:
+  # real username inside db
+  name: appuser
+
+  mariaDbRef:
+    name: mariadb-galera
+
+  passwordSecretKeyRef:
+    name: app-password
+    key: password
+
+  # Разрешает подключения из Pod-адресов Kubernetes
+  host: "%"
+
+  maxUserConnections: 20
+
+  cleanupPolicy: Delete
+
+  requeueInterval: 10h
+  retryInterval: 30s

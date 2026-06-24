@@ -1,0 +1,26 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: app-user-appdb
+  namespace: database
+spec:
+  mariaDbRef:
+    name: mariadb-galera
+
+  username: appuser
+  host: "%"
+
+  database: appdb
+  table: "*"
+
+  privileges:
+    - SELECT
+    - INSERT
+    - UPDATE
+    - DELETE
+
+  grantOption: false
+
+  cleanupPolicy: Delete
+  requeueInterval: 10h
+  retryInterval: 30s
