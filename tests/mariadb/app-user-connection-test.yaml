@@ -32,6 +32,9 @@ spec:
               SELECT DATABASE() AS current_database;
               SELECT @@hostname AS connected_to;
 
+              SHOW SESSION STATUS LIKE 'Ssl_version';
+              SHOW SESSION STATUS LIKE 'Ssl_cipher';
+              
               INSERT INTO connection_test (id, message)
               VALUES (1, 'MariaDB connection works')
               ON DUPLICATE KEY UPDATE
