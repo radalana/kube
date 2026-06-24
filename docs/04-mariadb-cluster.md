@@ -278,5 +278,21 @@ k get database -n database
 2. k get users -n database
 
 ### Create grant
+1. k apply -f .\cluster\mariadb\cluster\grant.yaml
+2. k get grants -n database   
+
+## check that appdb, appuser and grant for appuser inside database itself
+```powershell
+@'
+SHOW DATABASES LIKE 'appdb';
+
+SELECT User, Host
+FROM mysql.user
+WHERE User = 'appuser';
+
+SHOW GRANTS FOR 'appuser'@'%';
+'@ | k exec -i -n database mariadb-galera-0 -c mariadb -- `
+  sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD"'
+```
 ## Check connection via not-root user
 ## Cleanup
