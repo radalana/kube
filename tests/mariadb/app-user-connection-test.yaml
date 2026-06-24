@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mariadb-app-user-connection-test
+  namespace: database
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mariadb-client
+          image: mariadb:11.8
+          env:
+            - name: APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-password
+                  key: password
+          command:
+            - sh
+            - -c
+            - |
+              mariadb \
+                --protocol=TCP \
+                --host=mariadb-galera.database.svc.cluster.local \
+                --port=3306 \
+                --user=appuser \
+                --password="$APP_PASSWORD" \
+                appdb <<'SQL'
+              SELECT CURRENT_USER() AS authenticated_as;
+              SELECT DATABASE() AS current_database;
+              SELECT @@hostname AS connected_to;
+
+              INSERT INTO connection_test (id, message)
+              VALUES (1, 'MariaDB connection works')
+              ON DUPLICATE KEY UPDATE
+                message = VALUES(message);
+
+              SELECT * FROM connection_test;
+              SQL

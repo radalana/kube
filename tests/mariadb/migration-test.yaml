@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mariadb-migration-test
+  namespace: database
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mariadb-client
+          image: mariadb:11.8
+          env:
+            - name: MIGRATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: migration-password
+                  key: password
+          command:
+            - sh
+            - -c
+            - |
+              mariadb \
+                --protocol=TCP \
+                --host=mariadb-galera.database.svc.cluster.local \
+                --port=3306 \
+                --user=migrationuser \
+                --password="$MIGRATION_PASSWORD" \
+                appdb <<'SQL'
+              SELECT CURRENT_USER() AS authenticated_as;
+              SELECT DATABASE() AS current_database;
+              SELECT @@hostname AS connected_to;
+
+              CREATE TABLE IF NOT EXISTS connection_test (
+                  id INT PRIMARY KEY,
+                  message VARCHAR(100) NOT NULL
+              );
+
+              SHOW CREATE TABLE connection_test;
+              SQL

@@ -278,7 +278,7 @@ k get database -n database
 2. k get users -n database
 
 ### Create grant
-1. k apply -f .\cluster\mariadb\cluster\grant.yaml
+1. k apply -f .\cluster\mariadb\cluster\grants\appuser-grant.yaml
 2. k get grants -n database   
 
 ## check that appdb, appuser and grant for appuser inside database itself
@@ -304,4 +304,35 @@ k apply -f .\cluster\mariadb\cluster\users\migration-user.yaml
 
 ### create grant for migration user
 k apply -f .\cluster\mariadb\cluster\grants\migration-user-grant.yaml
+
+## Test connection
+### Test migraiton user (connect to MariaDB Service, create table)
+1. Create job, launch MariaDb client, execute sql
+```powershell
+k apply -f tests\mariadb\migration-test.yaml
+```
+2. wait job
+```powershell
+ kubectl wait `
+  --for=condition=Complete `
+  job/mariadb-migration-test `
+  -n database `
+  --timeout=120s
+  ```
+3. show result:
+```powershell
+kubectl logs job/mariadb-migration-test -n database
+ ```
+
+4. kubectl delete -f .\tests\mariadb\migration-test.yaml
+
+### Test appuser (checks DNS, mariadb service, appdb, insert, update, delete)
+1. k apply -f .\tests\mariadb\app-user-connection-test.yaml
+2. kubectl wait `
+  --for=condition=Complete `
+  job/mariadb-app-user-connection-test `
+  -n database `
+  --timeout=120s
+3. k logs job/mariadb-app-user-connection-test -n database
+4. kubectl delete -f .\tests\mariadb\app-user-connection-test.yaml
 ## Cleanup
