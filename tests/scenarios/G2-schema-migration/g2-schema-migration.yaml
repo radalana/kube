@@ -1,0 +1,95 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: g2-schema-migration
+  namespace: database
+  labels:
+    experiment: benign
+    scenario: g2-schema-migration
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        experiment: benign
+        scenario: g2-schema-migration
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mariadb-client
+          image: mariadb:11.8
+          env:
+            - name: MIGRATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: migration-password
+                  key: password
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+
+              mariadb \
+                --protocol=TCP \
+                --host=mariadb-galera.database.svc.cluster.local \
+                --port=3306 \
+                --user=migrationuser \
+                --password="$MIGRATION_PASSWORD" \
+                appdb <<'SQL'
+
+              SELECT CURRENT_USER() AS authenticated_as;
+              SELECT DATABASE() AS current_database;
+              SELECT @@hostname AS connected_to;
+
+              DROP TABLE IF EXISTS g2_migration_test;
+              SELECT 'Initial cleanup successful' AS step;
+
+              CREATE TABLE g2_migration_test (
+                id INT NOT NULL AUTO_INCREMENT,
+                name VARCHAR(100) NOT NULL,
+                PRIMARY KEY (id)
+              ) ENGINE=InnoDB;
+
+              SELECT 'CREATE TABLE successful' AS step;
+
+              ALTER TABLE g2_migration_test
+                ADD COLUMN created_at TIMESTAMP
+                NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+              SELECT 'ALTER TABLE successful' AS step;
+
+              SELECT COUNT(*) AS added_column_count
+              FROM information_schema.columns
+              WHERE table_schema = DATABASE()
+                AND table_name = 'g2_migration_test'
+                AND column_name = 'created_at';
+
+              CREATE INDEX idx_g2_name
+              ON g2_migration_test (name);
+
+              SELECT 'CREATE INDEX successful' AS step;
+
+              SELECT COUNT(*) AS created_index_count
+              FROM information_schema.statistics
+              WHERE table_schema = DATABASE()
+                AND table_name = 'g2_migration_test'
+                AND index_name = 'idx_g2_name';
+
+              DROP INDEX idx_g2_name
+              ON g2_migration_test;
+
+              SELECT 'DROP INDEX successful' AS step;
+
+              SELECT COUNT(*) AS remaining_index_count
+              FROM information_schema.statistics
+              WHERE table_schema = DATABASE()
+                AND table_name = 'g2_migration_test'
+                AND index_name = 'idx_g2_name';
+
+              SHOW CREATE TABLE g2_migration_test;
+
+              DROP TABLE g2_migration_test;
+              SELECT 'Final cleanup successful' AS step;
+
+              SQL
