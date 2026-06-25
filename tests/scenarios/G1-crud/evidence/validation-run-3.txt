@@ -1,0 +1,22 @@
+authenticated_as
+appuser@%
+current_database
+appdb
+connected_to
+mariadb-galera-2
+Variable_name	Value
+Ssl_version	TLSv1.3
+Variable_name	Value
+Ssl_cipher	TLS_AES_256_GCM_SHA384
+step
+INSERT successful
+id	message
+1	Initial test message
+step
+UPDATE successful
+id	message
+1	Updated test message
+step
+DELETE successful
+remaining_rows
+0
