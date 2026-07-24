@@ -137,6 +137,14 @@ The complete installation and validation outputs are stored in
 
 
 ## Controlled Alert Validation
+
+After installation, a temporary validation Pod was created to verify that
+Falco was able to observe runtime activity and generate an alert.
+
+This validation run is not part of the G1-G7 scenario results.
+
+
+in /validation - proofs that falco generates alerst 
 1. Установить Falco
 2. Дождаться Ready
 3. Сохранить install evidence
@@ -144,3 +152,5 @@ The complete installation and validation outputs are stored in
 5. Удалить validation Pod
 6. Подождать 180 секунд
 7. Начать ambient run
+
+
