@@ -1,0 +1,38 @@
+NAME: falco
+LAST DEPLOYED: Fri Jul 24 15:57:47 2026
+NAMESPACE: falco
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+RESOURCES:
+==> v1/ConfigMap
+NAME    DATA   AGE
+falco   1      16m
+falco-falcoctl   1     16m
+
+==> v1/DaemonSet
+NAME    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+falco   3         3         3       3            3           <none>          16m
+
+==> v1/Pod(related)
+NAME          READY   STATUS    RESTARTS   AGE
+falco-8zpfq   1/1     Running   0          16m
+falco-dqbfz   1/1     Running   0          16m
+falco-kqjk8   1/1     Running   0          16m
+
+==> v1/ServiceAccount
+NAME    AGE
+falco   16m
+
+
+TEST SUITE: None
+NOTES:
+Falco agents are spinning up on each node in your cluster. After a few
+seconds, they are going to start monitoring your containers looking for
+security issues.
+
+TIP:
+You can easily forward Falco events to Slack, Kafka, AWS Lambda and more with falcosidekick.
+Full list of outputs: https://github.com/falcosecurity/charts/tree/master/charts/falcosidekick.
+You can enable its deployment with `--set falcosidekick.enabled=true` or in your values.yaml.
+See: https://github.com/falcosecurity/charts/blob/master/charts/falcosidekick/values.yaml for configuration values.

@@ -1,0 +1,2 @@
+NAME 	NAMESPACE	REVISION	UPDATED                              	STATUS  	CHART      	APP VERSION
+falco	falco    	1       	2026-07-24 15:57:47.440302 +0200 CEST	deployed	falco-9.1.0	0.44.1     
