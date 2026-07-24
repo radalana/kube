@@ -1,0 +1,13 @@
+=== State before Pod deletion ===
+NAME               READY   STATUS    RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+mariadb-galera-0   2/2     Running   0          30d   10.1.235.144   worker1   <none>           <none>
+
+=== Galera status before Pod deletion ===
+Variable_name	Value
+wsrep_cluster_size	3
+Variable_name	Value
+wsrep_local_state_comment	Synced
+Old Pod UID: 13e96a6a-61f7-4c78-a5fd-a9c0c1ae0a4e
+
+=== Delete Pod ===
+pod "mariadb-galera-0" deleted
