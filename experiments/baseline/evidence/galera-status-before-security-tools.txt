@@ -1,0 +1,8 @@
+$sql | k exec -i -n database mariadb-galera-0 -c mariadb -- sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD"' *> .\experiments\baseline\evidence\galera-status-before-security-tools.txt
+
+
+
+Variable_name	Value
+wsrep_cluster_size	3
+Variable_name	Value
+wsrep_local_state_comment	Synced

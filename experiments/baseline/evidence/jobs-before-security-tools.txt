@@ -1,0 +1,6 @@
+```powershell: k get pods -A -o wide *> .\experiments\baseline\evidence\pods-before-security-tools.txt
+k get jobs -n database *> .\experiments\baseline\evidence\jobs-before-security-tools.txt
+
+
+Output:
+No resources found in database namespace.
