@@ -1,0 +1,30 @@
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.086408993Z Tue Jul 28 15:09:28 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.086420283Z Tue Jul 28 15:09:28 2026: Hostname value has been overridden via environment variable to: master
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.087688521Z Tue Jul 28 15:09:28 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.087694521Z Tue Jul 28 15:09:28 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.089483861Z Tue Jul 28 15:09:28 2026: Loaded event sources: syscall
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.089489611Z Tue Jul 28 15:09:28 2026: Enabled event sources: syscall
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.089491821Z Tue Jul 28 15:09:28 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.089493481Z Tue Jul 28 15:09:28 2026: One ring buffer every '2' CPUs.
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.089498151Z Tue Jul 28 15:09:28 2026: [libs]: Trying to open the right engine!
+[pod/falco-6fxmq/falco] 2026-07-28T15:09:28.090619960Z Tue Jul 28 15:09:28 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.529643515Z Tue Jul 28 15:09:27 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.529663075Z Tue Jul 28 15:09:27 2026: Hostname value has been overridden via environment variable to: worker2
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.531131221Z Tue Jul 28 15:09:27 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.531146671Z Tue Jul 28 15:09:27 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.533044346Z Tue Jul 28 15:09:27 2026: Loaded event sources: syscall
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.533058096Z Tue Jul 28 15:09:27 2026: Enabled event sources: syscall
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.533060546Z Tue Jul 28 15:09:27 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.533092516Z Tue Jul 28 15:09:27 2026: One ring buffer every '2' CPUs.
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.533177606Z Tue Jul 28 15:09:27 2026: [libs]: Trying to open the right engine!
+[pod/falco-qgt5t/falco] 2026-07-28T15:09:27.534728762Z Tue Jul 28 15:09:27 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.627754761Z Tue Jul 28 15:09:28 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.627778562Z Tue Jul 28 15:09:28 2026: Hostname value has been overridden via environment variable to: worker1
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.629177566Z Tue Jul 28 15:09:28 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.629194256Z Tue Jul 28 15:09:28 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.653255573Z Tue Jul 28 15:09:28 2026: Loaded event sources: syscall
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.653274543Z Tue Jul 28 15:09:28 2026: Enabled event sources: syscall
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.653279993Z Tue Jul 28 15:09:28 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.653283923Z Tue Jul 28 15:09:28 2026: One ring buffer every '2' CPUs.
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.653287833Z Tue Jul 28 15:09:28 2026: [libs]: Trying to open the right engine!
+[pod/falco-vf8rj/falco] 2026-07-28T15:09:28.654654967Z Tue Jul 28 15:09:28 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)

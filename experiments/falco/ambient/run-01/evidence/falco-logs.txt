@@ -1,0 +1,10 @@
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.143230763Z Fri Jul 24 15:44:33 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.143248573Z Fri Jul 24 15:44:33 2026: Hostname value has been overridden via environment variable to: worker2
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.143597601Z Fri Jul 24 15:44:33 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.143601891Z Fri Jul 24 15:44:33 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.144131920Z Fri Jul 24 15:44:33 2026: Loaded event sources: syscall
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.144137720Z Fri Jul 24 15:44:33 2026: Enabled event sources: syscall
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.144140070Z Fri Jul 24 15:44:33 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.144142140Z Fri Jul 24 15:44:33 2026: One ring buffer every '2' CPUs.
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.144144380Z Fri Jul 24 15:44:33 2026: [libs]: Trying to open the right engine!
+[pod/falco-dqbfz/falco] 2026-07-24T15:44:33.144518069Z Fri Jul 24 15:44:33 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)

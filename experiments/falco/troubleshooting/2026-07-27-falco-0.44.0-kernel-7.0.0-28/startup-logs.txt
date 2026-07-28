@@ -1,0 +1,30 @@
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.556369765Z Mon Jul 27 15:22:22 2026: Loading rules from:
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.594237674Z Mon Jul 27 15:22:22 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.594251364Z Mon Jul 27 15:22:22 2026: Hostname value has been overridden via environment variable to: worker2
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.594608413Z Mon Jul 27 15:22:22 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.594622323Z Mon Jul 27 15:22:22 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.595020680Z Mon Jul 27 15:22:22 2026: Loaded event sources: syscall
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.595027350Z Mon Jul 27 15:22:22 2026: Enabled event sources: syscall
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.595032000Z Mon Jul 27 15:22:22 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.595047800Z Mon Jul 27 15:22:22 2026: One ring buffer every '2' CPUs.
+[pod/falco-wtswj/falco] 2026-07-27T15:22:22.595052460Z Mon Jul 27 15:22:22 2026: [libs]: Trying to open the right engine!
+[pod/falco-6lhtk/falco] 2026-07-27T15:21:47.750355563Z Mon Jul 27 15:21:47 2026: Enabled event sources: syscall
+[pod/falco-6lhtk/falco] 2026-07-27T15:21:47.750360543Z Mon Jul 27 15:21:47 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-6lhtk/falco] 2026-07-27T15:21:47.750364493Z Mon Jul 27 15:21:47 2026: One ring buffer every '2' CPUs.
+[pod/falco-6lhtk/falco] 2026-07-27T15:21:47.750368353Z Mon Jul 27 15:21:47 2026: [libs]: Trying to open the right engine!
+[pod/falco-6lhtk/falco] 2026-07-27T15:22:56.218017266Z Mon Jul 27 15:22:56 2026: [libs]: container: cannot attach container_id to new process event for the thread id '9843': can't get table entry: get_entry found no element at given key
+[pod/falco-6lhtk/falco] 2026-07-27T15:22:56.218036017Z Mon Jul 27 15:22:56 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+[pod/falco-6lhtk/falco] 2026-07-27T15:22:56.297885267Z Mon Jul 27 15:22:56 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+[pod/falco-6lhtk/falco] 2026-07-27T15:22:56.297897367Z Mon Jul 27 15:22:56 2026: [libs]: container: cannot attach container_id to new process event for the thread id '9851': can't get table entry: get_entry found no element at given key
+[pod/falco-6lhtk/falco] 2026-07-27T15:23:01.086994193Z Mon Jul 27 15:23:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '9888': can't get table entry: get_entry found no element at given key
+[pod/falco-6lhtk/falco] 2026-07-27T15:23:01.087024284Z Mon Jul 27 15:23:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:04.784311100Z Mon Jul 27 15:22:04 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:04.784425779Z Mon Jul 27 15:22:04 2026: Loaded event sources: syscall
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:04.784430289Z Mon Jul 27 15:22:04 2026: Enabled event sources: syscall
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:04.784434449Z Mon Jul 27 15:22:04 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:04.784438139Z Mon Jul 27 15:22:04 2026: One ring buffer every '2' CPUs.
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:04.784441869Z Mon Jul 27 15:22:04 2026: [libs]: Trying to open the right engine!
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:48.438817793Z Mon Jul 27 15:22:48 2026: [libs]: container: cannot attach container_id to new process event for the thread id '9561': can't get table entry: get_entry found no element at given key
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:48.438915112Z Mon Jul 27 15:22:48 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:48.524872044Z Mon Jul 27 15:22:48 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+[pod/falco-w2dlz/falco] 2026-07-27T15:22:48.524891684Z Mon Jul 27 15:22:48 2026: [libs]: container: cannot attach container_id to new process event for the thread id '9562': can't get table entry: get_entry found no element at given key

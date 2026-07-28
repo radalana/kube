@@ -1,0 +1,73 @@
+2026-07-27T13:21:07.121068935Z Mon Jul 27 13:21:07 2026: Falco version: 0.44.0 (x86_64)
+2026-07-27T13:21:07.121107275Z Mon Jul 27 13:21:07 2026: Falco initialized with configuration files:
+2026-07-27T13:21:07.121112345Z Mon Jul 27 13:21:07 2026:    /etc/falco/falco.yaml | schema validation: ok
+2026-07-27T13:21:07.121117045Z Mon Jul 27 13:21:07 2026: System info: Linux version 7.0.0-15-generic (buildd@lcy02-amd64-048) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #15-Ubuntu SMP PREEMPT_DYNAMIC Wed Apr 22 16:06:43 UTC 2026
+2026-07-27T13:21:07.125974050Z Mon Jul 27 13:21:07 2026: Loaded plugin 'container@0.7.1' from file /usr/share/falco/plugins/libcontainer.so
+2026-07-27T13:21:07.126798719Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'podman' container engine.
+2026-07-27T13:21:07.126813819Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/podman/podman.sock'
+2026-07-27T13:21:07.126818639Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'docker' container engine.
+2026-07-27T13:21:07.126823389Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/var/run/docker.sock'
+2026-07-27T13:21:07.126827499Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'cri' container engine.
+2026-07-27T13:21:07.126831529Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/containerd/containerd.sock'
+2026-07-27T13:21:07.126835529Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/crio/crio.sock'
+2026-07-27T13:21:07.126951439Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/k3s/containerd/containerd.sock'
+2026-07-27T13:21:07.126956269Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/host-containerd/containerd.sock'
+2026-07-27T13:21:07.126960839Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'containerd' container engine.
+2026-07-27T13:21:07.126964769Z Mon Jul 27 13:21:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/host-containerd/containerd.sock'
+2026-07-27T13:21:07.126969129Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'lxc' container engine.
+2026-07-27T13:21:07.126972989Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'libvirt_lxc' container engine.
+2026-07-27T13:21:07.126976859Z Mon Jul 27 13:21:07 2026: [libs]: container: Enabled 'bpm' container engine.
+2026-07-27T13:21:07.127272648Z Mon Jul 27 13:21:07 2026: Loading rules from:
+2026-07-27T13:21:07.164548193Z Mon Jul 27 13:21:07 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+2026-07-27T13:21:07.164560313Z Mon Jul 27 13:21:07 2026: Hostname value has been overridden via environment variable to: master
+2026-07-27T13:21:07.164973642Z Mon Jul 27 13:21:07 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+2026-07-27T13:21:07.164978232Z Mon Jul 27 13:21:07 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+2026-07-27T13:21:07.165889761Z Mon Jul 27 13:21:07 2026: Loaded event sources: syscall
+2026-07-27T13:21:07.165945492Z Mon Jul 27 13:21:07 2026: Enabled event sources: syscall
+2026-07-27T13:21:07.165950432Z Mon Jul 27 13:21:07 2026: Opening 'syscall' source with modern BPF probe.
+2026-07-27T13:21:07.165954262Z Mon Jul 27 13:21:07 2026: One ring buffer every '2' CPUs.
+2026-07-27T13:21:07.165958002Z Mon Jul 27 13:21:07 2026: [libs]: Trying to open the right engine!
+2026-07-27T13:28:49.050306489Z 13:28:49.035925857: Notice Redirect stdout/stdin to network connection | gparent=<NA> ggparent=<NA> gggparent=<NA> fd.sip=127.0.0.1 connection=127.0.0.1:38642->127.0.0.1:9099 lport=9099 rport=38642 fd_type=ipv4 fd_proto=tcp evt_type=dup3 user=root user_uid=0 user_loginuid=-1 process=calico-node proc_exepath= parent=<NA> command=calico-node -felix terminal=0 container_id=1213d0cdb483 container_name=<NA> container_image_repository=<NA> container_image_tag=<NA> k8s_pod_name=<NA> k8s_ns_name=<NA>
+2026-07-27T13:29:38.295478175Z Mon Jul 27 13:29:38 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:29:38.296047395Z Mon Jul 27 13:29:38 2026: [libs]: container: cannot attach container_id to new process event for the thread id '3918': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.410140191Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '4251': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.410222701Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.663297026Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '4253': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.663450835Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.677052349Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.677267988Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '4257': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.693382649Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:30:00.693498168Z Mon Jul 27 13:30:00 2026: [libs]: container: cannot attach container_id to new process event for the thread id '4262': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.436968745Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '13874': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.437155215Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.674932697Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.675181446Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '13875': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.693593084Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '13876': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.693789144Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.724634837Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:40:04.724881196Z Mon Jul 27 13:40:04 2026: [libs]: container: cannot attach container_id to new process event for the thread id '13883': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:02.889972991Z Mon Jul 27 13:50:02 2026: [libs]: container: cannot attach container_id to new process event for the thread id '23370': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:02.890132141Z Mon Jul 27 13:50:02 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:03.162873520Z Mon Jul 27 13:50:03 2026: [libs]: container: cannot attach container_id to new process event for the thread id '23371': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:03.163164790Z Mon Jul 27 13:50:03 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:03.176851373Z Mon Jul 27 13:50:03 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:03.177124483Z Mon Jul 27 13:50:03 2026: [libs]: container: cannot attach container_id to new process event for the thread id '23372': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:03.193817853Z Mon Jul 27 13:50:03 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T13:50:03.194008332Z Mon Jul 27 13:50:03 2026: [libs]: container: cannot attach container_id to new process event for the thread id '23379': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.515748136Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '32875': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.515768256Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.770847420Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '32879': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.770964030Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.784426213Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.784654422Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '32880': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.801778501Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '1': can't get table entry: get_entry found no element at given key
+2026-07-27T14:00:01.803946338Z Mon Jul 27 14:00:01 2026: [libs]: container: cannot attach container_id to new process event for the thread id '32884': can't get table entry: get_entry found no element at given key
+2026-07-27T14:01:36.775715536Z Mon Jul 27 14:01:36 2026: [libs]: could not parse param 1 (exe) for event 7886707 of type 335 (clone3), for tid 34374: expected length 2, found 5
+2026-07-27T14:01:36.775729696Z Mon Jul 27 14:01:36 2026: [libs]: parameter raw data: 
+2026-07-27T14:01:36.775733026Z 000 | ffffff8d 00 04 00 08 
+2026-07-27T14:01:37.210028719Z Events detected: 1
+2026-07-27T14:01:37.210066979Z Rule counts by severity:
+2026-07-27T14:01:37.210072150Z    NOTICE: 1
+2026-07-27T14:01:37.210076560Z Triggered rules by rule name:
+2026-07-27T14:01:37.210080950Z    Redirect STDOUT/STDIN to Network Connection in Container: 1
+2026-07-27T14:01:37.218841938Z Error: could not parse param 1 (exe) for event 7886707 of type 335 (clone3), for tid 34374: expected length 2, found 5

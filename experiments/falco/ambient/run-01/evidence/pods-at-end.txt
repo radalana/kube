@@ -1,0 +1,14 @@
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS       AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      mariadb-galera-0                           2/2     Running   0              5h15m   10.1.235.173   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running   0              30d     10.1.219.72    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running   0              32d     10.1.189.76    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running   0              32d     10.1.189.73    worker2   <none>           <none>
+falco         falco-8zpfq                                1/1     Running   0              119m    10.1.219.77    master    <none>           <none>
+falco         falco-dqbfz                                1/1     Running   1 (12m ago)    119m    10.1.189.81    worker2   <none>           <none>
+falco         falco-kqjk8                                1/1     Running   2 (48m ago)    119m    10.1.235.174   worker1   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running   1              52d     10.1.219.68    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running   0              6h40m   10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running   0              6h40m   10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running   0              6h40m   10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running   1              52d     10.1.219.67    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running   4 (6d1h ago)   38d     10.1.235.129   worker1   <none>           <none>

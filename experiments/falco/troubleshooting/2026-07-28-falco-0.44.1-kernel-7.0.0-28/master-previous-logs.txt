@@ -1,0 +1,38 @@
+2026-07-28T15:09:28.012899192Z Tue Jul 28 15:09:28 2026: Falco version: 0.44.1 (x86_64)
+2026-07-28T15:09:28.012922942Z Tue Jul 28 15:09:28 2026: Falco initialized with configuration files:
+2026-07-28T15:09:28.012925332Z Tue Jul 28 15:09:28 2026:    /etc/falco/falco.yaml | schema validation: ok
+2026-07-28T15:09:28.012989242Z Tue Jul 28 15:09:28 2026: System info: Linux version 7.0.0-28-generic (buildd@lcy02-amd64-047) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #28-Ubuntu SMP PREEMPT_DYNAMIC Sun Jun 21 01:01:36 UTC 2026
+2026-07-28T15:09:28.024294226Z Tue Jul 28 15:09:28 2026: Loaded plugin 'container@0.7.1' from file /usr/share/falco/plugins/libcontainer.so
+2026-07-28T15:09:28.024890916Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'podman' container engine.
+2026-07-28T15:09:28.024934946Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/run/podman/podman.sock'
+2026-07-28T15:09:28.024955035Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'docker' container engine.
+2026-07-28T15:09:28.024957135Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/var/run/docker.sock'
+2026-07-28T15:09:28.024958795Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'cri' container engine.
+2026-07-28T15:09:28.024975765Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/run/containerd/containerd.sock'
+2026-07-28T15:09:28.024977655Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/run/crio/crio.sock'
+2026-07-28T15:09:28.024979275Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/run/k3s/containerd/containerd.sock'
+2026-07-28T15:09:28.024980775Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/run/host-containerd/containerd.sock'
+2026-07-28T15:09:28.024982835Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'containerd' container engine.
+2026-07-28T15:09:28.024984345Z Tue Jul 28 15:09:28 2026: [libs]: container: * enabled container runtime socket at '/host/run/host-containerd/containerd.sock'
+2026-07-28T15:09:28.024985845Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'lxc' container engine.
+2026-07-28T15:09:28.024989145Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'libvirt_lxc' container engine.
+2026-07-28T15:09:28.024990705Z Tue Jul 28 15:09:28 2026: [libs]: container: Enabled 'bpm' container engine.
+2026-07-28T15:09:28.027038124Z Tue Jul 28 15:09:28 2026: Loading rules from:
+2026-07-28T15:09:28.086408993Z Tue Jul 28 15:09:28 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+2026-07-28T15:09:28.086420283Z Tue Jul 28 15:09:28 2026: Hostname value has been overridden via environment variable to: master
+2026-07-28T15:09:28.087688521Z Tue Jul 28 15:09:28 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+2026-07-28T15:09:28.087694521Z Tue Jul 28 15:09:28 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+2026-07-28T15:09:28.089483861Z Tue Jul 28 15:09:28 2026: Loaded event sources: syscall
+2026-07-28T15:09:28.089489611Z Tue Jul 28 15:09:28 2026: Enabled event sources: syscall
+2026-07-28T15:09:28.089491821Z Tue Jul 28 15:09:28 2026: Opening 'syscall' source with modern BPF probe.
+2026-07-28T15:09:28.089493481Z Tue Jul 28 15:09:28 2026: One ring buffer every '2' CPUs.
+2026-07-28T15:09:28.089498151Z Tue Jul 28 15:09:28 2026: [libs]: Trying to open the right engine!
+2026-07-28T15:09:28.090619960Z Tue Jul 28 15:09:28 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)
+2026-07-28T16:11:59.159046359Z Tue Jul 28 16:11:59 2026: [libs]: could not parse param 2 (name) for event 7215665 of type 307 (openat), for tid 1434389: expected length 2, found 31
+2026-07-28T16:11:59.159091600Z Tue Jul 28 16:11:59 2026: [libs]: parameter raw data: 
+2026-07-28T16:11:59.159096860Z 000 | 08 00 08 00 08 00 08 00 04 00 06 00 08 00 04 00 
+2026-07-28T16:11:59.159100990Z 010 | 10 00 6d 2f 63 70 75 2f 6f 6e 6c 69 6e 65 00 
+2026-07-28T16:11:59.591100540Z Events detected: 0
+2026-07-28T16:11:59.591116830Z Rule counts by severity:
+2026-07-28T16:11:59.591119710Z Triggered rules by rule name:
+2026-07-28T16:11:59.599280904Z Error: could not parse param 2 (name) for event 7215665 of type 307 (openat), for tid 1434389: expected length 2, found 31

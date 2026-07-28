@@ -1,0 +1,30 @@
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.127272648Z Mon Jul 27 13:21:07 2026: Loading rules from:
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.164548193Z Mon Jul 27 13:21:07 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.164560313Z Mon Jul 27 13:21:07 2026: Hostname value has been overridden via environment variable to: master
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.164973642Z Mon Jul 27 13:21:07 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.164978232Z Mon Jul 27 13:21:07 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.165889761Z Mon Jul 27 13:21:07 2026: Loaded event sources: syscall
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.165945492Z Mon Jul 27 13:21:07 2026: Enabled event sources: syscall
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.165950432Z Mon Jul 27 13:21:07 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.165954262Z Mon Jul 27 13:21:07 2026: One ring buffer every '2' CPUs.
+[pod/falco-f6td5/falco] 2026-07-27T13:21:07.165958002Z Mon Jul 27 13:21:07 2026: [libs]: Trying to open the right engine!
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.135448482Z Mon Jul 27 13:21:08 2026: Loading rules from:
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.174756317Z Mon Jul 27 13:21:08 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.174773398Z Mon Jul 27 13:21:08 2026: Hostname value has been overridden via environment variable to: worker1
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175120418Z Mon Jul 27 13:21:08 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175129738Z Mon Jul 27 13:21:08 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175591569Z Mon Jul 27 13:21:08 2026: Loaded event sources: syscall
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175601459Z Mon Jul 27 13:21:08 2026: Enabled event sources: syscall
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175603919Z Mon Jul 27 13:21:08 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175605869Z Mon Jul 27 13:21:08 2026: One ring buffer every '2' CPUs.
+[pod/falco-jp5zf/falco] 2026-07-27T13:21:08.175607709Z Mon Jul 27 13:21:08 2026: [libs]: Trying to open the right engine!
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.783962106Z Mon Jul 27 13:21:12 2026: Loading rules from:
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.824190707Z Mon Jul 27 13:21:12 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.824209547Z Mon Jul 27 13:21:12 2026: Hostname value has been overridden via environment variable to: worker2
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.824553587Z Mon Jul 27 13:21:12 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.824581617Z Mon Jul 27 13:21:12 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.825203064Z Mon Jul 27 13:21:12 2026: Loaded event sources: syscall
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.825212444Z Mon Jul 27 13:21:12 2026: Enabled event sources: syscall
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.825216614Z Mon Jul 27 13:21:12 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.825220674Z Mon Jul 27 13:21:12 2026: One ring buffer every '2' CPUs.
+[pod/falco-p7sfk/falco] 2026-07-27T13:21:12.825224584Z Mon Jul 27 13:21:12 2026: [libs]: Trying to open the right engine!

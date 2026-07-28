@@ -1,0 +1,34 @@
+2026-07-27T03:49:07.581963435Z Mon Jul 27 03:49:07 2026: Falco version: 0.44.1 (x86_64)
+2026-07-27T03:49:07.581993565Z Mon Jul 27 03:49:07 2026: Falco initialized with configuration files:
+2026-07-27T03:49:07.581996805Z Mon Jul 27 03:49:07 2026:    /etc/falco/falco.yaml | schema validation: ok
+2026-07-27T03:49:07.582050724Z Mon Jul 27 03:49:07 2026: System info: Linux version 7.0.0-15-generic (buildd@lcy02-amd64-048) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #15-Ubuntu SMP PREEMPT_DYNAMIC Wed Apr 22 16:06:43 UTC 2026
+2026-07-27T03:49:07.588713230Z Mon Jul 27 03:49:07 2026: Loaded plugin 'container@0.7.1' from file /usr/share/falco/plugins/libcontainer.so
+2026-07-27T03:49:07.589538039Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'podman' container engine.
+2026-07-27T03:49:07.589547840Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/podman/podman.sock'
+2026-07-27T03:49:07.589551640Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'docker' container engine.
+2026-07-27T03:49:07.589689790Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/var/run/docker.sock'
+2026-07-27T03:49:07.589699960Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'cri' container engine.
+2026-07-27T03:49:07.589704200Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/containerd/containerd.sock'
+2026-07-27T03:49:07.589708230Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/crio/crio.sock'
+2026-07-27T03:49:07.589711980Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/k3s/containerd/containerd.sock'
+2026-07-27T03:49:07.589716190Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/host-containerd/containerd.sock'
+2026-07-27T03:49:07.589723800Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'containerd' container engine.
+2026-07-27T03:49:07.589728110Z Mon Jul 27 03:49:07 2026: [libs]: container: * enabled container runtime socket at '/host/run/host-containerd/containerd.sock'
+2026-07-27T03:49:07.589731260Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'lxc' container engine.
+2026-07-27T03:49:07.589734420Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'libvirt_lxc' container engine.
+2026-07-27T03:49:07.589761160Z Mon Jul 27 03:49:07 2026: [libs]: container: Enabled 'bpm' container engine.
+2026-07-27T03:49:07.590072489Z Mon Jul 27 03:49:07 2026: Loading rules from:
+2026-07-27T03:49:07.627435045Z Mon Jul 27 03:49:07 2026:    /etc/falco/falco_rules.yaml | schema validation: ok
+2026-07-27T03:49:07.627509465Z Mon Jul 27 03:49:07 2026: Hostname value has been overridden via environment variable to: master
+2026-07-27T03:49:07.627938244Z Mon Jul 27 03:49:07 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+2026-07-27T03:49:07.627960845Z Mon Jul 27 03:49:07 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+2026-07-27T03:49:07.628264634Z Mon Jul 27 03:49:07 2026: Loaded event sources: syscall
+2026-07-27T03:49:07.628272054Z Mon Jul 27 03:49:07 2026: Enabled event sources: syscall
+2026-07-27T03:49:07.628276564Z Mon Jul 27 03:49:07 2026: Opening 'syscall' source with modern BPF probe.
+2026-07-27T03:49:07.628283904Z Mon Jul 27 03:49:07 2026: One ring buffer every '2' CPUs.
+2026-07-27T03:49:07.628287894Z Mon Jul 27 03:49:07 2026: [libs]: Trying to open the right engine!
+2026-07-27T03:49:07.628553184Z Mon Jul 27 03:49:07 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)
+2026-07-27T07:15:41.710172479Z Events detected: 0
+2026-07-27T07:15:41.710192659Z Rule counts by severity:
+2026-07-27T07:15:41.710216959Z Triggered rules by rule name:
+2026-07-27T07:15:41.717616530Z Error: Called get_syscall_return_value() on an event that does not have a return value. Event type: 223

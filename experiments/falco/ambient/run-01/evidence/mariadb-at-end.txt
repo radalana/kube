@@ -1,0 +1,2 @@
+NAME             READY   STATUS    PRIMARY            UPDATES                    AGE
+mariadb-galera   True    Running   mariadb-galera-1   ReplicasFirstPrimaryLast   32d

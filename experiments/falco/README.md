@@ -142,7 +142,10 @@ After installation, a temporary validation Pod was created to verify that
 Falco was able to observe runtime activity and generate an alert.
 
 This validation run is not part of the G1-G7 scenario results.
+The evidence is stored in:
 
+```text
+experiments/falco/validation/run-01/evidence/
 
 in /validation - proofs that falco generates alerst 
 1. Установить Falco
@@ -154,3 +157,4 @@ in /validation - proofs that falco generates alerst
 7. Начать ambient run
 
 
+Start-Sleep -Seconds 180

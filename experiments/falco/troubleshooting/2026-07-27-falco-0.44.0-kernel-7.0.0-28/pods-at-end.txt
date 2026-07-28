@@ -1,0 +1,4 @@
+NAME          READY   STATUS    RESTARTS        AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+falco-6lhtk   1/1     Running   4 (51m ago)     23h   10.1.219.84    master    <none>           <none>
+falco-w2dlz   1/1     Running   4 (3h14m ago)   23h   10.1.235.181   worker1   <none>           <none>
+falco-wtswj   1/1     Running   2 (4h3m ago)    23h   10.1.189.87    worker2   <none>           <none>
