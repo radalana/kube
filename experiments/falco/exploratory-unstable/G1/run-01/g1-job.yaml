@@ -1,0 +1,116 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"labels":{"experiment":"benign","scenario":"g1-crud"},"name":"g1-crud","namespace":"database"},"spec":{"backoffLimit":0,"template":{"metadata":{"labels":{"experiment":"benign","scenario":"g1-crud"}},"spec":{"containers":[{"command":["sh","-c","set -eu\nmariadb \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=appuser \\\n  --password=\"$APP_PASSWORD\" \\\n  appdb \u003c\u003c'SQL'\nSELECT CURRENT_USER() AS authenticated_as;\nSELECT DATABASE() AS current_database;\nSELECT @@hostname AS connected_to;\n\nSHOW SESSION STATUS LIKE 'Ssl_version';\nSHOW SESSION STATUS LIKE 'Ssl_cipher';\n\nDELETE FROM connection_test\nWHERE id = 1;\n\nINSERT INTO connection_test (id, message)\nVALUES (1, 'Initial test message');\n\nSELECT 'INSERT successful' AS step;\nSELECT * FROM connection_test WHERE id = 1;\n\nUPDATE connection_test\nSET message = 'Updated test message'\nWHERE id = 1;\n\nSELECT 'UPDATE successful' AS step;\nSELECT * FROM connection_test WHERE id = 1;\n\nDELETE FROM connection_test\nWHERE id = 1;\n\nSELECT 'DELETE successful' AS step;\nSELECT COUNT(*) AS remaining_rows\nFROM connection_test\nWHERE id = 1;\n"],"env":[{"name":"APP_PASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"app-password"}}}],"image":"mariadb:11.8","name":"mariadb-client"}],"restartPolicy":"Never"}}}}
+  creationTimestamp: "2026-07-28T16:51:36Z"
+  generation: 1
+  labels:
+    experiment: benign
+    scenario: g1-crud
+  name: g1-crud
+  namespace: database
+  resourceVersion: "9074550"
+  uid: 54be138b-fd1c-41d5-a7c0-65cb18f48fc9
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: 54be138b-fd1c-41d5-a7c0-65cb18f48fc9
+  suspend: false
+  template:
+    metadata:
+      labels:
+        batch.kubernetes.io/controller-uid: 54be138b-fd1c-41d5-a7c0-65cb18f48fc9
+        batch.kubernetes.io/job-name: g1-crud
+        controller-uid: 54be138b-fd1c-41d5-a7c0-65cb18f48fc9
+        experiment: benign
+        job-name: g1-crud
+        scenario: g1-crud
+    spec:
+      containers:
+      - command:
+        - sh
+        - -c
+        - |
+          set -eu
+          mariadb \
+            --protocol=TCP \
+            --host=mariadb-galera.database.svc.cluster.local \
+            --port=3306 \
+            --user=appuser \
+            --password="$APP_PASSWORD" \
+            appdb <<'SQL'
+          SELECT CURRENT_USER() AS authenticated_as;
+          SELECT DATABASE() AS current_database;
+          SELECT @@hostname AS connected_to;
+
+          SHOW SESSION STATUS LIKE 'Ssl_version';
+          SHOW SESSION STATUS LIKE 'Ssl_cipher';
+
+          DELETE FROM connection_test
+          WHERE id = 1;
+
+          INSERT INTO connection_test (id, message)
+          VALUES (1, 'Initial test message');
+
+          SELECT 'INSERT successful' AS step;
+          SELECT * FROM connection_test WHERE id = 1;
+
+          UPDATE connection_test
+          SET message = 'Updated test message'
+          WHERE id = 1;
+
+          SELECT 'UPDATE successful' AS step;
+          SELECT * FROM connection_test WHERE id = 1;
+
+          DELETE FROM connection_test
+          WHERE id = 1;
+
+          SELECT 'DELETE successful' AS step;
+          SELECT COUNT(*) AS remaining_rows
+          FROM connection_test
+          WHERE id = 1;
+        env:
+        - name: APP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: app-password
+        image: mariadb:11.8
+        imagePullPolicy: IfNotPresent
+        name: mariadb-client
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  completionTime: "2026-07-28T16:51:40Z"
+  conditions:
+  - lastProbeTime: "2026-07-28T16:51:40Z"
+    lastTransitionTime: "2026-07-28T16:51:40Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: SuccessCriteriaMet
+  - lastProbeTime: "2026-07-28T16:51:40Z"
+    lastTransitionTime: "2026-07-28T16:51:40Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: Complete
+  ready: 0
+  startTime: "2026-07-28T16:51:36Z"
+  succeeded: 1
+  terminating: 0
+  uncountedTerminatedPods: {}
