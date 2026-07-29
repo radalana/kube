@@ -18,3 +18,38 @@ A similar clone3 parsing failure had previously been observed with
 Falco 0.44.1.
 
 Falco 0.44.0 was therefore not selected for the formal experiment.
+
+
+G1 run 1
+
+Scenario:
+SUCCESS
+
+Falco:
+no restart during scenario
+
+Alerts:
+0
+
+
+G1 run 2
+
+Scenario:
+SUCCESS
+
+Falco:
+no restart during scenario
+
+Alerts:
+0
+
+G1 run 3
+
+Scenario:
+SUCCESS
+
+Falco:
+no restart during scenario
+
+Alerts:
+0
