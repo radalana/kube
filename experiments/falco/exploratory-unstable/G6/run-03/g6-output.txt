@@ -1,0 +1,14 @@
+NAME               READY   STATUS    RESTARTS   AGE    IP             NODE      NOMINATED NODE   READINESS GATES
+mariadb-galera-0   2/2     Running   0          5m5s   10.1.235.132   worker1   <none>           <none>
+Variable_name	Value
+wsrep_cluster_size	3
+Variable_name	Value
+wsrep_local_state_comment	Synced
+pod "mariadb-galera-0" deleted
+pod/mariadb-galera-0 condition met
+NAME               READY   STATUS    RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+mariadb-galera-0   2/2     Running   0          30s   10.1.235.134   worker1   <none>           <none>
+Variable_name	Value
+wsrep_cluster_size	3
+Variable_name	Value
+wsrep_local_state_comment	Synced
