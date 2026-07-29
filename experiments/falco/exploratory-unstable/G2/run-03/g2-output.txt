@@ -1,0 +1,26 @@
+authenticated_as
+migrationuser@%
+current_database
+appdb
+connected_to
+mariadb-galera-2
+step
+Initial cleanup successful
+step
+CREATE TABLE successful
+step
+ALTER TABLE successful
+added_column_count
+1
+step
+CREATE INDEX successful
+created_index_count
+1
+step
+DROP INDEX successful
+remaining_index_count
+0
+Table	Create Table
+g2_migration_test	CREATE TABLE `g2_migration_test` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `name` varchar(100) NOT NULL,\n  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+step
+Final cleanup successful
