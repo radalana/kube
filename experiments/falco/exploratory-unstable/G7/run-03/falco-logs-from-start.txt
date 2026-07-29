@@ -1,0 +1,10 @@
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.767987223Z Wed Jul 29 16:51:17 2026: Hostname value has been overridden via environment variable to: worker1
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768317244Z Wed Jul 29 16:51:17 2026: The chosen syscall buffer dimension is: 8388608 bytes (8 MBs)
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768326944Z Wed Jul 29 16:51:17 2026: Starting health webserver with threadiness 4, listening on 0.0.0.0:8765
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768885996Z Wed Jul 29 16:51:17 2026: Loaded event sources: syscall
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768896967Z Wed Jul 29 16:51:17 2026: Enabled event sources: syscall
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768901487Z Wed Jul 29 16:51:17 2026: Opening 'syscall' source with modern BPF probe.
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768904997Z Wed Jul 29 16:51:17 2026: One ring buffer every '2' CPUs.
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.768908807Z Wed Jul 29 16:51:17 2026: [libs]: Trying to open the right engine!
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:17.769325038Z Wed Jul 29 16:51:17 2026: [libs]: libpman: disabled BPF iterators (not running in the root PID namespace, or failed to determine it)
+[pod/falco-vf8rj/falco] 2026-07-29T16:51:45.894450270Z 16:51:45.889032903: Notice Unexpected connection to K8s API Server from container | connection=10.1.235.141:49454->10.152.183.1:443 lport=443 rport=49454 fd_type=ipv4 fd_proto=tcp evt_type=connect user=<NA> user_uid=999 user_loginuid=-1 process=mariadb-operato proc_exepath=/usr/bin/mariadb-operator parent=containerd-shim command=mariadb-operato agent galera --addr=:5555 --probe-addr=:5566 --config-dir=/etc/mysql/mariadb.conf.d --state-dir=/var/lib/mysql --graceful-shutdown-timeout=1s --basic-auth --basic-auth-username=mariadb-operator --basic-auth-password-path=/var/run/secrets/mariadb-operator/agent/password terminal=0 container_id=03737acb57ba container_name=<NA> container_image_repository=<NA> container_image_tag=<NA> k8s_pod_name=<NA> k8s_ns_name=<NA>

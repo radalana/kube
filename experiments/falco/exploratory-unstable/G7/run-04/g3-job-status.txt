@@ -1,0 +1,2 @@
+NAME        STATUS   COMPLETIONS   DURATION   AGE   CONTAINERS              IMAGES         SELECTOR
+g3-backup   Failed   0/1           10m        10m   mariadb-backup-client   mariadb:11.8   batch.kubernetes.io/controller-uid=452cc250-d17f-4152-a13f-b3f18435706e

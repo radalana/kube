@@ -1,0 +1,8 @@
+NAME                               READY   STATUS      RESTARTS       AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+g1-crud-b299w                      0/1     Completed   0              10m   10.1.235.142   worker1   <none>           <none>
+g2-schema-migration-fphc7          0/1     Completed   0              10m   10.1.189.93    worker2   <none>           <none>
+g3-backup-qcfc9                    0/1     Error       0              10m   10.1.219.90    master    <none>           <none>
+mariadb-galera-0                   2/2     Running     0              17m   10.1.235.141   worker1   <none>           <none>
+mariadb-galera-1                   2/2     Running     3 (2d1h ago)   35d   10.1.219.81    master    <none>           <none>
+mariadb-galera-2                   2/2     Running     2 (2d1h ago)   37d   10.1.189.86    worker2   <none>           <none>
+mariadb-operator-b6548b959-tqq6t   1/1     Running     2 (2d1h ago)   37d   10.1.189.84    worker2   <none>           <none>
