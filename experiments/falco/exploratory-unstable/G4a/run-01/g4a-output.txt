@@ -1,0 +1,6 @@
+uid=999(mysql) gid=999(mysql) groups=999(mysql)
+mariadb-galera-0
+    PID TTY          TIME CMD
+      1 ?        00:06:56 mariadbd
+    627 ?        00:00:00 sh
+    635 ?        00:00:00 ps
