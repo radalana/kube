@@ -1,0 +1,65 @@
+=== Hostname ===
+mariadb-galera-0
+
+=== Selected MariaDB configuration files ===
+
+--- /etc/mysql/mariadb.cnf ---
+-rw-r--r-- 1 root root 1127 Jun  2 08:19 /etc/mysql/mariadb.cnf
+
+# The MariaDB configuration file
+#
+# The MariaDB/MySQL tools read configuration files in the following order:
+# 0. "/etc/mysql/my.cnf" symlinks to this file, reason why all the rest is read.
+# 1. "/etc/mysql/mariadb.cnf" (this file) to set global defaults,
+# 2. "/etc/mysql/conf.d/*.cnf" to set global options.
+# 3. "/etc/mysql/mariadb.conf.d/*.cnf" to set MariaDB-only options.
+# 4. "~/.my.cnf" to set user-specific options.
+#
+# If the same option is defined multiple times, the last one will apply.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# If you are new to MariaDB, check out https://mariadb.com/kb/en/basic-mariadb-articles/
+
+#
+# This group is read both by the client and the server
+# use it for options that affect everything
+#
+[client-server]
+# Port or socket location where to connect
+# port = 3306
+socket = /run/mysqld/mysqld.sock
+
+# Import all .cnf files from configuration directory
+
+!includedir /etc/mysql/mariadb.conf.d/
+!includedir /etc/mysql/conf.d/
+
+--- /etc/mysql/mariadb.conf.d/0-galera.cnf ---
+-rwxr-xr-x 1 mysql mysql 918 Jul 27 15:08 /etc/mysql/mariadb.conf.d/0-galera.cnf
+
+[mariadb]
+bind_address=*
+default_storage_engine=InnoDB
+binlog_format=row
+innodb_autoinc_lock_mode=2
+
+# Cluster
+wsrep_on=ON
+wsrep_cluster_address="gcomm://mariadb-galera-0.mariadb-galera-internal.database.svc.cluster.local,mariadb-galera-1.mariadb-galera-internal.database.svc.cluster.local,mariadb-galera-2.mariadb-galera-internal.database.svc.cluster.local"
+wsrep_cluster_name=mariadb-operator
+wsrep_slave_threads=1
+
+# Node
+wsrep_node_address="10.1.235.180"
+wsrep_node_name="mariadb-galera-0"
+
+# Provider
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+wsrep_provider_options="gmcast.listen_addr=tcp://0.0.0.0:4567;ist.recv_addr=10.1.235.180:4568;socket.dynamic=true;socket.ssl=true;socket.ssl_ca=/etc/pki/ca.crt;socket.ssl_cert=/etc/pki/server.crt;socket.ssl_key=/etc/pki/server.key"
+
+# SST
+wsrep_sst_method="mariabackup"
+wsrep_sst_auth=<redacted>
