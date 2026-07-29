@@ -27,3 +27,14 @@ used by G4 and G5.
 
 ```powershell
 .\tests\scenarios\G7-combined-benign-workload\run-g7-combined-benign-workload.ps1 *> .\tests\scenarios\G7-combined-benign-workload\evidence\g7-combined-run-1.txt
+
+
+### G7 re-validation
+
+The initial version of G7 included the Galera pre-check and cleanup of previous
+G1-G3 Jobs in the scenario script. Before the runtime security experiment,
+these preparation steps were moved outside the scenario execution window to
+avoid including cleanup activity in the collected runtime events.
+
+The combined workload itself was not changed. The modified script was executed
+again successfully to verify that G1-G6 still completed as expected.

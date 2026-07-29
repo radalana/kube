@@ -1,4 +1,4 @@
-# Runs a combined workload using already walidated G1-G6 scenarios.
+# Runs a combined workload using already validated G1-G6 scenarios.
 
 $ErrorActionPreference = "Stop"
 
@@ -13,38 +13,15 @@ $g5aScript = ".\tests\scenarios\G5-file-process-inspection\run-g5a-config-read.p
 $g5cScript = ".\tests\scenarios\G5-file-process-inspection\run-g5c-proc-read.ps1"
 $g6Script = ".\tests\scenarios\G6-pod-delete-recovery\run-g6-pod-delete-recovery.ps1"
 
-Write-Host "Starting G7: combined benign workload"
-Write-Host "Namespace: $namespace"
-Write-Host "Start time: $(Get-Date -Format o)"
-Write-Host ""
-
-Write-Host "=== Pre-check: MariaDB Galera status ==="
-
 $sql = @"
 SHOW STATUS LIKE 'wsrep_cluster_size';
 SHOW STATUS LIKE 'wsrep_local_state_comment';
 "@
 
-$sql | k exec -i -n $namespace mariadb-galera-0 -c mariadb -- sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD"'
-
-if ($LASTEXITCODE -ne 0) {
-    throw "G7 pre-check failed with exit code $LASTEXITCODE"
-}
-
+Write-Host "Starting G7: combined benign workload"
+Write-Host "Namespace: $namespace"
 Write-Host ""
-Write-Host "=== Cleanup old G1-G3 Jobs before combined run ==="
 
-k delete job g1-crud -n $namespace --ignore-not-found=true
-k delete job g2-schema-migration -n $namespace --ignore-not-found=true
-k delete job g3-backup -n $namespace --ignore-not-found=true
-
-if ($LASTEXITCODE -ne 0) {
-    throw "G7 job cleanup failed with exit code $LASTEXITCODE"
-}
-
-Start-Sleep -Seconds 5
-
-Write-Host ""
 Write-Host "=== Phase 1: Start G1, G2, and G3 Jobs ==="
 
 k apply -f $g1Manifest
@@ -66,10 +43,9 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host ""
-Write-Host "=== Phase 3: Run G5 file and proccess inspection ==="
+Write-Host "=== Phase 3: Run G5 file and process inspection ==="
 
 & $g5aScript
-
 
 if ($LASTEXITCODE -ne 0) {
     throw "G7 G5a phase failed with exit code $LASTEXITCODE"
@@ -107,16 +83,18 @@ if ($LASTEXITCODE -ne 0) {
     throw "G7 G6 phase failed with exit code $LASTEXITCODE"
 }
 
-
 Write-Host ""
 Write-Host "=== Final Galera status after combined workload ==="
 
-$sql | k exec -i -n $namespace mariadb-galera-0 -c mariadb -- sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD"'
+$sql | k exec -i `
+    -n $namespace `
+    mariadb-galera-0 `
+    -c mariadb `
+    -- sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD"'
 
 if ($LASTEXITCODE -ne 0) {
     throw "G7 final Galera check failed with exit code $LASTEXITCODE"
 }
 
 Write-Host ""
-Write-Host "End time: $(Get-Date -Format o)"
 Write-Host "G7 combined benign workload completed successfully"
