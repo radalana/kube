@@ -1,0 +1,5 @@
+Get-Content "$run\falco-logs-from-start.txt"
+[pod/falco-6fxmq/falco] 2026-07-29T12:42:03.673278193Z 12:42:03.664952841: Notice Unexpected connection to K8s API Server from container | connection=178.105.154.188:44542->10.152.183.1:443 lport=443 rport=44542 fd_type=ipv4 fd_proto=tcp evt_type=connect user=root user_uid=0 user_loginuid=-1 process=calico-node proc_exepath=/usr/bin/calico-node parent=runsv command=calico-node -monitor-token terminal=0 container_id=17581651ed74 container_name=<NA> container_image_repository=<NA> container_image_tag=<NA> k8s_pod_name=<NA> k8s_ns_name=<NA>
+
+Get-Content "$run\falco-logs-from-start.txt"
+[pod/falco-6fxmq/falco] 2026-07-29T12:42:03.673278193Z 12:42:03.664952841: Notice Unexpected connection to K8s API Server from container | connection=178.105.154.188:44542->10.152.183.1:443 lport=443 rport=44542 fd_type=ipv4 fd_proto=tcp evt_type=connect user=root user_uid=0 user_loginuid=-1 process=calico-node proc_exepath=/usr/bin/calico-node parent=runsv command=calico-node -monitor-token terminal=0 container_id=17581651ed74 container_name=<NA> container_image_repository=<NA> container_image_tag=<NA> k8s_pod_name=<NA> k8s_ns_name=<NA>
