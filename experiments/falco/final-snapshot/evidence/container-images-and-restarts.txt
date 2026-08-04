@@ -1,0 +1,9 @@
+falco-6fxmq
+  INIT  falcoctl-artifact-install  image=docker.io/falcosecurity/falcoctl:0.13.0  imageID=docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+  CONTAINER  falco  image=docker.io/falcosecurity/falco:0.44.1  imageID=docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b  restarts=44
+falco-qgt5t
+  INIT  falcoctl-artifact-install  image=docker.io/falcosecurity/falcoctl:0.13.0  imageID=docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+  CONTAINER  falco  image=docker.io/falcosecurity/falco:0.44.1  imageID=docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b  restarts=15
+falco-vf8rj
+  INIT  falcoctl-artifact-install  image=docker.io/falcosecurity/falcoctl:0.13.0  imageID=docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+  CONTAINER  falco  image=docker.io/falcosecurity/falco:0.44.1  imageID=docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b  restarts=15

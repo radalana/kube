@@ -1,0 +1,2 @@
+NAME    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE     CONTAINERS   IMAGES                                 SELECTOR
+falco   3         3         3       3            3           <none>          6d20h   falco        docker.io/falcosecurity/falco:0.44.1   app.kubernetes.io/instance=falco,app.kubernetes.io/name=falco

@@ -1,0 +1,1304 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      checksum/config: 68520d7afabc71764f9725d07750e0ffe90b3920035bd71ee1b8caa73df805ad
+      checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      cni.projectcalico.org/containerID: f473b05abba31a3912944410089a0aab7ee552cee7f60d315d911a2c12bb29bc
+      cni.projectcalico.org/podIP: 10.1.219.85/32
+      cni.projectcalico.org/podIPs: 10.1.219.85/32
+    creationTimestamp: "2026-07-28T15:09:17Z"
+    generateName: falco-
+    generation: 1
+    labels:
+      app.kubernetes.io/instance: falco
+      app.kubernetes.io/name: falco
+      controller-revision-hash: 6bff8497df
+      pod-template-generation: "1"
+    name: falco-6fxmq
+    namespace: falco
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: falco
+      uid: c66ee70c-362b-463f-bf2c-8c1b75b9d194
+    resourceVersion: "10238447"
+    uid: 1c6b3572-1437-49b5-9546-96d8c495d3a3
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - master
+    containers:
+    - args:
+      - /usr/bin/falco
+      env:
+      - name: HOST_ROOT
+        value: /host
+      - name: FALCO_HOSTNAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: FALCO_K8S_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: docker.io/falcosecurity/falco:0.44.1
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        periodSeconds: 15
+        successThreshold: 1
+        timeoutSeconds: 5
+      name: falco
+      ports:
+      - containerPort: 8765
+        name: web
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        periodSeconds: 15
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      securityContext:
+        privileged: true
+      startupProbe:
+        failureThreshold: 20
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        initialDelaySeconds: 3
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      tty: true
+      volumeMounts:
+      - mountPath: /host/var/run/docker.sock
+        name: container-engine-socket-0
+      - mountPath: /host/run/podman/podman.sock
+        name: container-engine-socket-1
+      - mountPath: /host/run/host-containerd/containerd.sock
+        name: container-engine-socket-2
+      - mountPath: /host/run/containerd/containerd.sock
+        name: container-engine-socket-3
+      - mountPath: /host/run/crio/crio.sock
+        name: container-engine-socket-4
+      - mountPath: /host/run/k3s/containerd/containerd.sock
+        name: container-engine-socket-5
+      - mountPath: /etc/falco
+        name: rulesfiles-install-dir
+      - mountPath: /usr/share/falco/plugins
+        name: plugins-install-dir
+      - mountPath: /root/.falco
+        name: root-falco-fs
+      - mountPath: /host/proc
+        name: proc-fs
+      - mountPath: /host/etc
+        name: etc-fs
+        readOnly: true
+      - mountPath: /sys/kernel
+        name: sys-fs
+        readOnly: true
+      - mountPath: /etc/falco/falco.yaml
+        name: falco-yaml
+        subPath: falco.yaml
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-wpgjq
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - args:
+      - artifact
+      - install
+      - --log-format=json
+      image: docker.io/falcosecurity/falcoctl:0.13.0
+      imagePullPolicy: IfNotPresent
+      name: falcoctl-artifact-install
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /plugins
+        name: plugins-install-dir
+      - mountPath: /rulesfiles
+        name: rulesfiles-install-dir
+      - mountPath: /etc/falcoctl
+        name: falcoctl-config-volume
+      - mountPath: /artifactstate
+        name: artifact-state-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-wpgjq
+        readOnly: true
+    nodeName: master
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: falco
+    serviceAccountName: falco
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: container-engine-socket-0
+    - hostPath:
+        path: /run/podman/podman.sock
+        type: ""
+      name: container-engine-socket-1
+    - hostPath:
+        path: /run/host-containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-2
+    - hostPath:
+        path: /run/containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-3
+    - hostPath:
+        path: /run/crio/crio.sock
+        type: ""
+      name: container-engine-socket-4
+    - hostPath:
+        path: /run/k3s/containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-5
+    - emptyDir: {}
+      name: plugins-install-dir
+    - emptyDir: {}
+      name: rulesfiles-install-dir
+    - emptyDir: {}
+      name: artifact-state-dir
+    - emptyDir: {}
+      name: root-falco-fs
+    - hostPath:
+        path: /boot
+        type: ""
+      name: boot-fs
+    - hostPath:
+        path: /lib/modules
+        type: ""
+      name: lib-modules
+    - hostPath:
+        path: /usr
+        type: ""
+      name: usr-fs
+    - hostPath:
+        path: /etc
+        type: ""
+      name: etc-fs
+    - hostPath:
+        path: /sys/kernel
+        type: ""
+      name: sys-fs
+    - hostPath:
+        path: /proc
+        type: ""
+      name: proc-fs
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: falcoctl.yaml
+          path: falcoctl.yaml
+        name: falco-falcoctl
+      name: falcoctl-config-volume
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: falco.yaml
+          path: falco.yaml
+        name: falco
+      name: falco-yaml
+    - name: kube-api-access-wpgjq
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:18Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:27Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T10:31:08Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T10:31:08Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:17Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 512Mi
+      containerID: containerd://676763fe69a348ffe7ba3addbbadbdf4273d14ce267e6630aea5cc7b93d4050b
+      image: docker.io/falcosecurity/falco:0.44.1
+      imageID: docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b
+      lastState:
+        terminated:
+          containerID: containerd://0c22f8be5bb10bb531df1e371883e62946f243c7b59939158bbdb7ebe79f9fcf
+          exitCode: 1
+          finishedAt: "2026-08-04T10:31:02Z"
+          reason: Error
+          startedAt: "2026-08-04T08:45:43Z"
+      name: falco
+      ready: true
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      restartCount: 44
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T10:31:03Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /host/var/run/docker.sock
+        name: container-engine-socket-0
+      - mountPath: /host/run/podman/podman.sock
+        name: container-engine-socket-1
+      - mountPath: /host/run/host-containerd/containerd.sock
+        name: container-engine-socket-2
+      - mountPath: /host/run/containerd/containerd.sock
+        name: container-engine-socket-3
+      - mountPath: /host/run/crio/crio.sock
+        name: container-engine-socket-4
+      - mountPath: /host/run/k3s/containerd/containerd.sock
+        name: container-engine-socket-5
+      - mountPath: /etc/falco
+        name: rulesfiles-install-dir
+      - mountPath: /usr/share/falco/plugins
+        name: plugins-install-dir
+      - mountPath: /root/.falco
+        name: root-falco-fs
+      - mountPath: /host/proc
+        name: proc-fs
+      - mountPath: /host/etc
+        name: etc-fs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /sys/kernel
+        name: sys-fs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /etc/falco/falco.yaml
+        name: falco-yaml
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-wpgjq
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.0.2
+    hostIPs:
+    - ip: 10.0.0.2
+    initContainerStatuses:
+    - containerID: containerd://b4e0fa5d4da997487e7f045cf2ac9433725d1d15b583021bfa899fb686ec6510
+      image: docker.io/falcosecurity/falcoctl:0.13.0
+      imageID: docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+      lastState: {}
+      name: falcoctl-artifact-install
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://b4e0fa5d4da997487e7f045cf2ac9433725d1d15b583021bfa899fb686ec6510
+          exitCode: 0
+          finishedAt: "2026-07-28T15:09:27Z"
+          reason: Completed
+          startedAt: "2026-07-28T15:09:18Z"
+      user:
+        linux:
+          gid: 65532
+          supplementalGroups:
+          - 65532
+          uid: 65532
+      volumeMounts:
+      - mountPath: /plugins
+        name: plugins-install-dir
+      - mountPath: /rulesfiles
+        name: rulesfiles-install-dir
+      - mountPath: /etc/falcoctl
+        name: falcoctl-config-volume
+      - mountPath: /artifactstate
+        name: artifact-state-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-wpgjq
+        readOnly: true
+        recursiveReadOnly: Disabled
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.1.219.85
+    podIPs:
+    - ip: 10.1.219.85
+    qosClass: Burstable
+    startTime: "2026-07-28T15:09:17Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      checksum/config: 68520d7afabc71764f9725d07750e0ffe90b3920035bd71ee1b8caa73df805ad
+      checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      cni.projectcalico.org/containerID: f9d13dfb7af2340b5898692ecfa7708e74dd378e84da1c17bb9799d265b4bbc3
+      cni.projectcalico.org/podIP: 10.1.189.88/32
+      cni.projectcalico.org/podIPs: 10.1.189.88/32
+    creationTimestamp: "2026-07-28T15:09:17Z"
+    generateName: falco-
+    generation: 1
+    labels:
+      app.kubernetes.io/instance: falco
+      app.kubernetes.io/name: falco
+      controller-revision-hash: 6bff8497df
+      pod-template-generation: "1"
+    name: falco-qgt5t
+    namespace: falco
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: falco
+      uid: c66ee70c-362b-463f-bf2c-8c1b75b9d194
+    resourceVersion: "10197646"
+    uid: 6cda1fd0-68dd-4885-88c7-bd426e5f6544
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - worker2
+    containers:
+    - args:
+      - /usr/bin/falco
+      env:
+      - name: HOST_ROOT
+        value: /host
+      - name: FALCO_HOSTNAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: FALCO_K8S_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: docker.io/falcosecurity/falco:0.44.1
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        periodSeconds: 15
+        successThreshold: 1
+        timeoutSeconds: 5
+      name: falco
+      ports:
+      - containerPort: 8765
+        name: web
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        periodSeconds: 15
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      securityContext:
+        privileged: true
+      startupProbe:
+        failureThreshold: 20
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        initialDelaySeconds: 3
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      tty: true
+      volumeMounts:
+      - mountPath: /host/var/run/docker.sock
+        name: container-engine-socket-0
+      - mountPath: /host/run/podman/podman.sock
+        name: container-engine-socket-1
+      - mountPath: /host/run/host-containerd/containerd.sock
+        name: container-engine-socket-2
+      - mountPath: /host/run/containerd/containerd.sock
+        name: container-engine-socket-3
+      - mountPath: /host/run/crio/crio.sock
+        name: container-engine-socket-4
+      - mountPath: /host/run/k3s/containerd/containerd.sock
+        name: container-engine-socket-5
+      - mountPath: /etc/falco
+        name: rulesfiles-install-dir
+      - mountPath: /usr/share/falco/plugins
+        name: plugins-install-dir
+      - mountPath: /root/.falco
+        name: root-falco-fs
+      - mountPath: /host/proc
+        name: proc-fs
+      - mountPath: /host/etc
+        name: etc-fs
+        readOnly: true
+      - mountPath: /sys/kernel
+        name: sys-fs
+        readOnly: true
+      - mountPath: /etc/falco/falco.yaml
+        name: falco-yaml
+        subPath: falco.yaml
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bvd4v
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - args:
+      - artifact
+      - install
+      - --log-format=json
+      image: docker.io/falcosecurity/falcoctl:0.13.0
+      imagePullPolicy: IfNotPresent
+      name: falcoctl-artifact-install
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /plugins
+        name: plugins-install-dir
+      - mountPath: /rulesfiles
+        name: rulesfiles-install-dir
+      - mountPath: /etc/falcoctl
+        name: falcoctl-config-volume
+      - mountPath: /artifactstate
+        name: artifact-state-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bvd4v
+        readOnly: true
+    nodeName: worker2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: falco
+    serviceAccountName: falco
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: container-engine-socket-0
+    - hostPath:
+        path: /run/podman/podman.sock
+        type: ""
+      name: container-engine-socket-1
+    - hostPath:
+        path: /run/host-containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-2
+    - hostPath:
+        path: /run/containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-3
+    - hostPath:
+        path: /run/crio/crio.sock
+        type: ""
+      name: container-engine-socket-4
+    - hostPath:
+        path: /run/k3s/containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-5
+    - emptyDir: {}
+      name: plugins-install-dir
+    - emptyDir: {}
+      name: rulesfiles-install-dir
+    - emptyDir: {}
+      name: artifact-state-dir
+    - emptyDir: {}
+      name: root-falco-fs
+    - hostPath:
+        path: /boot
+        type: ""
+      name: boot-fs
+    - hostPath:
+        path: /lib/modules
+        type: ""
+      name: lib-modules
+    - hostPath:
+        path: /usr
+        type: ""
+      name: usr-fs
+    - hostPath:
+        path: /etc
+        type: ""
+      name: etc-fs
+    - hostPath:
+        path: /sys/kernel
+        type: ""
+      name: sys-fs
+    - hostPath:
+        path: /proc
+        type: ""
+      name: proc-fs
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: falcoctl.yaml
+          path: falcoctl.yaml
+        name: falco-falcoctl
+      name: falcoctl-config-volume
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: falco.yaml
+          path: falco.yaml
+        name: falco
+      name: falco-yaml
+    - name: kube-api-access-bvd4v
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:19Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:27Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T04:50:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T04:50:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:17Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 512Mi
+      containerID: containerd://287fba254d149888db8770d734a3577fd0cb2d4e1085749dc3b74d49e4b36aa2
+      image: docker.io/falcosecurity/falco:0.44.1
+      imageID: docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b
+      lastState:
+        terminated:
+          containerID: containerd://2f7756c41469982befdc1538d3649e67bf4e908fee78d8a9a20c0ae92d261155
+          exitCode: 1
+          finishedAt: "2026-08-04T04:50:44Z"
+          reason: Error
+          startedAt: "2026-08-03T07:40:15Z"
+      name: falco
+      ready: true
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      restartCount: 15
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T04:50:45Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /host/var/run/docker.sock
+        name: container-engine-socket-0
+      - mountPath: /host/run/podman/podman.sock
+        name: container-engine-socket-1
+      - mountPath: /host/run/host-containerd/containerd.sock
+        name: container-engine-socket-2
+      - mountPath: /host/run/containerd/containerd.sock
+        name: container-engine-socket-3
+      - mountPath: /host/run/crio/crio.sock
+        name: container-engine-socket-4
+      - mountPath: /host/run/k3s/containerd/containerd.sock
+        name: container-engine-socket-5
+      - mountPath: /etc/falco
+        name: rulesfiles-install-dir
+      - mountPath: /usr/share/falco/plugins
+        name: plugins-install-dir
+      - mountPath: /root/.falco
+        name: root-falco-fs
+      - mountPath: /host/proc
+        name: proc-fs
+      - mountPath: /host/etc
+        name: etc-fs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /sys/kernel
+        name: sys-fs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /etc/falco/falco.yaml
+        name: falco-yaml
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bvd4v
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.0.4
+    hostIPs:
+    - ip: 10.0.0.4
+    initContainerStatuses:
+    - containerID: containerd://3b8056bc9dc98c2bb04443fca9bfd2b8c296d2b3943b6aabc3d0b5d97ef86647
+      image: docker.io/falcosecurity/falcoctl:0.13.0
+      imageID: docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+      lastState: {}
+      name: falcoctl-artifact-install
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://3b8056bc9dc98c2bb04443fca9bfd2b8c296d2b3943b6aabc3d0b5d97ef86647
+          exitCode: 0
+          finishedAt: "2026-07-28T15:09:26Z"
+          reason: Completed
+          startedAt: "2026-07-28T15:09:18Z"
+      user:
+        linux:
+          gid: 65532
+          supplementalGroups:
+          - 65532
+          uid: 65532
+      volumeMounts:
+      - mountPath: /plugins
+        name: plugins-install-dir
+      - mountPath: /rulesfiles
+        name: rulesfiles-install-dir
+      - mountPath: /etc/falcoctl
+        name: falcoctl-config-volume
+      - mountPath: /artifactstate
+        name: artifact-state-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bvd4v
+        readOnly: true
+        recursiveReadOnly: Disabled
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.1.189.88
+    podIPs:
+    - ip: 10.1.189.88
+    qosClass: Burstable
+    startTime: "2026-07-28T15:09:17Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      checksum/config: 68520d7afabc71764f9725d07750e0ffe90b3920035bd71ee1b8caa73df805ad
+      checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      cni.projectcalico.org/containerID: 363a5fa1e85bbd33aabf085a3b56e5f2e604bf0bbd6a51d1029ba6ea93f72bcf
+      cni.projectcalico.org/podIP: 10.1.235.182/32
+      cni.projectcalico.org/podIPs: 10.1.235.182/32
+    creationTimestamp: "2026-07-28T15:09:17Z"
+    generateName: falco-
+    generation: 1
+    labels:
+      app.kubernetes.io/instance: falco
+      app.kubernetes.io/name: falco
+      controller-revision-hash: 6bff8497df
+      pod-template-generation: "1"
+    name: falco-vf8rj
+    namespace: falco
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: falco
+      uid: c66ee70c-362b-463f-bf2c-8c1b75b9d194
+    resourceVersion: "10197547"
+    uid: 9ccbd2dc-6b50-48e1-936c-61062d6fc8c7
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - worker1
+    containers:
+    - args:
+      - /usr/bin/falco
+      env:
+      - name: HOST_ROOT
+        value: /host
+      - name: FALCO_HOSTNAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: FALCO_K8S_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: docker.io/falcosecurity/falco:0.44.1
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        periodSeconds: 15
+        successThreshold: 1
+        timeoutSeconds: 5
+      name: falco
+      ports:
+      - containerPort: 8765
+        name: web
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        periodSeconds: 15
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      securityContext:
+        privileged: true
+      startupProbe:
+        failureThreshold: 20
+        httpGet:
+          path: /healthz
+          port: 8765
+          scheme: HTTP
+        initialDelaySeconds: 3
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      tty: true
+      volumeMounts:
+      - mountPath: /host/var/run/docker.sock
+        name: container-engine-socket-0
+      - mountPath: /host/run/podman/podman.sock
+        name: container-engine-socket-1
+      - mountPath: /host/run/host-containerd/containerd.sock
+        name: container-engine-socket-2
+      - mountPath: /host/run/containerd/containerd.sock
+        name: container-engine-socket-3
+      - mountPath: /host/run/crio/crio.sock
+        name: container-engine-socket-4
+      - mountPath: /host/run/k3s/containerd/containerd.sock
+        name: container-engine-socket-5
+      - mountPath: /etc/falco
+        name: rulesfiles-install-dir
+      - mountPath: /usr/share/falco/plugins
+        name: plugins-install-dir
+      - mountPath: /root/.falco
+        name: root-falco-fs
+      - mountPath: /host/proc
+        name: proc-fs
+      - mountPath: /host/etc
+        name: etc-fs
+        readOnly: true
+      - mountPath: /sys/kernel
+        name: sys-fs
+        readOnly: true
+      - mountPath: /etc/falco/falco.yaml
+        name: falco-yaml
+        subPath: falco.yaml
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-57wj9
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - args:
+      - artifact
+      - install
+      - --log-format=json
+      image: docker.io/falcosecurity/falcoctl:0.13.0
+      imagePullPolicy: IfNotPresent
+      name: falcoctl-artifact-install
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /plugins
+        name: plugins-install-dir
+      - mountPath: /rulesfiles
+        name: rulesfiles-install-dir
+      - mountPath: /etc/falcoctl
+        name: falcoctl-config-volume
+      - mountPath: /artifactstate
+        name: artifact-state-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-57wj9
+        readOnly: true
+    nodeName: worker1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: falco
+    serviceAccountName: falco
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: container-engine-socket-0
+    - hostPath:
+        path: /run/podman/podman.sock
+        type: ""
+      name: container-engine-socket-1
+    - hostPath:
+        path: /run/host-containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-2
+    - hostPath:
+        path: /run/containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-3
+    - hostPath:
+        path: /run/crio/crio.sock
+        type: ""
+      name: container-engine-socket-4
+    - hostPath:
+        path: /run/k3s/containerd/containerd.sock
+        type: ""
+      name: container-engine-socket-5
+    - emptyDir: {}
+      name: plugins-install-dir
+    - emptyDir: {}
+      name: rulesfiles-install-dir
+    - emptyDir: {}
+      name: artifact-state-dir
+    - emptyDir: {}
+      name: root-falco-fs
+    - hostPath:
+        path: /boot
+        type: ""
+      name: boot-fs
+    - hostPath:
+        path: /lib/modules
+        type: ""
+      name: lib-modules
+    - hostPath:
+        path: /usr
+        type: ""
+      name: usr-fs
+    - hostPath:
+        path: /etc
+        type: ""
+      name: etc-fs
+    - hostPath:
+        path: /sys/kernel
+        type: ""
+      name: sys-fs
+    - hostPath:
+        path: /proc
+        type: ""
+      name: proc-fs
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: falcoctl.yaml
+          path: falcoctl.yaml
+        name: falco-falcoctl
+      name: falcoctl-config-volume
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: falco.yaml
+          path: falco.yaml
+        name: falco
+      name: falco-yaml
+    - name: kube-api-access-57wj9
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:19Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:28Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T04:50:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T04:50:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-07-28T15:09:17Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 512Mi
+      containerID: containerd://5a4bba4c59a136b88c7bbb01de5872f11b1a132566e245aaf9f708d0388573c6
+      image: docker.io/falcosecurity/falco:0.44.1
+      imageID: docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b
+      lastState:
+        terminated:
+          containerID: containerd://b7a89894a9bd90275fabe0c1f37de891727348b763a64584e57860c1a3cbcd9f
+          exitCode: 1
+          finishedAt: "2026-08-04T04:49:59Z"
+          reason: Error
+          startedAt: "2026-08-03T13:57:23Z"
+      name: falco
+      ready: true
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      restartCount: 15
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T04:50:00Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /host/var/run/docker.sock
+        name: container-engine-socket-0
+      - mountPath: /host/run/podman/podman.sock
+        name: container-engine-socket-1
+      - mountPath: /host/run/host-containerd/containerd.sock
+        name: container-engine-socket-2
+      - mountPath: /host/run/containerd/containerd.sock
+        name: container-engine-socket-3
+      - mountPath: /host/run/crio/crio.sock
+        name: container-engine-socket-4
+      - mountPath: /host/run/k3s/containerd/containerd.sock
+        name: container-engine-socket-5
+      - mountPath: /etc/falco
+        name: rulesfiles-install-dir
+      - mountPath: /usr/share/falco/plugins
+        name: plugins-install-dir
+      - mountPath: /root/.falco
+        name: root-falco-fs
+      - mountPath: /host/proc
+        name: proc-fs
+      - mountPath: /host/etc
+        name: etc-fs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /sys/kernel
+        name: sys-fs
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /etc/falco/falco.yaml
+        name: falco-yaml
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-57wj9
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.0.3
+    hostIPs:
+    - ip: 10.0.0.3
+    initContainerStatuses:
+    - containerID: containerd://7173202b1c958e6aecf70405ffd42e9fe3307d652fcf26f335747aada1c020ad
+      image: docker.io/falcosecurity/falcoctl:0.13.0
+      imageID: docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+      lastState: {}
+      name: falcoctl-artifact-install
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://7173202b1c958e6aecf70405ffd42e9fe3307d652fcf26f335747aada1c020ad
+          exitCode: 0
+          finishedAt: "2026-07-28T15:09:27Z"
+          reason: Completed
+          startedAt: "2026-07-28T15:09:18Z"
+      user:
+        linux:
+          gid: 65532
+          supplementalGroups:
+          - 65532
+          uid: 65532
+      volumeMounts:
+      - mountPath: /plugins
+        name: plugins-install-dir
+      - mountPath: /rulesfiles
+        name: rulesfiles-install-dir
+      - mountPath: /etc/falcoctl
+        name: falcoctl-config-volume
+      - mountPath: /artifactstate
+        name: artifact-state-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-57wj9
+        readOnly: true
+        recursiveReadOnly: Disabled
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.1.235.182
+    podIPs:
+    - ip: 10.1.235.182
+    qosClass: Burstable
+    startTime: "2026-07-28T15:09:17Z"
+kind: List
+metadata:
+  resourceVersion: ""

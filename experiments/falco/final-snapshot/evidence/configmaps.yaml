@@ -1,0 +1,232 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    falco.yaml: |-
+      append_output:
+      - suggested_output: true
+      base_syscalls:
+        all: false
+        custom_set: []
+        repair: false
+      buffer_format_base64: false
+      buffered_outputs: false
+      capture:
+        default_duration: 5000
+        enabled: false
+        mode: rules
+        path_prefix: /tmp/falco
+      config_files:
+      - /etc/falco/config.d
+      engine:
+        kind: modern_ebpf
+        modern_ebpf:
+          buf_size_preset: 4
+          cpus_for_each_buffer: 2
+          disable_iterators: false
+          drop_failed_exit: false
+      falco_libs:
+        snaplen: 80
+        thread_table_auto_purging_interval_s: 300
+        thread_table_auto_purging_thread_timeout_s: 300
+        thread_table_size: 262144
+      file_output:
+        enabled: false
+        filename: ./events.txt
+        keep_alive: false
+      http_output:
+        ca_bundle: ""
+        ca_cert: ""
+        ca_path: /etc/falco/certs/
+        client_cert: /etc/falco/certs/client/client.crt
+        client_key: /etc/falco/certs/client/client.key
+        compress_uploads: false
+        echo: false
+        enabled: false
+        insecure: false
+        keep_alive: false
+        max_consecutive_timeouts: 5
+        mtls: false
+        url: ""
+        user_agent: falcosecurity/falco
+      json_include_message_property: false
+      json_include_output_fields_property: true
+      json_include_output_property: true
+      json_include_tags_property: true
+      json_output: false
+      libs_logger:
+        enabled: true
+        severity: info
+      load_plugins:
+      - container
+      log_level: info
+      log_stderr: true
+      log_syslog: true
+      output_timeout: 2000
+      outputs_queue:
+        capacity: 0
+      plugins:
+      - init_config:
+          engines:
+            bpm:
+              enabled: true
+            containerd:
+              enabled: true
+              sockets:
+              - /run/host-containerd/containerd.sock
+            cri:
+              enabled: true
+              sockets:
+              - /run/containerd/containerd.sock
+              - /run/crio/crio.sock
+              - /run/k3s/containerd/containerd.sock
+              - /run/host-containerd/containerd.sock
+            docker:
+              enabled: true
+              sockets:
+              - /var/run/docker.sock
+            libvirt_lxc:
+              enabled: true
+            lxc:
+              enabled: true
+            podman:
+              enabled: true
+              sockets:
+              - /run/podman/podman.sock
+          hooks:
+          - create
+          label_max_len: 100
+          with_size: false
+        library_path: libcontainer.so
+        name: container
+      plugins_hostinfo: true
+      priority: debug
+      program_output:
+        enabled: false
+        keep_alive: false
+        program: 'jq ''{text: .output}'' | curl -d @- -X POST https://hooks.slack.com/services/XXX'
+      rule_matching: first
+      rules_files:
+      - /etc/falco/falco_rules.yaml
+      - /etc/falco/falco_rules.local.yaml
+      - /etc/falco/rules.d
+      stdout_output:
+        enabled: true
+      syscall_event_drops:
+        actions:
+        - log
+        - alert
+        max_burst: 1
+        rate: 0.03333
+        simulate_drops: false
+        threshold: 0.1
+      syscall_event_timeouts:
+        max_consecutives: 1000
+      syslog_output:
+        enabled: true
+      time_format_iso_8601: false
+      watch_config_files: true
+      webserver:
+        enabled: true
+        k8s_healthz_endpoint: /healthz
+        listen_address: 0.0.0.0
+        listen_port: 8765
+        prometheus_metrics_enabled: false
+        ssl_certificate: /etc/falco/falco.pem
+        ssl_enabled: false
+        threadiness: 0
+  kind: ConfigMap
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: falco
+      meta.helm.sh/release-namespace: falco
+    creationTimestamp: "2026-07-28T15:09:17Z"
+    labels:
+      app.kubernetes.io/instance: falco
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: falco
+      app.kubernetes.io/version: 0.44.1
+      helm.sh/chart: falco-9.1.0
+    name: falco
+    namespace: falco
+    resourceVersion: "9062165"
+    uid: 4d65ca32-ca6d-4ae5-9015-cf25efadf501
+- apiVersion: v1
+  data:
+    falcoctl.yaml: |-
+      artifact:
+        allowedTypes:
+        - rulesfile
+        - plugin
+        follow:
+          every: 168h
+          falcoversions: http://localhost:8765/versions
+          pluginsDir: /plugins
+          refs:
+          - falco-rules:5
+          rulesfilesDir: /rulesfiles
+          stateDir: /artifactstate
+        install:
+          pluginsDir: /plugins
+          refs:
+          - falco-rules:5
+          - ghcr.io/falcosecurity/plugins/plugin/container:0.7.1
+          resolveDeps: true
+          rulesfilesDir: /rulesfiles
+          stateDir: /artifactstate
+      indexes:
+      - name: falcosecurity
+        url: https://falcosecurity.github.io/falcoctl/index.yaml
+  kind: ConfigMap
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: falco
+      meta.helm.sh/release-namespace: falco
+    creationTimestamp: "2026-07-28T15:09:17Z"
+    labels:
+      app.kubernetes.io/instance: falco
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: falco
+      app.kubernetes.io/version: 0.44.1
+      helm.sh/chart: falco-9.1.0
+    name: falco-falcoctl
+    namespace: falco
+    resourceVersion: "9062164"
+    uid: 141f6131-14ec-43c8-b869-97f2227bb1cc
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDDzCCAfegAwIBAgIUHw4/qvRlJjgPZT4fB6U3yWJTOxcwDQYJKoZIhvcNAQEL
+      BQAwFzEVMBMGA1UEAwwMMTAuMTUyLjE4My4xMB4XDTI2MDYwMjE1MDIxN1oXDTM2
+      MDUzMDE1MDIxN1owFzEVMBMGA1UEAwwMMTAuMTUyLjE4My4xMIIBIjANBgkqhkiG
+      9w0BAQEFAAOCAQ8AMIIBCgKCAQEA58FfOjzyQbD/SEpiU5P+uJrBS6iw01Zh9+cw
+      HGZiM0m2RtXOOm40lBdoXAo0s9OLE0jf/abzhkduBVbGv8ysdfOqRpdCfhx/TJ2w
+      clfHyFwYwO0sQBEUDd6phidOY/glu2lVQvf7lEb0bRzon2qD1z5M/mz90QNQE3zl
+      lNNgUjU+axXtXt3gNZu5y1cBhJ//DlQ44VNo2hRWbsG67jn+i/Y7TXVkIA7K9Y5Q
+      FwnedTlk/shTIODsmc+h8WsqbP9uMjn23MK1xOZTEnwNi6Fx3UG5EI2oUii6ALV6
+      JiIex3eEi+cRd3aQYghplz9ReDHwo1S7nWIWBuVXJKyKEtK40wIDAQABo1MwUTAd
+      BgNVHQ4EFgQUuSOs8rdlLiDapbdDM1jUr7NjHu0wHwYDVR0jBBgwFoAUuSOs8rdl
+      LiDapbdDM1jUr7NjHu0wDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOC
+      AQEApE4EOfkE1rajGZPd2SXni626JEXHtNOeT85OJsKTphf2UOTxCJEEG4xkdthr
+      fgPtTqQTr3B0WUR9bGL4Utq2t6W8onb7gcn6XSyLA30IoBj9NLTKtbOY9xd4ubuF
+      1rZtFvq29qYQCwT5PKvDPG8hPG052m2jS+Ua9Kv2BWks4XaBj8GT/HG6XKHEw0BX
+      Tpy+2OeKyHlcDLmkRD++dGp+bvHmCdrqummUDdWWjCW6MALwg/uv+gFWHo30CqKy
+      TBg6z+ppqZz52Y/gNu1bkywYj/Yl+2SXa0k/wH/8qBfa//ga4zwsBQB35+Sm7k3M
+      cMKVvXnSiWTdA1yAipTzlrdT4w==
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2026-06-18T17:55:03Z"
+    name: kube-root-ca.crt
+    namespace: falco
+    resourceVersion: "2179722"
+    uid: 92569656-22b7-449e-bade-130b8f21c44a
+kind: List
+metadata:
+  resourceVersion: ""

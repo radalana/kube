@@ -1,0 +1,189 @@
+Name:             falco-qgt5t
+Namespace:        falco
+Priority:         0
+Service Account:  falco
+Node:             worker2/10.0.0.4
+Start Time:       Tue, 28 Jul 2026 17:09:17 +0200
+Labels:           app.kubernetes.io/instance=falco
+                  app.kubernetes.io/name=falco
+                  controller-revision-hash=6bff8497df
+                  pod-template-generation=1
+Annotations:      checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                  checksum/config: 68520d7afabc71764f9725d07750e0ffe90b3920035bd71ee1b8caa73df805ad
+                  checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                  cni.projectcalico.org/containerID: f9d13dfb7af2340b5898692ecfa7708e74dd378e84da1c17bb9799d265b4bbc3
+                  cni.projectcalico.org/podIP: 10.1.189.88/32
+                  cni.projectcalico.org/podIPs: 10.1.189.88/32
+Status:           Running
+IP:               10.1.189.88
+IPs:
+  IP:           10.1.189.88
+Controlled By:  DaemonSet/falco
+Init Containers:
+  falcoctl-artifact-install:
+    Container ID:  containerd://3b8056bc9dc98c2bb04443fca9bfd2b8c296d2b3943b6aabc3d0b5d97ef86647
+    Image:         docker.io/falcosecurity/falcoctl:0.13.0
+    Image ID:      docker.io/falcosecurity/falcoctl@sha256:0eeb79adc580ae6a5abfdefd7f8f0fed9151fcb545f015c84e8f1d7b2d8a6b02
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      artifact
+      install
+      --log-format=json
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 28 Jul 2026 17:09:18 +0200
+      Finished:     Tue, 28 Jul 2026 17:09:26 +0200
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /artifactstate from artifact-state-dir (rw)
+      /etc/falcoctl from falcoctl-config-volume (rw)
+      /plugins from plugins-install-dir (rw)
+      /rulesfiles from rulesfiles-install-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bvd4v (ro)
+Containers:
+  falco:
+    Container ID:  containerd://287fba254d149888db8770d734a3577fd0cb2d4e1085749dc3b74d49e4b36aa2
+    Image:         docker.io/falcosecurity/falco:0.44.1
+    Image ID:      docker.io/falcosecurity/falco@sha256:d0cfe422d6ac0e0f20857798f46c7d7273210e1b064b22821e4e6e7f843cde6b
+    Port:          8765/TCP
+    Host Port:     0/TCP
+    Args:
+      /usr/bin/falco
+    State:          Running
+      Started:      Tue, 04 Aug 2026 06:50:45 +0200
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Mon, 03 Aug 2026 09:40:15 +0200
+      Finished:     Tue, 04 Aug 2026 06:50:44 +0200
+    Ready:          True
+    Restart Count:  15
+    Limits:
+      cpu:     1
+      memory:  1Gi
+    Requests:
+      cpu:      100m
+      memory:   512Mi
+    Liveness:   http-get http://:8765/healthz delay=0s timeout=5s period=15s #success=1 #failure=3
+    Readiness:  http-get http://:8765/healthz delay=0s timeout=5s period=15s #success=1 #failure=3
+    Startup:    http-get http://:8765/healthz delay=3s timeout=5s period=5s #success=1 #failure=20
+    Environment:
+      HOST_ROOT:            /host
+      FALCO_HOSTNAME:        (v1:spec.nodeName)
+      FALCO_K8S_NODE_NAME:   (v1:spec.nodeName)
+    Mounts:
+      /etc/falco from rulesfiles-install-dir (rw)
+      /etc/falco/falco.yaml from falco-yaml (rw,path="falco.yaml")
+      /host/etc from etc-fs (ro)
+      /host/proc from proc-fs (rw)
+      /host/run/containerd/containerd.sock from container-engine-socket-3 (rw)
+      /host/run/crio/crio.sock from container-engine-socket-4 (rw)
+      /host/run/host-containerd/containerd.sock from container-engine-socket-2 (rw)
+      /host/run/k3s/containerd/containerd.sock from container-engine-socket-5 (rw)
+      /host/run/podman/podman.sock from container-engine-socket-1 (rw)
+      /host/var/run/docker.sock from container-engine-socket-0 (rw)
+      /root/.falco from root-falco-fs (rw)
+      /sys/kernel from sys-fs (ro)
+      /usr/share/falco/plugins from plugins-install-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bvd4v (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  container-engine-socket-0:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/docker.sock
+    HostPathType:  
+  container-engine-socket-1:
+    Type:          HostPath (bare host directory volume)
+    Path:          /run/podman/podman.sock
+    HostPathType:  
+  container-engine-socket-2:
+    Type:          HostPath (bare host directory volume)
+    Path:          /run/host-containerd/containerd.sock
+    HostPathType:  
+  container-engine-socket-3:
+    Type:          HostPath (bare host directory volume)
+    Path:          /run/containerd/containerd.sock
+    HostPathType:  
+  container-engine-socket-4:
+    Type:          HostPath (bare host directory volume)
+    Path:          /run/crio/crio.sock
+    HostPathType:  
+  container-engine-socket-5:
+    Type:          HostPath (bare host directory volume)
+    Path:          /run/k3s/containerd/containerd.sock
+    HostPathType:  
+  plugins-install-dir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  rulesfiles-install-dir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  artifact-state-dir:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  root-falco-fs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  boot-fs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /boot
+    HostPathType:  
+  lib-modules:
+    Type:          HostPath (bare host directory volume)
+    Path:          /lib/modules
+    HostPathType:  
+  usr-fs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /usr
+    HostPathType:  
+  etc-fs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /etc
+    HostPathType:  
+  sys-fs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /sys/kernel
+    HostPathType:  
+  proc-fs:
+    Type:          HostPath (bare host directory volume)
+    Path:          /proc
+    HostPathType:  
+  falcoctl-config-volume:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      falco-falcoctl
+    Optional:  false
+  falco-yaml:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      falco
+    Optional:  false
+  kube-api-access-bvd4v:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node-role.kubernetes.io/control-plane:NoSchedule
+                             node-role.kubernetes.io/master:NoSchedule
+                             node.kubernetes.io/disk-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/memory-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/not-ready:NoExecute op=Exists
+                             node.kubernetes.io/pid-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/unreachable:NoExecute op=Exists
+                             node.kubernetes.io/unschedulable:NoSchedule op=Exists
+Events:                      <none>

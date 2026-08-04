@@ -1,0 +1,5 @@
+
+experiments\falco\final-snapshot\evidence\helm-values-all.yaml:64:  kind: daemonset
+experiments\falco\final-snapshot\evidence\helm-values-all.yaml:67:driver:
+experiments\falco\final-snapshot\evidence\helm-values-all.yaml:69:  kind: modern_ebpf
+

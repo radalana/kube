@@ -1,0 +1,40 @@
+=== falco-6fxmq ===
+E0804 13:37:17.302581   23928 websocket.go:296] Unknown stream id 1, discarding message
+Tue Aug 04 11:37:14 2026: Falco version: 0.44.1 (x86_64)
+Tue Aug 04 11:37:14 2026: Falco initialized with configuration files:
+Tue Aug 04 11:37:14 2026:    /etc/falco/falco.yaml | schema validation: ok
+Tue Aug 04 11:37:14 2026: System info: Linux version 7.0.0-28-generic (buildd@lcy02-amd64-047) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #28-Ubuntu SMP PREEMPT_DYNAMIC Sun Jun 21 01:01:36 UTC 2026
+Falco version: 0.44.1
+Libs version:  0.25.4
+Plugin API:    3.12.0
+Engine:        0.62.0
+Driver:
+  API version:    10.0.0
+  Schema version: 4.3.0
+  Default driver: 10.2.0+driver
+=== falco-qgt5t ===
+Tue Aug 04 11:37:15 2026: Falco version: 0.44.1 (x86_64)
+Tue Aug 04 11:37:15 2026: Falco initialized with configuration files:
+Tue Aug 04 11:37:15 2026:    /etc/falco/falco.yaml | schema validation: ok
+Falco version: 0.44.1
+Libs version:  0.25.4
+Plugin API:    3.12.0
+Engine:        0.62.0
+Driver:
+  API version:    10.0.0
+  Schema version: 4.3.0
+  Default driver: 10.2.0+driver
+Tue Aug 04 11:37:15 2026: System info: Linux version 7.0.0-28-generic (buildd@lcy02-amd64-047) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #28-Ubuntu SMP PREEMPT_DYNAMIC Sun Jun 21 01:01:36 UTC 2026
+=== falco-vf8rj ===
+Falco version: 0.44.1
+Tue Aug 04 11:37:15 2026: Falco version: 0.44.1 (x86_64)
+Libs version:  0.25.4
+Plugin API:    3.12.0
+Engine:        0.62.0
+Driver:
+Tue Aug 04 11:37:15 2026: Falco initialized with configuration files:
+  API version:    10.0.0
+  Schema version: 4.3.0
+  Default driver: 10.2.0+driver
+Tue Aug 04 11:37:15 2026:    /etc/falco/falco.yaml | schema validation: ok
+Tue Aug 04 11:37:15 2026: System info: Linux version 7.0.0-28-generic (buildd@lcy02-amd64-047) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #28-Ubuntu SMP PREEMPT_DYNAMIC Sun Jun 21 01:01:36 UTC 2026

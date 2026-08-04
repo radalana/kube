@@ -1,0 +1,2 @@
+14c096d3e025ba38c491026c48cd2c5370d3d10343bcc4ddd8fe841af65831c2  /etc/falco/falco.yaml
+1c15d5d543635b76e31cca39d7df8bf4caf50a428613c314d92986a23bfcb617  /etc/falco/falco_rules.yaml

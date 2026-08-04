@@ -1,0 +1,12 @@
+NAME: falco
+CHART: falco
+VERSION: 9.1.0
+APP_VERSION: 0.44.1
+ANNOTATIONS: 
+LABELS: modifiedAt=1785251358,name=falco,owner=helm,status=deployed,version=1
+DEPENDENCIES: 
+NAMESPACE: falco
+REVISION: 1
+STATUS: deployed
+DEPLOYED_AT: 2026-07-28T17:09:18+02:00
+APPLY_METHOD: server-side apply

@@ -1,0 +1,4 @@
+=== Default rules file ===
+-rw-r--r--    1 nonroot  nonroot      63642 Jul 28 15:09 /etc/falco/falco_rules.yaml
+
+1c15d5d543635b76e31cca39d7df8bf4caf50a428613c314d92986a23bfcb617  /etc/falco/falco_rules.yaml
