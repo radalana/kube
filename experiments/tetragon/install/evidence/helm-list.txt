@@ -1,0 +1,2 @@
+NAME    	NAMESPACE  	REVISION	UPDATED                               	STATUS  	CHART         	APP VERSION
+tetragon	kube-system	1       	2026-08-04 15:10:00.7518263 +0200 CEST	deployed	tetragon-1.7.0	1.7.0      

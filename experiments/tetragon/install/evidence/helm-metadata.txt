@@ -1,0 +1,12 @@
+NAME: tetragon
+CHART: tetragon
+VERSION: 1.7.0
+APP_VERSION: 1.7.0
+ANNOTATIONS: 
+LABELS: modifiedAt=1785849016,name=tetragon,owner=helm,status=deployed,version=1
+DEPENDENCIES: 
+NAMESPACE: kube-system
+REVISION: 1
+STATUS: deployed
+DEPLOYED_AT: 2026-08-04T15:10:00+02:00
+APPLY_METHOD: server-side apply

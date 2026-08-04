@@ -1,0 +1,4 @@
+
+tracingpolicies                     tgtp         cilium.io/v1alpha1                  false        TracingPolicy
+tracingpoliciesnamespaced           tgtpn        cilium.io/v1alpha1                  true         TracingPolicyNamespaced
+

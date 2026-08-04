@@ -1,0 +1,7 @@
+NAME: tetragon
+LAST DEPLOYED: Tue Aug  4 15:10:00 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None

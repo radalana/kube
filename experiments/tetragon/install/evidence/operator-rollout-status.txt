@@ -1,0 +1,1 @@
+deployment "tetragon-operator" successfully rolled out

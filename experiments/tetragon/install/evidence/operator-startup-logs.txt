@@ -1,0 +1,11 @@
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Loaded config from directory" subsys=tetragon-operator config-dir=/etc/tetragon/operator.conf.d/
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Starting Tetragon Operator" subsys=crd config="&{SkipCRDCreation:false KubeCfgPath: ConfigDir:/etc/tetragon/operator.conf.d/ SkipPodInfoCRD:true SkipTracingPolicyCRD:false ForceUpdateCRDs:false MetricsAddr::2113 ProbeAddr::8081 EnableLeaderElection:false LeaderElectionNamespace: LeaderElectionLeaseDuration:15s LeaderElectionRenewDeadline:5s LeaderElectionRetryPeriod:2s}" version=v1.7.0
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Creating CRD (CustomResourceDefinition)..." subsys=crd name=TracingPolicy/v1alpha1
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="CRD (CustomResourceDefinition) is installed and up-to-date" subsys=crd name=TracingPolicy/v1alpha1
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Creating CRD (CustomResourceDefinition)..." subsys=crd name=TracingPolicyNamespaced/v1alpha1
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="CRD (CustomResourceDefinition) is installed and up-to-date" subsys=crd name=TracingPolicyNamespaced/v1alpha1
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Initialization complete" subsys=crd
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="starting manager" subsys=operator logger=setup metricsAddr=:2113 probeAddr=:8081 leaderElection=false
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Starting metrics server" subsys=operator logger=controller-runtime/metrics
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="starting server" subsys=operator name="health probe" addr=[::]:8081
+[pod/tetragon-operator-7c9f964ff5-57xrd/tetragon-operator] level=info msg="Serving metrics server" subsys=operator logger=controller-runtime/metrics bindAddress=:2113 secure=false

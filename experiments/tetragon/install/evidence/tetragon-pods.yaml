@@ -1,0 +1,866 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/configmap: 495510af950a101c71e022583d33c5b9cb2ace2d70470578bf24f0d346d37e99
+    creationTimestamp: "2026-08-04T13:09:59Z"
+    generateName: tetragon-
+    generation: 1
+    labels:
+      app.kubernetes.io/component: agent
+      app.kubernetes.io/instance: tetragon
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tetragon
+      app.kubernetes.io/part-of: tetragon
+      app.kubernetes.io/version: 1.7.0
+      controller-revision-hash: 7cc8566469
+      helm.sh/chart: tetragon-1.7.0
+      pod-template-generation: "1"
+    name: tetragon-7cf8b
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: tetragon
+      uid: 73afafff-73d2-4ee0-a23b-8c059d0492ce
+    resourceVersion: "10257648"
+    uid: 7cb65e6c-433b-49f3-a55a-91bf121780f5
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - worker2
+    containers:
+    - args:
+      - /var/run/cilium/tetragon/tetragon.log
+      command:
+      - hubble-export-stdout
+      image: quay.io/cilium/hubble-export-stdout:v1.1.1
+      imagePullPolicy: IfNotPresent
+      name: export-stdout
+      resources: {}
+      securityContext: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-s9nps
+        readOnly: true
+    - args:
+      - --config-dir=/etc/tetragon/tetragon.conf.d/
+      env:
+      - name: NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: quay.io/cilium/tetragon:v1.7.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        grpc:
+          port: 6789
+          service: liveness
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 60
+      name: tetragon
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /etc/tetragon/tetragon.conf.d/
+        name: tetragon-config
+        readOnly: true
+      - mountPath: /sys/fs/bpf
+        mountPropagation: Bidirectional
+        name: bpf-maps
+      - mountPath: /var/run/cilium
+        name: cilium-run
+      - mountPath: /var/run/tetragon
+        name: tetragon-run
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /procRoot
+        name: host-proc
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-s9nps
+        readOnly: true
+    dnsPolicy: Default
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: worker2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: tetragon
+    serviceAccountName: tetragon
+    terminationGracePeriodSeconds: 1
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/run/cilium
+        type: DirectoryOrCreate
+      name: cilium-run
+    - hostPath:
+        path: /var/run/tetragon
+        type: DirectoryOrCreate
+      name: tetragon-run
+    - hostPath:
+        path: /var/run/cilium/tetragon
+        type: DirectoryOrCreate
+      name: export-logs
+    - configMap:
+        defaultMode: 420
+        name: tetragon-config
+      name: tetragon-config
+    - hostPath:
+        path: /sys/fs/bpf
+        type: DirectoryOrCreate
+      name: bpf-maps
+    - hostPath:
+        path: /proc
+        type: Directory
+      name: host-proc
+    - name: kube-api-access-s9nps
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:09:59Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:09:59Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://42ccba7f096cad4ee308af247e38e0d538aad233d03584e205f8eb4223e42947
+      image: quay.io/cilium/hubble-export-stdout:v1.1.1
+      imageID: quay.io/cilium/hubble-export-stdout@sha256:cf701f96d1c8de30231792e35733e1ab07451e11751ef4f676f482836759da06
+      lastState: {}
+      name: export-stdout
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T13:10:02Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-s9nps
+        readOnly: true
+        recursiveReadOnly: Disabled
+    - containerID: containerd://6831e02759869254ace8d395240325835c9be07e24a3fadcca31554e0e3404e8
+      image: quay.io/cilium/tetragon:v1.7.0
+      imageID: quay.io/cilium/tetragon@sha256:deda51c3f88e4d26b4d76c99ea207f2b05f9e40c210e0f04a37ca632ab7bf527
+      lastState: {}
+      name: tetragon
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T13:10:07Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /etc/tetragon/tetragon.conf.d/
+        name: tetragon-config
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /sys/fs/bpf
+        name: bpf-maps
+      - mountPath: /var/run/cilium
+        name: cilium-run
+      - mountPath: /var/run/tetragon
+        name: tetragon-run
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /procRoot
+        name: host-proc
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-s9nps
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.0.4
+    hostIPs:
+    - ip: 10.0.0.4
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.0.0.4
+    podIPs:
+    - ip: 10.0.0.4
+    qosClass: BestEffort
+    startTime: "2026-08-04T13:09:59Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/configmap: 495510af950a101c71e022583d33c5b9cb2ace2d70470578bf24f0d346d37e99
+    creationTimestamp: "2026-08-04T13:09:59Z"
+    generateName: tetragon-
+    generation: 1
+    labels:
+      app.kubernetes.io/component: agent
+      app.kubernetes.io/instance: tetragon
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tetragon
+      app.kubernetes.io/part-of: tetragon
+      app.kubernetes.io/version: 1.7.0
+      controller-revision-hash: 7cc8566469
+      helm.sh/chart: tetragon-1.7.0
+      pod-template-generation: "1"
+    name: tetragon-dkzbv
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: tetragon
+      uid: 73afafff-73d2-4ee0-a23b-8c059d0492ce
+    resourceVersion: "10257652"
+    uid: 6deeac55-2368-44e0-a8ad-ce2a9033eaa4
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - master
+    containers:
+    - args:
+      - /var/run/cilium/tetragon/tetragon.log
+      command:
+      - hubble-export-stdout
+      image: quay.io/cilium/hubble-export-stdout:v1.1.1
+      imagePullPolicy: IfNotPresent
+      name: export-stdout
+      resources: {}
+      securityContext: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jmp2w
+        readOnly: true
+    - args:
+      - --config-dir=/etc/tetragon/tetragon.conf.d/
+      env:
+      - name: NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: quay.io/cilium/tetragon:v1.7.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        grpc:
+          port: 6789
+          service: liveness
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 60
+      name: tetragon
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /etc/tetragon/tetragon.conf.d/
+        name: tetragon-config
+        readOnly: true
+      - mountPath: /sys/fs/bpf
+        mountPropagation: Bidirectional
+        name: bpf-maps
+      - mountPath: /var/run/cilium
+        name: cilium-run
+      - mountPath: /var/run/tetragon
+        name: tetragon-run
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /procRoot
+        name: host-proc
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jmp2w
+        readOnly: true
+    dnsPolicy: Default
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: master
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: tetragon
+    serviceAccountName: tetragon
+    terminationGracePeriodSeconds: 1
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/run/cilium
+        type: DirectoryOrCreate
+      name: cilium-run
+    - hostPath:
+        path: /var/run/tetragon
+        type: DirectoryOrCreate
+      name: tetragon-run
+    - hostPath:
+        path: /var/run/cilium/tetragon
+        type: DirectoryOrCreate
+      name: export-logs
+    - configMap:
+        defaultMode: 420
+        name: tetragon-config
+      name: tetragon-config
+    - hostPath:
+        path: /sys/fs/bpf
+        type: DirectoryOrCreate
+      name: bpf-maps
+    - hostPath:
+        path: /proc
+        type: Directory
+      name: host-proc
+    - name: kube-api-access-jmp2w
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:09:59Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:09:59Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://d46cf010ba5daf30c333c1e402730bc9c8c97deca838fb2dd9eb7598c565213b
+      image: quay.io/cilium/hubble-export-stdout:v1.1.1
+      imageID: quay.io/cilium/hubble-export-stdout@sha256:cf701f96d1c8de30231792e35733e1ab07451e11751ef4f676f482836759da06
+      lastState: {}
+      name: export-stdout
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T13:10:02Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jmp2w
+        readOnly: true
+        recursiveReadOnly: Disabled
+    - containerID: containerd://175c58f0bed08ea4f07fd642ff3b95c32e14089096429c56623b16b90be7ee4e
+      image: quay.io/cilium/tetragon:v1.7.0
+      imageID: quay.io/cilium/tetragon@sha256:deda51c3f88e4d26b4d76c99ea207f2b05f9e40c210e0f04a37ca632ab7bf527
+      lastState: {}
+      name: tetragon
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T13:10:07Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /etc/tetragon/tetragon.conf.d/
+        name: tetragon-config
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /sys/fs/bpf
+        name: bpf-maps
+      - mountPath: /var/run/cilium
+        name: cilium-run
+      - mountPath: /var/run/tetragon
+        name: tetragon-run
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /procRoot
+        name: host-proc
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jmp2w
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.0.2
+    hostIPs:
+    - ip: 10.0.0.2
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.0.0.2
+    podIPs:
+    - ip: 10.0.0.2
+    qosClass: BestEffort
+    startTime: "2026-08-04T13:09:59Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/configmap: 495510af950a101c71e022583d33c5b9cb2ace2d70470578bf24f0d346d37e99
+    creationTimestamp: "2026-08-04T13:09:59Z"
+    generateName: tetragon-
+    generation: 1
+    labels:
+      app.kubernetes.io/component: agent
+      app.kubernetes.io/instance: tetragon
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tetragon
+      app.kubernetes.io/part-of: tetragon
+      app.kubernetes.io/version: 1.7.0
+      controller-revision-hash: 7cc8566469
+      helm.sh/chart: tetragon-1.7.0
+      pod-template-generation: "1"
+    name: tetragon-vjbpw
+    namespace: kube-system
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: tetragon
+      uid: 73afafff-73d2-4ee0-a23b-8c059d0492ce
+    resourceVersion: "10257636"
+    uid: 46be3c32-cffe-42e6-a4fa-3e9cc199b402
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - worker1
+    containers:
+    - args:
+      - /var/run/cilium/tetragon/tetragon.log
+      command:
+      - hubble-export-stdout
+      image: quay.io/cilium/hubble-export-stdout:v1.1.1
+      imagePullPolicy: IfNotPresent
+      name: export-stdout
+      resources: {}
+      securityContext: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lc5g8
+        readOnly: true
+    - args:
+      - --config-dir=/etc/tetragon/tetragon.conf.d/
+      env:
+      - name: NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      image: quay.io/cilium/tetragon:v1.7.0
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        grpc:
+          port: 6789
+          service: liveness
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 60
+      name: tetragon
+      resources: {}
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /etc/tetragon/tetragon.conf.d/
+        name: tetragon-config
+        readOnly: true
+      - mountPath: /sys/fs/bpf
+        mountPropagation: Bidirectional
+        name: bpf-maps
+      - mountPath: /var/run/cilium
+        name: cilium-run
+      - mountPath: /var/run/tetragon
+        name: tetragon-run
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /procRoot
+        name: host-proc
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lc5g8
+        readOnly: true
+    dnsPolicy: Default
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: worker1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: tetragon
+    serviceAccountName: tetragon
+    terminationGracePeriodSeconds: 1
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/run/cilium
+        type: DirectoryOrCreate
+      name: cilium-run
+    - hostPath:
+        path: /var/run/tetragon
+        type: DirectoryOrCreate
+      name: tetragon-run
+    - hostPath:
+        path: /var/run/cilium/tetragon
+        type: DirectoryOrCreate
+      name: export-logs
+    - configMap:
+        defaultMode: 420
+        name: tetragon-config
+      name: tetragon-config
+    - hostPath:
+        path: /sys/fs/bpf
+        type: DirectoryOrCreate
+      name: bpf-maps
+    - hostPath:
+        path: /proc
+        type: Directory
+      name: host-proc
+    - name: kube-api-access-lc5g8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:06Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:09:59Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:06Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:10:06Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-08-04T13:09:59Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://852ef4aaae83c59f2d5f8bc4560482c10f90f0e82b978ad54f2575e06d3c2f0c
+      image: quay.io/cilium/hubble-export-stdout:v1.1.1
+      imageID: quay.io/cilium/hubble-export-stdout@sha256:cf701f96d1c8de30231792e35733e1ab07451e11751ef4f676f482836759da06
+      lastState: {}
+      name: export-stdout
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T13:10:01Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lc5g8
+        readOnly: true
+        recursiveReadOnly: Disabled
+    - containerID: containerd://930fa1f5fac51c0aa6b785fbe2e7e8aa51399b978a88120214cf4521194ccf28
+      image: quay.io/cilium/tetragon:v1.7.0
+      imageID: quay.io/cilium/tetragon@sha256:deda51c3f88e4d26b4d76c99ea207f2b05f9e40c210e0f04a37ca632ab7bf527
+      lastState: {}
+      name: tetragon
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-08-04T13:10:05Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 6
+          - 10
+          - 11
+          - 20
+          - 26
+          - 27
+          uid: 0
+      volumeMounts:
+      - mountPath: /etc/tetragon/tetragon.conf.d/
+        name: tetragon-config
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /sys/fs/bpf
+        name: bpf-maps
+      - mountPath: /var/run/cilium
+        name: cilium-run
+      - mountPath: /var/run/tetragon
+        name: tetragon-run
+      - mountPath: /var/run/cilium/tetragon
+        name: export-logs
+      - mountPath: /procRoot
+        name: host-proc
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lc5g8
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 10.0.0.3
+    hostIPs:
+    - ip: 10.0.0.3
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.0.0.3
+    podIPs:
+    - ip: 10.0.0.3
+    qosClass: BestEffort
+    startTime: "2026-08-04T13:09:59Z"
+kind: List
+metadata:
+  resourceVersion: ""

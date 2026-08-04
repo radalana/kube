@@ -1,0 +1,164 @@
+[pod/tetragon-vjbpw/tetragon] level=info msg="Loaded config from directory" config-dir=/etc/tetragon/tetragon.conf.d/
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting gops server" addr=localhost:8118
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting tetragon" version=v1.7.0
+[pod/tetragon-vjbpw/tetragon] level=info msg="config settings" config="map[bpf-dir:tetragon bpf-lib:/var/lib/tetragon/ btf: cgroup-rate: cluster-name: config-dir:/etc/tetragon/tetragon.conf.d/ cpuprofile: cri-endpoint: data-cache-size:1024 debug:false disable-kprobe-multi:false enable-ancestors: enable-cgidmap:false enable-cgidmap-debug:false enable-cgtrackerid:true enable-cri:false enable-deprecated-tracingpolicy-grpc:false enable-export-aggregation:false enable-k8s-api:true enable-msg-handling-latency:false enable-pid-set-filter:false enable-pod-annotations:false enable-pod-info:false enable-policy-filter:true enable-policy-filter-cgroup-map:false enable-policy-filter-debug:false enable-process-cred:false enable-process-environment-variables:false enable-process-ns:false enable-tracing-policy-crd:true event-cache-retries:15 event-cache-retry-delay:2 event-queue-size:10000 execve-map-entries:0 execve-map-size: export-aggregation-buffer-size:10000 export-aggregation-window-size:15s export-allowlist:{\"event_set\":[\"PROCESS_EXEC\", \"PROCESS_EXIT\", \"PROCESS_KPROBE\", \"PROCESS_UPROBE\", \"PROCESS_TRACEPOINT\", \"PROCESS_LSM\"]} export-denylist:{\"health_check\":true}\n{\"namespace\":[\"\", \"cilium\", \"kube-system\"]} export-file-compress:false export-file-max-backups:5 export-file-max-size-mb:10 export-file-perm:600 export-file-rotation-interval:0s export-filename:/var/run/cilium/tetragon/tetragon.log export-rate-limit:-1 expose-stack-addresses:false field-filters: filter-environment-variables:[] force-large-progs:false force-small-progs:false generate-docs:false gops-address:localhost:8118 health-server-address::6789 health-server-interval:10 k8s-controlplane-retry:1 k8s-kubeconfig-path: keep-sensors-on-exit:false kernel: log-file: log-format:text log-level:info memprofile: metrics-label-filter:namespace,workload,pod,binary metrics-server::2112 netns-dir:/var/run/docker/netns/ parents-map-enabled:false parents-map-entries:0 parents-map-size: pprof-address: process-cache-gc-interval:30s process-cache-size:65536 procfs:/procRoot rb-queue-size:65535 rb-size:0 rb-size-total:0 redaction-filters: release-pinned-bpf:true retprobes-cache-size:4096 server-address:unix:///var/run/tetragon/tetragon.sock tracing-policy: tracing-policy-dir:/etc/tetragon/tetragon.tp.d use-perf-ring-buffer:false username-metadata:disabled verbose:0]"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Tetragon current security context" SELinux=unconfined AppArmor=unconfined Smack="" Lockdown=""
+[pod/tetragon-vjbpw/tetragon] level=info msg="Tetragon pid file creation succeeded" pid=3759707 pidfile=/var/run/tetragon/tetragon.pid
+[pod/tetragon-vjbpw/tetragon] level=info msg="BPF: successfully released pinned BPF programs and maps" bpf-dir=/sys/fs/bpf/tetragon
+[pod/tetragon-vjbpw/tetragon] level=info msg="Enabling policy filtering"
+[pod/tetragon-vjbpw/tetragon] level=info msg="BTF discovery: default kernel btf file found" btf-file=/sys/kernel/btf/vmlinux
+[pod/tetragon-vjbpw/tetragon] level=info msg="BPF detected features: override_return: true, buildid: true, kprobe_multi: true, uprobe_multi: true, fmodret: true, fmodret_syscall: true, signal: true, large: true, link_pin: true, lsm: false, missed_stats_kprobe_multi: true, missed_stats_kprobe: true, batch_update: true, uprobe_refctroff: true, audit_loginuid: true, probe_write_user: true, uprobe_regs_change: true, mix_bpf_and_tail_calls: true, fentry: true, get_func_ret: true"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting metrics server" addr=:2112
+[pod/tetragon-vjbpw/tetragon] level=info msg="Registering pod delete handler for metrics"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Cgroup mode detection succeeded" cgroup.fs=/sys/fs/cgroup cgroup.mode="Unified mode (Cgroupv2)"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Cgroupv2 supported controllers detected successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/procRoot/1/root/sys/fs/cgroup cgroup.controllers="[cpuset cpu io memory hugetlb pids rdma misc dmem]" cgroup.hierarchyID=0
+[pod/tetragon-vjbpw/tetragon] level=info msg="Cgroupv2 supported controllers detected successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/sys/fs/cgroup/init.scope cgroup.controllers="[cpuset cpu io memory hugetlb pids rdma misc dmem]" cgroup.hierarchyID=0
+[pod/tetragon-vjbpw/tetragon] level=info msg="Cgroupv2 hierarchy validated successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/sys/fs/cgroup/init.scope
+[pod/tetragon-vjbpw/tetragon] level=info msg="Deployment mode detection succeeded" cgroup.fs=/sys/fs/cgroup deployment.mode=Kubernetes
+[pod/tetragon-vjbpw/tetragon] level=info msg="Updated TetragonConf map successfully" confmap-update=tg_conf_map deployment.mode=Kubernetes log.level=0 cgroup.fs.magic=Cgroupv2 cgroup.hierarchyID=0 NSPID=1
+[pod/tetragon-vjbpw/tetragon] level=info msg="Enabling Kubernetes API"
+[pod/tetragon-vjbpw/tetragon] level=info msg="created controller manager" attempts=1 duration=25.862105ms
+[pod/tetragon-vjbpw/tetragon] level=info msg="registering policyfilter pod handlers"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Waiting for required CRDs" crds="map[tracingpolicies.cilium.io:{} tracingpoliciesnamespaced.cilium.io:{}]"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Found CRD" crd=tracingpoliciesnamespaced.cilium.io
+[pod/tetragon-vjbpw/tetragon] level=info msg="Found CRD" crd=tracingpolicies.cilium.io
+[pod/tetragon-vjbpw/tetragon] level=info msg="Found all the required CRDs"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Configured redaction filters" redactionFilters=""
+[pod/tetragon-vjbpw/tetragon] level=info msg="Exit probe on acct_process"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Set execve_map entries 32768" size=28M
+[pod/tetragon-vjbpw/tetragon] level=info msg="BPF ring buffer size (bytes)" total=256K
+[pod/tetragon-vjbpw/tetragon] level=info msg="BTF file: using metadata file" metadata=/sys/kernel/btf/vmlinux
+[pod/tetragon-vjbpw/tetragon] level=info msg="Loading sensor" name=__base__
+[pod/tetragon-vjbpw/tetragon] level=info msg="Loading kernel version 7.0.12"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Loaded sensor successfully" sensor=__base__
+[pod/tetragon-vjbpw/tetragon] level=info msg="Available sensors" sensors=__base__
+[pod/tetragon-vjbpw/tetragon] level=info msg="Registered sensors (policy-handlers)" policy-handlers="tracing, enforcer, loader sensor"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Registered probe types" types="enforcer, generic_kprobe, generic_lsm, generic_uprobe, loader, execve, generic_fentry, generic_tracepoint, generic_usdt"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Creating new EventCache" retries=15 delay=2s
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting process manager" enableK8s=true enableProcessCred=false enableProcessNs=false
+[pod/tetragon-vjbpw/tetragon] level=info msg="Configured field filters" fieldFilters=[]
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting JSON exporter" logger="&{Filename:/var/run/cilium/tetragon/tetragon.log MaxSize:10 MaxAge:0 MaxBackups:5 LocalTime:false Compress:false FileMode:-rw------- size:0 file:<nil> mu:{_:{} mu:{state:0 sema:0}} millCh:<nil> millWg:{noCopy:{} state:{_:{} _:{} v:0} sema:0} startMill:{_:{} done:{_:{} v:0} m:{_:{} mu:{state:0 sema:0}}}}" request="allow_list:{event_set:PROCESS_EXEC  event_set:PROCESS_EXIT  event_set:PROCESS_KPROBE  event_set:PROCESS_UPROBE  event_set:PROCESS_TRACEPOINT  event_set:PROCESS_LSM}  deny_list:{health_check:{value:true}}  deny_list:{namespace:\"\"  namespace:\"cilium\"  namespace:\"kube-system\"}"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Exporter configuration" enabled=true fileName=/var/run/cilium/tetragon/tetragon.log
+[pod/tetragon-vjbpw/tetragon] level=info msg="Successfully detected bpftool path" bpftool=/usr/bin/bpftool
+[pod/tetragon-vjbpw/tetragon] level=info msg="Successfully detected gops path" gops=/usr/bin/gops
+[pod/tetragon-vjbpw/tetragon] level=info msg="Enabling policy informers"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting gRPC health server" address=:6789 interval=10
+[pod/tetragon-vjbpw/tetragon] level=info msg="Starting gRPC server" protocol=unix address=/var/run/tetragon/tetragon.sock
+[pod/tetragon-vjbpw/tetragon] level=info msg="BPF: found active BPF resources" bpf-dir=/sys/fs/bpf/tetragon pinned-bpf="[__base__ execve_map execve_map_stats execve_map_update_data policy_filter_maps tcpmon_map tg_conf_map tg_errmetrics_map tg_execve_joined_info_map tg_execve_joined_info_map_stats tg_mbset_gen tg_mbset_map tg_rb_events tg_stats_map]"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading uts namespace failed" error="namespace '/procRoot/3759749/ns/uts' readlink /procRoot/3759749/ns/uts: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading ipc namespace failed" error="namespace '/procRoot/3759749/ns/ipc' readlink /procRoot/3759749/ns/ipc: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading mnt namespace failed" error="namespace '/procRoot/3759749/ns/mnt' readlink /procRoot/3759749/ns/mnt: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading pid_for_children namespace failed" error="namespace '/procRoot/3759749/ns/pid_for_children' readlink /procRoot/3759749/ns/pid_for_children: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading net namespace failed" error="namespace '/procRoot/3759749/ns/net' readlink /procRoot/3759749/ns/net: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading time namespace failed" error="namespace '/procRoot/3759749/ns/time' readlink /procRoot/3759749/ns/time: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading time_for_children namespace failed" error="namespace '/procRoot/3759749/ns/time_for_children' readlink /procRoot/3759749/ns/time_for_children: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=warn msg="Reading cgroup namespace failed" error="namespace '/procRoot/3759749/ns/cgroup' readlink /procRoot/3759749/ns/cgroup: no such file or directory"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Read ProcFS /procRoot appended 174/236 entries"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Cgroup rate disabled (0/0s)"
+[pod/tetragon-vjbpw/tetragon] level=info msg="Perf ring buffer size (bytes)" percpu=68K total=272K
+[pod/tetragon-vjbpw/tetragon] level=info msg="Events queue size (events)" size=63K
+[pod/tetragon-vjbpw/tetragon] level=info msg="Listening for events..."
+[pod/tetragon-7cf8b/tetragon] level=info msg="Loaded config from directory" config-dir=/etc/tetragon/tetragon.conf.d/
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting gops server" addr=localhost:8118
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting tetragon" version=v1.7.0
+[pod/tetragon-7cf8b/tetragon] level=info msg="config settings" config="map[bpf-dir:tetragon bpf-lib:/var/lib/tetragon/ btf: cgroup-rate: cluster-name: config-dir:/etc/tetragon/tetragon.conf.d/ cpuprofile: cri-endpoint: data-cache-size:1024 debug:false disable-kprobe-multi:false enable-ancestors: enable-cgidmap:false enable-cgidmap-debug:false enable-cgtrackerid:true enable-cri:false enable-deprecated-tracingpolicy-grpc:false enable-export-aggregation:false enable-k8s-api:true enable-msg-handling-latency:false enable-pid-set-filter:false enable-pod-annotations:false enable-pod-info:false enable-policy-filter:true enable-policy-filter-cgroup-map:false enable-policy-filter-debug:false enable-process-cred:false enable-process-environment-variables:false enable-process-ns:false enable-tracing-policy-crd:true event-cache-retries:15 event-cache-retry-delay:2 event-queue-size:10000 execve-map-entries:0 execve-map-size: export-aggregation-buffer-size:10000 export-aggregation-window-size:15s export-allowlist:{\"event_set\":[\"PROCESS_EXEC\", \"PROCESS_EXIT\", \"PROCESS_KPROBE\", \"PROCESS_UPROBE\", \"PROCESS_TRACEPOINT\", \"PROCESS_LSM\"]} export-denylist:{\"health_check\":true}\n{\"namespace\":[\"\", \"cilium\", \"kube-system\"]} export-file-compress:false export-file-max-backups:5 export-file-max-size-mb:10 export-file-perm:600 export-file-rotation-interval:0s export-filename:/var/run/cilium/tetragon/tetragon.log export-rate-limit:-1 expose-stack-addresses:false field-filters: filter-environment-variables:[] force-large-progs:false force-small-progs:false generate-docs:false gops-address:localhost:8118 health-server-address::6789 health-server-interval:10 k8s-controlplane-retry:1 k8s-kubeconfig-path: keep-sensors-on-exit:false kernel: log-file: log-format:text log-level:info memprofile: metrics-label-filter:namespace,workload,pod,binary metrics-server::2112 netns-dir:/var/run/docker/netns/ parents-map-enabled:false parents-map-entries:0 parents-map-size: pprof-address: process-cache-gc-interval:30s process-cache-size:65536 procfs:/procRoot rb-queue-size:65535 rb-size:0 rb-size-total:0 redaction-filters: release-pinned-bpf:true retprobes-cache-size:4096 server-address:unix:///var/run/tetragon/tetragon.sock tracing-policy: tracing-policy-dir:/etc/tetragon/tetragon.tp.d use-perf-ring-buffer:false username-metadata:disabled verbose:0]"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Tetragon current security context" SELinux=unconfined AppArmor=unconfined Smack="" Lockdown=""
+[pod/tetragon-7cf8b/tetragon] level=info msg="Tetragon pid file creation succeeded" pid=3750800 pidfile=/var/run/tetragon/tetragon.pid
+[pod/tetragon-7cf8b/tetragon] level=info msg="BPF: successfully released pinned BPF programs and maps" bpf-dir=/sys/fs/bpf/tetragon
+[pod/tetragon-7cf8b/tetragon] level=info msg="Enabling policy filtering"
+[pod/tetragon-7cf8b/tetragon] level=info msg="BTF discovery: default kernel btf file found" btf-file=/sys/kernel/btf/vmlinux
+[pod/tetragon-7cf8b/tetragon] level=info msg="BPF detected features: override_return: true, buildid: true, kprobe_multi: true, uprobe_multi: true, fmodret: true, fmodret_syscall: true, signal: true, large: true, link_pin: true, lsm: false, missed_stats_kprobe_multi: true, missed_stats_kprobe: true, batch_update: true, uprobe_refctroff: true, audit_loginuid: true, probe_write_user: true, uprobe_regs_change: true, mix_bpf_and_tail_calls: true, fentry: true, get_func_ret: true"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting metrics server" addr=:2112
+[pod/tetragon-7cf8b/tetragon] level=info msg="Registering pod delete handler for metrics"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Cgroup mode detection succeeded" cgroup.fs=/sys/fs/cgroup cgroup.mode="Unified mode (Cgroupv2)"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Cgroupv2 supported controllers detected successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/procRoot/1/root/sys/fs/cgroup cgroup.controllers="[cpuset cpu io memory hugetlb pids rdma misc dmem]" cgroup.hierarchyID=0
+[pod/tetragon-7cf8b/tetragon] level=info msg="Cgroupv2 supported controllers detected successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/sys/fs/cgroup/init.scope cgroup.controllers="[cpuset cpu io memory hugetlb pids rdma misc dmem]" cgroup.hierarchyID=0
+[pod/tetragon-7cf8b/tetragon] level=info msg="Cgroupv2 hierarchy validated successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/sys/fs/cgroup/init.scope
+[pod/tetragon-7cf8b/tetragon] level=info msg="Deployment mode detection succeeded" cgroup.fs=/sys/fs/cgroup deployment.mode=Kubernetes
+[pod/tetragon-7cf8b/tetragon] level=info msg="Updated TetragonConf map successfully" confmap-update=tg_conf_map deployment.mode=Kubernetes log.level=0 cgroup.fs.magic=Cgroupv2 cgroup.hierarchyID=0 NSPID=1
+[pod/tetragon-7cf8b/tetragon] level=info msg="Enabling Kubernetes API"
+[pod/tetragon-7cf8b/tetragon] level=info msg="created controller manager" attempts=1 duration=6.767193ms
+[pod/tetragon-7cf8b/tetragon] level=info msg="registering policyfilter pod handlers"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Waiting for required CRDs" crds="map[tracingpolicies.cilium.io:{} tracingpoliciesnamespaced.cilium.io:{}]"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Found CRD" crd=tracingpolicies.cilium.io
+[pod/tetragon-7cf8b/tetragon] level=info msg="Found CRD" crd=tracingpoliciesnamespaced.cilium.io
+[pod/tetragon-7cf8b/tetragon] level=info msg="Found all the required CRDs"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Configured redaction filters" redactionFilters=""
+[pod/tetragon-7cf8b/tetragon] level=info msg="Exit probe on acct_process"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Set execve_map entries 32768" size=28M
+[pod/tetragon-7cf8b/tetragon] level=info msg="BPF ring buffer size (bytes)" total=256K
+[pod/tetragon-7cf8b/tetragon] level=info msg="BTF file: using metadata file" metadata=/sys/kernel/btf/vmlinux
+[pod/tetragon-7cf8b/tetragon] level=info msg="Loading sensor" name=__base__
+[pod/tetragon-7cf8b/tetragon] level=info msg="Loading kernel version 7.0.12"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Loaded sensor successfully" sensor=__base__
+[pod/tetragon-7cf8b/tetragon] level=info msg="Available sensors" sensors=__base__
+[pod/tetragon-7cf8b/tetragon] level=info msg="Registered sensors (policy-handlers)" policy-handlers="enforcer, loader sensor, tracing"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Registered probe types" types="generic_tracepoint, generic_usdt, execve, enforcer, generic_fentry, generic_kprobe, generic_lsm, generic_uprobe, loader"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Creating new EventCache" retries=15 delay=2s
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting process manager" enableK8s=true enableProcessCred=false enableProcessNs=false
+[pod/tetragon-7cf8b/tetragon] level=info msg="Configured field filters" fieldFilters=[]
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting JSON exporter" logger="&{Filename:/var/run/cilium/tetragon/tetragon.log MaxSize:10 MaxAge:0 MaxBackups:5 LocalTime:false Compress:false FileMode:-rw------- size:0 file:<nil> mu:{_:{} mu:{state:0 sema:0}} millCh:<nil> millWg:{noCopy:{} state:{_:{} _:{} v:0} sema:0} startMill:{_:{} done:{_:{} v:0} m:{_:{} mu:{state:0 sema:0}}}}" request="allow_list:{event_set:PROCESS_EXEC  event_set:PROCESS_EXIT  event_set:PROCESS_KPROBE  event_set:PROCESS_UPROBE  event_set:PROCESS_TRACEPOINT  event_set:PROCESS_LSM}  deny_list:{health_check:{value:true}}  deny_list:{namespace:\"\"  namespace:\"cilium\"  namespace:\"kube-system\"}"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Exporter configuration" enabled=true fileName=/var/run/cilium/tetragon/tetragon.log
+[pod/tetragon-7cf8b/tetragon] level=info msg="Successfully detected bpftool path" bpftool=/usr/bin/bpftool
+[pod/tetragon-7cf8b/tetragon] level=info msg="Successfully detected gops path" gops=/usr/bin/gops
+[pod/tetragon-7cf8b/tetragon] level=info msg="Enabling policy informers"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting gRPC server" protocol=unix address=/var/run/tetragon/tetragon.sock
+[pod/tetragon-7cf8b/tetragon] level=info msg="Starting gRPC health server" address=:6789 interval=10
+[pod/tetragon-7cf8b/tetragon] level=info msg="BPF: found active BPF resources" bpf-dir=/sys/fs/bpf/tetragon pinned-bpf="[__base__ execve_map execve_map_stats execve_map_update_data policy_filter_maps tcpmon_map tg_conf_map tg_errmetrics_map tg_execve_joined_info_map tg_execve_joined_info_map_stats tg_mbset_gen tg_mbset_map tg_rb_events tg_stats_map]"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Read ProcFS /procRoot appended 170/232 entries"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Cgroup rate disabled (0/0s)"
+[pod/tetragon-7cf8b/tetragon] level=info msg="Perf ring buffer size (bytes)" percpu=68K total=272K
+[pod/tetragon-7cf8b/tetragon] level=info msg="Events queue size (events)" size=63K
+[pod/tetragon-7cf8b/tetragon] level=info msg="Listening for events..."
+[pod/tetragon-dkzbv/tetragon] level=info msg="Loaded config from directory" config-dir=/etc/tetragon/tetragon.conf.d/
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting gops server" addr=localhost:8118
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting tetragon" version=v1.7.0
+[pod/tetragon-dkzbv/tetragon] level=info msg="config settings" config="map[bpf-dir:tetragon bpf-lib:/var/lib/tetragon/ btf: cgroup-rate: cluster-name: config-dir:/etc/tetragon/tetragon.conf.d/ cpuprofile: cri-endpoint: data-cache-size:1024 debug:false disable-kprobe-multi:false enable-ancestors: enable-cgidmap:false enable-cgidmap-debug:false enable-cgtrackerid:true enable-cri:false enable-deprecated-tracingpolicy-grpc:false enable-export-aggregation:false enable-k8s-api:true enable-msg-handling-latency:false enable-pid-set-filter:false enable-pod-annotations:false enable-pod-info:false enable-policy-filter:true enable-policy-filter-cgroup-map:false enable-policy-filter-debug:false enable-process-cred:false enable-process-environment-variables:false enable-process-ns:false enable-tracing-policy-crd:true event-cache-retries:15 event-cache-retry-delay:2 event-queue-size:10000 execve-map-entries:0 execve-map-size: export-aggregation-buffer-size:10000 export-aggregation-window-size:15s export-allowlist:{\"event_set\":[\"PROCESS_EXEC\", \"PROCESS_EXIT\", \"PROCESS_KPROBE\", \"PROCESS_UPROBE\", \"PROCESS_TRACEPOINT\", \"PROCESS_LSM\"]} export-denylist:{\"health_check\":true}\n{\"namespace\":[\"\", \"cilium\", \"kube-system\"]} export-file-compress:false export-file-max-backups:5 export-file-max-size-mb:10 export-file-perm:600 export-file-rotation-interval:0s export-filename:/var/run/cilium/tetragon/tetragon.log export-rate-limit:-1 expose-stack-addresses:false field-filters: filter-environment-variables:[] force-large-progs:false force-small-progs:false generate-docs:false gops-address:localhost:8118 health-server-address::6789 health-server-interval:10 k8s-controlplane-retry:1 k8s-kubeconfig-path: keep-sensors-on-exit:false kernel: log-file: log-format:text log-level:info memprofile: metrics-label-filter:namespace,workload,pod,binary metrics-server::2112 netns-dir:/var/run/docker/netns/ parents-map-enabled:false parents-map-entries:0 parents-map-size: pprof-address: process-cache-gc-interval:30s process-cache-size:65536 procfs:/procRoot rb-queue-size:65535 rb-size:0 rb-size-total:0 redaction-filters: release-pinned-bpf:true retprobes-cache-size:4096 server-address:unix:///var/run/tetragon/tetragon.sock tracing-policy: tracing-policy-dir:/etc/tetragon/tetragon.tp.d use-perf-ring-buffer:false username-metadata:disabled verbose:0]"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Tetragon current security context" SELinux=unconfined AppArmor=unconfined Smack="" Lockdown=""
+[pod/tetragon-dkzbv/tetragon] level=info msg="Tetragon pid file creation succeeded" pid=2495300 pidfile=/var/run/tetragon/tetragon.pid
+[pod/tetragon-dkzbv/tetragon] level=info msg="BPF: successfully released pinned BPF programs and maps" bpf-dir=/sys/fs/bpf/tetragon
+[pod/tetragon-dkzbv/tetragon] level=info msg="Enabling policy filtering"
+[pod/tetragon-dkzbv/tetragon] level=info msg="BTF discovery: default kernel btf file found" btf-file=/sys/kernel/btf/vmlinux
+[pod/tetragon-dkzbv/tetragon] level=info msg="BPF detected features: override_return: true, buildid: true, kprobe_multi: true, uprobe_multi: true, fmodret: true, fmodret_syscall: true, signal: true, large: true, link_pin: true, lsm: false, missed_stats_kprobe_multi: true, missed_stats_kprobe: true, batch_update: true, uprobe_refctroff: true, audit_loginuid: true, probe_write_user: true, uprobe_regs_change: true, mix_bpf_and_tail_calls: true, fentry: true, get_func_ret: true"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting metrics server" addr=:2112
+[pod/tetragon-dkzbv/tetragon] level=info msg="Registering pod delete handler for metrics"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Cgroup mode detection succeeded" cgroup.fs=/sys/fs/cgroup cgroup.mode="Unified mode (Cgroupv2)"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Cgroupv2 supported controllers detected successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/procRoot/1/root/sys/fs/cgroup cgroup.controllers="[cpuset cpu io memory hugetlb pids rdma misc dmem]" cgroup.hierarchyID=0
+[pod/tetragon-dkzbv/tetragon] level=info msg="Cgroupv2 supported controllers detected successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/sys/fs/cgroup/init.scope cgroup.controllers="[cpuset cpu io memory hugetlb pids rdma misc dmem]" cgroup.hierarchyID=0
+[pod/tetragon-dkzbv/tetragon] level=info msg="Cgroupv2 hierarchy validated successfully" cgroup.fs=/sys/fs/cgroup cgroup.path=/sys/fs/cgroup/init.scope
+[pod/tetragon-dkzbv/tetragon] level=info msg="Deployment mode detection succeeded" cgroup.fs=/sys/fs/cgroup deployment.mode=Kubernetes
+[pod/tetragon-dkzbv/tetragon] level=info msg="Updated TetragonConf map successfully" confmap-update=tg_conf_map deployment.mode=Kubernetes log.level=0 cgroup.fs.magic=Cgroupv2 cgroup.hierarchyID=0 NSPID=1
+[pod/tetragon-dkzbv/tetragon] level=info msg="Enabling Kubernetes API"
+[pod/tetragon-dkzbv/tetragon] level=info msg="created controller manager" attempts=1 duration=7.413433ms
+[pod/tetragon-dkzbv/tetragon] level=info msg="registering policyfilter pod handlers"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Waiting for required CRDs" crds="map[tracingpolicies.cilium.io:{} tracingpoliciesnamespaced.cilium.io:{}]"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Found CRD" crd=tracingpolicies.cilium.io
+[pod/tetragon-dkzbv/tetragon] level=info msg="Found CRD" crd=tracingpoliciesnamespaced.cilium.io
+[pod/tetragon-dkzbv/tetragon] level=info msg="Found all the required CRDs"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Configured redaction filters" redactionFilters=""
+[pod/tetragon-dkzbv/tetragon] level=info msg="Exit probe on acct_process"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Set execve_map entries 32768" size=28M
+[pod/tetragon-dkzbv/tetragon] level=info msg="BPF ring buffer size (bytes)" total=256K
+[pod/tetragon-dkzbv/tetragon] level=info msg="BTF file: using metadata file" metadata=/sys/kernel/btf/vmlinux
+[pod/tetragon-dkzbv/tetragon] level=info msg="Loading sensor" name=__base__
+[pod/tetragon-dkzbv/tetragon] level=info msg="Loading kernel version 7.0.12"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Loaded sensor successfully" sensor=__base__
+[pod/tetragon-dkzbv/tetragon] level=info msg="Available sensors" sensors=__base__
+[pod/tetragon-dkzbv/tetragon] level=info msg="Registered sensors (policy-handlers)" policy-handlers="enforcer, loader sensor, tracing"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Registered probe types" types="generic_fentry, generic_lsm, generic_usdt, loader, execve, enforcer, generic_kprobe, generic_tracepoint, generic_uprobe"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Creating new EventCache" retries=15 delay=2s
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting process manager" enableK8s=true enableProcessCred=false enableProcessNs=false
+[pod/tetragon-dkzbv/tetragon] level=info msg="Configured field filters" fieldFilters=[]
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting JSON exporter" logger="&{Filename:/var/run/cilium/tetragon/tetragon.log MaxSize:10 MaxAge:0 MaxBackups:5 LocalTime:false Compress:false FileMode:-rw------- size:0 file:<nil> mu:{_:{} mu:{state:0 sema:0}} millCh:<nil> millWg:{noCopy:{} state:{_:{} _:{} v:0} sema:0} startMill:{_:{} done:{_:{} v:0} m:{_:{} mu:{state:0 sema:0}}}}" request="allow_list:{event_set:PROCESS_EXEC  event_set:PROCESS_EXIT  event_set:PROCESS_KPROBE  event_set:PROCESS_UPROBE  event_set:PROCESS_TRACEPOINT  event_set:PROCESS_LSM}  deny_list:{health_check:{value:true}}  deny_list:{namespace:\"\"  namespace:\"cilium\"  namespace:\"kube-system\"}"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Exporter configuration" enabled=true fileName=/var/run/cilium/tetragon/tetragon.log
+[pod/tetragon-dkzbv/tetragon] level=info msg="Successfully detected bpftool path" bpftool=/usr/bin/bpftool
+[pod/tetragon-dkzbv/tetragon] level=info msg="Successfully detected gops path" gops=/usr/bin/gops
+[pod/tetragon-dkzbv/tetragon] level=info msg="Enabling policy informers"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting gRPC health server" address=:6789 interval=10
+[pod/tetragon-dkzbv/tetragon] level=info msg="Starting gRPC server" protocol=unix address=/var/run/tetragon/tetragon.sock
+[pod/tetragon-dkzbv/tetragon] level=info msg="BPF: found active BPF resources" bpf-dir=/sys/fs/bpf/tetragon pinned-bpf="[__base__ execve_map execve_map_stats execve_map_update_data policy_filter_maps tcpmon_map tg_conf_map tg_errmetrics_map tg_execve_joined_info_map tg_execve_joined_info_map_stats tg_mbset_gen tg_mbset_map tg_rb_events tg_stats_map]"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Read ProcFS /procRoot appended 179/241 entries"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Cgroup rate disabled (0/0s)"
+[pod/tetragon-dkzbv/tetragon] level=info msg="Perf ring buffer size (bytes)" percpu=68K total=272K
+[pod/tetragon-dkzbv/tetragon] level=info msg="Events queue size (events)" size=63K
+[pod/tetragon-dkzbv/tetragon] level=info msg="Listening for events..."

@@ -1,0 +1,7 @@
+NAME                                       READY   STATUS    RESTARTS        AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+calico-kube-controllers-676854dc5d-grbhn   1/1     Running   2 (7d21h ago)   62d   10.1.219.82    master    <none>           <none>
+calico-node-gd572                          1/1     Running   1 (7d21h ago)   11d   10.0.0.2       master    <none>           <none>
+calico-node-rpfwh                          1/1     Running   1 (7d21h ago)   11d   10.0.0.3       worker1   <none>           <none>
+calico-node-zrwk5                          1/1     Running   1 (7d21h ago)   11d   10.0.0.4       worker2   <none>           <none>
+coredns-78894c95f4-lh4z7                   1/1     Running   2 (7d21h ago)   62d   10.1.219.83    master    <none>           <none>
+hostpath-provisioner-7f665d64f6-x84hc      1/1     Running   6 (7d21h ago)   49d   10.1.235.179   worker1   <none>           <none>

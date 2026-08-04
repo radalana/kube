@@ -1,0 +1,4 @@
+Selection date UTC: 2026-08-04T13:05:14.5082521Z
+Selection rule: latest stable Tetragon Helm chart available in the official Cilium Helm repository; prerelease versions excluded
+Chart version: 1.7.0
+Application version: 1.7.0

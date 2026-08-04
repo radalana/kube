@@ -1,0 +1,2 @@
+POD                                  NODE      CONTAINERS          IMAGES                                    RESTARTS
+tetragon-operator-7c9f964ff5-57xrd   worker1   tetragon-operator   quay.io/cilium/tetragon-operator:v1.7.0   0

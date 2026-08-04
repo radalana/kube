@@ -1,0 +1,6 @@
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "falcosecurity" chart repository
+...Successfully got an update from the "cilium" chart repository
+...Successfully got an update from the "mariadb-operator" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ÔÄêHappy Helming!ÔÄê
