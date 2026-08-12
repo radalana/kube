@@ -1,0 +1,1 @@
+tracingpolicy.cilium.io/file-monitoring-filtered created

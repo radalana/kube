@@ -1,0 +1,4 @@
+POD              NODE      READY       RESTARTS
+tetragon-7cf8b   worker2   true,true   0,0
+tetragon-dkzbv   master    true,true   0,0
+tetragon-vjbpw   worker1   true,true   0,0

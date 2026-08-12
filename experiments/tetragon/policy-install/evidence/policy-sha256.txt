@@ -1,0 +1,5 @@
+
+Algorithm : SHA256
+Hash      : 3C1B0BC6F7121EFE0EC5C5A6065A0D500D4EB807D814067EAD1A6BF213DF956D
+Path      : C:\Users\sveta\Documents\kube\experiments\tetragon\policies\file_monitoring-v1.7.0.yaml
+

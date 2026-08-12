@@ -1,0 +1,6 @@
+Policy: file-monitoring-filtered
+Source project: Cilium Tetragon
+Source release tag: v1.7.0
+Source file: examples/quickstart/file_monitoring.yaml
+Downloaded UTC: 2026-08-04T13:38:19.2618691Z
+Local modifications: none

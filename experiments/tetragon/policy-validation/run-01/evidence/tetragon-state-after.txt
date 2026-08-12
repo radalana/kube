@@ -1,0 +1,6 @@
+Capture note: Post-validation Tetragon state captured after deletion of the temporary validation resources.
+Captured UTC: 2026-08-04T13:53:21.7281631Z
+POD              NODE      READY       RESTARTS
+tetragon-7cf8b   worker2   true,true   0,0
+tetragon-dkzbv   master    true,true   0,0
+tetragon-vjbpw   worker1   true,true   0,0

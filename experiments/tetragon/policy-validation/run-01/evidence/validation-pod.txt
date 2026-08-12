@@ -1,0 +1,2 @@
+NAME                         READY   STATUS    RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+tetragon-policy-validation   1/1     Running   0          11s   10.1.235.148   worker1   <none>           <none>
