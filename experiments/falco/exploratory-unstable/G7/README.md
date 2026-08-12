@@ -93,13 +93,13 @@ benign security alert / operational false positive
 
 
 
-Валидные:
+valid:
 
 run-01
 run-02
 run-05
 
-Исключённые:
+not valid:
 
 run-03 → invalid, Falco restart
 run-04 → invalid, G3 backup failure
