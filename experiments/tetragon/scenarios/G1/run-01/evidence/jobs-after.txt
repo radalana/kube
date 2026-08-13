@@ -1,0 +1,2 @@
+NAME      STATUS     COMPLETIONS   DURATION   AGE   CONTAINERS       IMAGES         SELECTOR
+g1-crud   Complete   1/1           4s         89s   mariadb-client   mariadb:11.8   batch.kubernetes.io/controller-uid=4bb579ae-030d-4287-89cd-a8b236a9ad2f

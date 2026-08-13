@@ -1,0 +1,12 @@
+
+PodName       : g1-crud-sktxr
+PodUID        : 29b07442-54a7-4169-9fcd-d791271f3ade
+PodIP         : 10.1.235.150
+Node          : worker1
+ContainerName : mariadb-client
+ContainerID   : containerd://abcd6f08edb084da27b13e9388527b870769281c16af6a5642edaacaae07b195
+Image         : docker.io/library/mariadb:11.8
+Ready         : False
+RestartCount  : 0
+
+
