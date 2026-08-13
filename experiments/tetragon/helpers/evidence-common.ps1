@@ -5,20 +5,19 @@
 
 function Protect-EvidenceText {
     param(
-        [Parameter(Mandatory = $true)]
-        [string[]]$Lines
+        [Parameter(
+            Mandatory = $true,
+            ValueFromPipeline = $true
+        )]
+        [string]$Line
     )
 
-    $Lines | ForEach-Object {
-
-        $line = $_
-
-        # Redact passwords passed as command-line arguments.
-        $line = $line -replace `
+    process {
+        $redactedLine = $Line -replace `
             '(--password=)([^ \\"''\r\n]+)', `
             '$1<REDACTED>'
 
-        $line
+        $redactedLine
     }
 }
 
@@ -95,22 +94,55 @@ function Save-PodEvidence {
     $pod = $podJson | ConvertFrom-Json
 
 
-    $summary = foreach (
-        $container in $pod.status.containerStatuses
-    ) {
+   $summary = foreach (
+    $container in $pod.status.containerStatuses
+) {
 
-        [PSCustomObject]@{
-            PodName       = $pod.metadata.name
-            PodUID        = $pod.metadata.uid
-            PodIP         = $pod.status.podIP
-            Node          = $pod.spec.nodeName
-            ContainerName = $container.name
-            ContainerID   = $container.containerID
-            Image         = $container.image
-            Ready         = $container.ready
-            RestartCount  = $container.restartCount
-        }
+    # Determine the current container state.
+    if ($container.state.running) {
+        $containerState = "Running"
     }
+    elseif ($container.state.terminated) {
+        $containerState = "Terminated"
+    }
+    elseif ($container.state.waiting) {
+        $containerState = "Waiting"
+    }
+    else {
+        $containerState = "Unknown"
+    }
+
+
+    # Termination information is available only
+    # when the container has already terminated.
+    $terminationReason = $null
+    $exitCode = $null
+
+    if ($container.state.terminated) {
+        $terminationReason = $container.state.terminated.reason
+        $exitCode = $container.state.terminated.exitCode
+    }
+
+
+    [PSCustomObject]@{
+        PodName           = $pod.metadata.name
+        PodUID            = $pod.metadata.uid
+        PodIP             = $pod.status.podIP
+        Node              = $pod.spec.nodeName
+
+        PodPhase          = $pod.status.phase
+
+        ContainerName     = $container.name
+        ContainerID       = $container.containerID
+        Image             = $container.image
+
+        Ready             = $container.ready
+        ContainerState    = $containerState
+        TerminationReason = $terminationReason
+        ExitCode          = $exitCode
+        RestartCount      = $container.restartCount
+    }
+}
 
 
     $summary |
