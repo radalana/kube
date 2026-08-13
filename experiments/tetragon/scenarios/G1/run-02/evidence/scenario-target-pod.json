@@ -1,0 +1,233 @@
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "annotations": {
+            "cni.projectcalico.org/containerID": "22972ef0778c11f3ca974aa753890ac8a023cf153230c074313071efef68b996",
+            "cni.projectcalico.org/podIP": "",
+            "cni.projectcalico.org/podIPs": ""
+        },
+        "creationTimestamp": "2026-08-13T17:10:29Z",
+        "generateName": "g1-crud-",
+        "generation": 1,
+        "labels": {
+            "batch.kubernetes.io/controller-uid": "fd8dbee7-882b-48e9-a789-928d04a6bd5c",
+            "batch.kubernetes.io/job-name": "g1-crud",
+            "controller-uid": "fd8dbee7-882b-48e9-a789-928d04a6bd5c",
+            "experiment": "benign",
+            "job-name": "g1-crud",
+            "scenario": "g1-crud"
+        },
+        "name": "g1-crud-8mvk2",
+        "namespace": "database",
+        "ownerReferences": [
+            {
+                "apiVersion": "batch/v1",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "Job",
+                "name": "g1-crud",
+                "uid": "fd8dbee7-882b-48e9-a789-928d04a6bd5c"
+            }
+        ],
+        "resourceVersion": "11838428",
+        "uid": "ec203d20-6a5f-4d0a-aed9-43677c13fd47"
+    },
+    "spec": {
+        "containers": [
+            {
+                "command": [
+                    "sh",
+                    "-c",
+                    "set -eu\nmariadb \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=appuser \\\n  --password=\"$APP_PASSWORD\" \\\n  appdb \u003c\u003c'SQL'\nSELECT CURRENT_USER() AS authenticated_as;\nSELECT DATABASE() AS current_database;\nSELECT @@hostname AS connected_to;\n\nSHOW SESSION STATUS LIKE 'Ssl_version';\nSHOW SESSION STATUS LIKE 'Ssl_cipher';\n\nDELETE FROM connection_test\nWHERE id = 1;\n\nINSERT INTO connection_test (id, message)\nVALUES (1, 'Initial test message');\n\nSELECT 'INSERT successful' AS step;\nSELECT * FROM connection_test WHERE id = 1;\n\nUPDATE connection_test\nSET message = 'Updated test message'\nWHERE id = 1;\n\nSELECT 'UPDATE successful' AS step;\nSELECT * FROM connection_test WHERE id = 1;\n\nDELETE FROM connection_test\nWHERE id = 1;\n\nSELECT 'DELETE successful' AS step;\nSELECT COUNT(*) AS remaining_rows\nFROM connection_test\nWHERE id = 1;\n"
+                ],
+                "env": [
+                    {
+                        "name": "APP_PASSWORD",
+                        "valueFrom": {
+                            "secretKeyRef": {
+                                "key": "password",
+                                "name": "app-password"
+                            }
+                        }
+                    }
+                ],
+                "image": "mariadb:11.8",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "mariadb-client",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-jfqbb",
+                        "readOnly": true
+                    }
+                ]
+            }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "worker1",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/not-ready",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            },
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/unreachable",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            }
+        ],
+        "volumes": [
+            {
+                "name": "kube-api-access-jfqbb",
+                "projected": {
+                    "defaultMode": 420,
+                    "sources": [
+                        {
+                            "serviceAccountToken": {
+                                "expirationSeconds": 3607,
+                                "path": "token"
+                            }
+                        },
+                        {
+                            "configMap": {
+                                "items": [
+                                    {
+                                        "key": "ca.crt",
+                                        "path": "ca.crt"
+                                    }
+                                ],
+                                "name": "kube-root-ca.crt"
+                            }
+                        },
+                        {
+                            "downwardAPI": {
+                                "items": [
+                                    {
+                                        "fieldRef": {
+                                            "apiVersion": "v1",
+                                            "fieldPath": "metadata.namespace"
+                                        },
+                                        "path": "namespace"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-13T17:10:32Z",
+                "observedGeneration": 1,
+                "status": "False",
+                "type": "PodReadyToStartContainers"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-13T17:10:29Z",
+                "observedGeneration": 1,
+                "reason": "PodCompleted",
+                "status": "True",
+                "type": "Initialized"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-13T17:10:29Z",
+                "observedGeneration": 1,
+                "reason": "PodCompleted",
+                "status": "False",
+                "type": "Ready"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-13T17:10:29Z",
+                "observedGeneration": 1,
+                "reason": "PodCompleted",
+                "status": "False",
+                "type": "ContainersReady"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-13T17:10:29Z",
+                "observedGeneration": 1,
+                "status": "True",
+                "type": "PodScheduled"
+            }
+        ],
+        "containerStatuses": [
+            {
+                "containerID": "containerd://d0d40ebea6c1096140ae6eab182d58a2d779606af55df31d4354b2fded8b5cab",
+                "image": "docker.io/library/mariadb:11.8",
+                "imageID": "docker.io/library/mariadb@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61",
+                "lastState": {},
+                "name": "mariadb-client",
+                "ready": false,
+                "resources": {},
+                "restartCount": 0,
+                "started": false,
+                "state": {
+                    "terminated": {
+                        "containerID": "containerd://d0d40ebea6c1096140ae6eab182d58a2d779606af55df31d4354b2fded8b5cab",
+                        "exitCode": 0,
+                        "finishedAt": "2026-08-13T17:10:30Z",
+                        "reason": "Completed",
+                        "startedAt": "2026-08-13T17:10:30Z"
+                    }
+                },
+                "user": {
+                    "linux": {
+                        "gid": 0,
+                        "supplementalGroups": [
+                            0
+                        ],
+                        "uid": 0
+                    }
+                },
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-jfqbb",
+                        "readOnly": true,
+                        "recursiveReadOnly": "Disabled"
+                    }
+                ]
+            }
+        ],
+        "hostIP": "10.0.0.3",
+        "hostIPs": [
+            {
+                "ip": "10.0.0.3"
+            }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.1.235.151",
+        "podIPs": [
+            {
+                "ip": "10.1.235.151"
+            }
+        ],
+        "qosClass": "BestEffort",
+        "startTime": "2026-08-13T17:10:29Z"
+    }
+}

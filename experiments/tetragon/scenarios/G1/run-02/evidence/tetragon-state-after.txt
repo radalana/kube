@@ -1,0 +1,4 @@
+POD              UID                                    NODE      READY       RESTARTS
+tetragon-7cf8b   7cb65e6c-433b-49f3-a55a-91bf121780f5   worker2   true,true   0,0
+tetragon-dkzbv   6deeac55-2368-44e0-a8ad-ce2a9033eaa4   master    true,true   0,0
+tetragon-vjbpw   46be3c32-cffe-42e6-a4fa-3e9cc199b402   worker1   true,true   0,0

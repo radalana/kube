@@ -1,0 +1,16 @@
+
+PodName           : g1-crud-8mvk2
+PodUID            : ec203d20-6a5f-4d0a-aed9-43677c13fd47
+PodIP             : 10.1.235.151
+Node              : worker1
+PodPhase          : Succeeded
+ContainerName     : mariadb-client
+ContainerID       : containerd://d0d40ebea6c1096140ae6eab182d58a2d779606af55df31d4354b2fded8b5cab
+Image             : docker.io/library/mariadb:11.8
+Ready             : False
+ContainerState    : Terminated
+TerminationReason : Completed
+ExitCode          : 0
+RestartCount      : 0
+
+
