@@ -1,0 +1,4 @@
+=== kubectl apply ===
+job.batch/g1-crud created
+=== wait for completion ===
+job.batch/g1-crud condition met

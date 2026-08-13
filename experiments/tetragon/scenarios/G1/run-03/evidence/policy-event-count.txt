@@ -1,0 +1,6 @@
+Raw policy event records: 0
+Unique process exec_id values: 0
+
+Note: unique exec_id count is supporting information.
+Multiple raw process_kprobe records may belong to one underlying operation.
+Final detection grouping is performed during event analysis using exec_id and event context.
