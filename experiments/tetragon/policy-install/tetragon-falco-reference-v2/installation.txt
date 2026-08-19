@@ -1,0 +1,62 @@
+## Verify Tetragon Pods
+
+```powershell
+k get pods -n kube-system `
+  -l app.kubernetes.io/name=tetragon `
+  -o wide
+```
+
+## Check Tetragon Logs for Policy and Sensor Loading
+
+```powershell
+k logs -n kube-system `
+  -l app.kubernetes.io/name=tetragon `
+  -c tetragon `
+  --since=10m `
+  --prefix=true |
+  Select-String -Pattern "error|failed|policy|sensor|kprobe"
+```
+
+## Count Falco-Reference TracingPolicies
+
+```powershell
+(k get tracingpolicy -o name |
+  Select-String "falco-ref-").Count
+```
+
+## List Installed TracingPolicies
+
+```powershell
+k get tracingpolicy
+```
+
+## Verify Tetragon Pod State
+
+```powershell
+k get pods -n kube-system `
+  -l app.kubernetes.io/name=tetragon `
+  -o wide
+```
+
+## Check for Tetragon Errors or Warnings
+
+```powershell
+k logs -n kube-system `
+  -l app.kubernetes.io/name=tetragon `
+  -c tetragon `
+  --since=15m `
+  --prefix=true |
+  Select-String -Pattern "level=error|level=warn|failed|failure|loaderror"
+```
+
+## Remove the Previous File-Monitoring Policy
+
+```powershell
+k delete tracingpolicy file-monitoring-filtered
+```
+
+## Verify Remaining TracingPolicies
+
+```powershell
+k get tracingpolicy
+```
