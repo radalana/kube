@@ -1,19 +1,8 @@
-# Tetragon v1.7.0 Falco-reference policy bundle, revision v3.
+# Tetragon v1.7.0 Falco-reference policy bundle, revision v3.1.
 #
-# IMPORTANT CHANGE FROM v2:
-# Process-execution mappings no longer filter `security_bprm_check`
-# / `linux_binprm` paths. On BusyBox-based images, linux_binprm resolves
-# logical commands such as /bin/sh to the real ELF file /bin/busybox.
-# v3 instead filters the filename passed to execve/execveat.
-#
-# Falco remains the reference detection configuration.
-# `close` = close runtime-condition mapping.
-# `partial` = Tetragon emits a candidate event and remaining Falco
-# conditions must be checked during analysis/post-filtering.
-#
-# Monitoring only: no enforcement actions are present.
-# Always validate with:
-#   kubectl apply --dry-run=server -f tetragon-falco-reference-v3.yaml
+# Fix from v3:
+# matchPIDs.values must be integers according to the installed Tetragon CRD.
+# The terminal-shell policy therefore uses values: [1] instead of values: ["1"].
 #
 ---
 apiVersion: cilium.io/v1alpha1
@@ -263,7 +252,7 @@ spec:
         followForks: false
         isNamespacePID: true
         values:
-        - '1'
+        - 1
       matchArgs:
       - index: 0
         operator: Postfix
@@ -301,7 +290,7 @@ spec:
         followForks: false
         isNamespacePID: true
         values:
-        - '1'
+        - 1
       matchArgs:
       - index: 1
         operator: Postfix
