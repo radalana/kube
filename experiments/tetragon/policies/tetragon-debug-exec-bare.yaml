@@ -1,0 +1,31 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: debug-exec-bare
+spec:
+  kprobes:
+    - call: sys_execve
+      syscall: true
+      args:
+        - index: 0
+          type: string
+          label: filename
+      selectors:
+        - matchActions:
+            - action: Post
+
+    - call: sys_execveat
+      syscall: true
+      args:
+        - index: 0
+          type: int
+          label: dirfd
+        - index: 1
+          type: string
+          label: filename
+        - index: 4
+          type: int
+          label: flags
+      selectors:
+        - matchActions:
+            - action: Post

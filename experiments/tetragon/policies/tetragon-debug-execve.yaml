@@ -1,0 +1,26 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: debug-execve-filename
+spec:
+  kprobes:
+    - call: sys_execve
+      syscall: true
+      args:
+        - index: 0
+          type: string
+          label: filename
+      selectors:
+        - matchNamespaces:
+            - namespace: Mnt
+              operator: NotIn
+              values:
+                - host_ns
+          matchPIDs:
+            - operator: NotIn
+              followForks: false
+              isNamespacePID: true
+              values:
+                - 1
+          matchActions:
+            - action: Post
