@@ -1,0 +1,84 @@
+"Time","Node","Policy","Function","Binary","Arguments","Namespace","Pod","PID","ExecID","ParentExecID","KprobeArgs"
+"2026-08-24T18:38:11.798720750Z","worker1","falco-ref-stdio-network-redirect","__x64_sys_dup3","/snap/microk8s/current/bin/runc","--root /run/containerd/runc/k8s.io --log /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348/log.json --log-format json create --bundle /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348 --pid-file /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348/init.pid b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348",,,"724965","d29ya2VyMToyNDMxODMxNzE3NjY0NDM2OjcyNDk2NQ==","d29ya2VyMToyNDMxODMxNzA0NDMyMTI1OjcyNDk1Mw==","[{""error_arg"":{""Message"":""Bad address""},""label"":""oldfd""},{""int_arg"":0,""label"":""newfd""},{""int_arg"":0,""label"":""flags""}]"
+"2026-08-24T18:38:11.798734100Z","worker1","falco-ref-stdio-network-redirect","__x64_sys_dup3","/snap/microk8s/current/bin/runc","--root /run/containerd/runc/k8s.io --log /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348/log.json --log-format json create --bundle /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348 --pid-file /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348/init.pid b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348",,,"724965","d29ya2VyMToyNDMxODMxNzE3NjY0NDM2OjcyNDk2NQ==","d29ya2VyMToyNDMxODMxNzA0NDMyMTI1OjcyNDk1Mw==","[{""error_arg"":{""Message"":""Bad address""},""label"":""oldfd""},{""int_arg"":1,""label"":""newfd""},{""int_arg"":0,""label"":""flags""}]"
+"2026-08-24T18:38:11.798736880Z","worker1","falco-ref-stdio-network-redirect","__x64_sys_dup3","/snap/microk8s/current/bin/runc","--root /run/containerd/runc/k8s.io --log /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348/log.json --log-format json create --bundle /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348 --pid-file /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348/init.pid b877da4c548921d30dcd7e00b84b3fec17050de0b2f89a71a5aed3766a5ab348",,,"724965","d29ya2VyMToyNDMxODMxNzE3NjY0NDM2OjcyNDk2NQ==","d29ya2VyMToyNDMxODMxNzA0NDMyMTI1OjcyNDk1Mw==","[{""error_arg"":{""Message"":""Bad address""},""label"":""oldfd""},{""int_arg"":2,""label"":""newfd""},{""int_arg"":0,""label"":""flags""}]"
+"2026-08-24T18:38:11.883103536Z","worker1","falco-ref-stdio-network-redirect","__x64_sys_dup3","/snap/microk8s/current/bin/runc","--root /run/containerd/runc/k8s.io --log /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17/log.json --log-format json create --bundle /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17 --pid-file /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17/init.pid 5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17",,,"724993","d29ya2VyMToyNDMxODMxNzk5ODg5ODA0OjcyNDk5Mw==","d29ya2VyMToyNDMxODMxNzg0MzcwOTg0OjcyNDk3OQ==","[{""error_arg"":{""Message"":""Bad address""},""label"":""oldfd""},{""int_arg"":0,""label"":""newfd""},{""int_arg"":0,""label"":""flags""}]"
+"2026-08-24T18:38:11.897891944Z","worker1","falco-ref-run-shell-untrusted","__x64_sys_execve","/snap/microk8s/current/bin/runc","--root /run/containerd/runc/k8s.io --log /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17/log.json --log-format json create --bundle /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17 --pid-file /var/snap/microk8s/common/run/containerd/io.containerd.runtime.v2.task/k8s.io/5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17/init.pid 5fad7f82de6bc9359caab1c8d7657eabf9e329c5bc286dc30f73961ff4a20f17",,,"724993","d29ya2VyMToyNDMxODMxNzk5ODg5ODA0OjcyNDk5Mw==","d29ya2VyMToyNDMxODMxNzg0MzcwOTg0OjcyNDk3OQ==","{""string_arg"":""/usr/bin/sh"",""label"":""filename""}"
+"2026-08-24T18:38:11.899855402Z","worker1","falco-ref-stdio-network-redirect","__x64_sys_dup2","/usr/bin/sh","-c ""set -eu
+mariadb \
+  --protocol=TCP \
+  --host=mariadb-galera.database.svc.cluster.local \
+  --port=3306 \
+  --user=appuser \
+  --password=""$APP_PASSWORD"" \
+  appdb <<'SQL'
+SELECT CURRENT_USER() AS authenticated_as;
+SELECT DATABASE() AS current_database;
+SELECT @@hostname AS connected_to;
+
+SHOW SESSION STATUS LIKE 'Ssl_version';
+SHOW SESSION STATUS LIKE 'Ssl_cipher';
+
+DELETE FROM connection_test
+WHERE id = 1;
+
+INSERT INTO connection_test (id, message)
+VALUES (1, 'Initial test message');
+
+SELECT 'INSERT successful' AS step;
+SELECT * FROM connection_test WHERE id = 1;
+
+UPDATE connection_test
+SET message = 'Updated test message'
+WHERE id = 1;
+
+SELECT 'UPDATE successful' AS step;
+SELECT * FROM connection_test WHERE id = 1;
+
+DELETE FROM connection_test
+WHERE id = 1;
+
+SELECT 'DELETE successful' AS step;
+SELECT COUNT(*) AS remaining_rows
+FROM connection_test
+WHERE id = 1;
+""","database","g1-crud-pmwtg","724993","d29ya2VyMToyNDMxODMxODI1NTI0NTU0OjcyNDk5Mw==","d29ya2VyMToyNDMxODMxNjk4MDgyODgwOjcyNDk0Mg==","[{""error_arg"":{""Message"":""Bad address""},""label"":""oldfd""},{""int_arg"":0,""label"":""newfd""}]"
+"2026-08-24T18:38:12.025816059Z","worker1","falco-ref-stdio-network-redirect","__x64_sys_dup2","/usr/bin/sh","-c ""set -eu
+mariadb \
+  --protocol=TCP \
+  --host=mariadb-galera.database.svc.cluster.local \
+  --port=3306 \
+  --user=appuser \
+  --password=""$APP_PASSWORD"" \
+  appdb <<'SQL'
+SELECT CURRENT_USER() AS authenticated_as;
+SELECT DATABASE() AS current_database;
+SELECT @@hostname AS connected_to;
+
+SHOW SESSION STATUS LIKE 'Ssl_version';
+SHOW SESSION STATUS LIKE 'Ssl_cipher';
+
+DELETE FROM connection_test
+WHERE id = 1;
+
+INSERT INTO connection_test (id, message)
+VALUES (1, 'Initial test message');
+
+SELECT 'INSERT successful' AS step;
+SELECT * FROM connection_test WHERE id = 1;
+
+UPDATE connection_test
+SET message = 'Updated test message'
+WHERE id = 1;
+
+SELECT 'UPDATE successful' AS step;
+SELECT * FROM connection_test WHERE id = 1;
+
+DELETE FROM connection_test
+WHERE id = 1;
+
+SELECT 'DELETE successful' AS step;
+SELECT COUNT(*) AS remaining_rows
+FROM connection_test
+WHERE id = 1;
+""","database","g1-crud-pmwtg","724993","d29ya2VyMToyNDMxODMxODI1NTI0NTU0OjcyNDk5Mw==","d29ya2VyMToyNDMxODMxNjk4MDgyODgwOjcyNDk0Mg==","[{""error_arg"":{""Message"":""Bad address""},""label"":""oldfd""},{""int_arg"":0,""label"":""newfd""}]"

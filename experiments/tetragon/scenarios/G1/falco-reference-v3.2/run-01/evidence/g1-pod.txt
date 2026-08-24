@@ -1,0 +1,2 @@
+NAME            READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+g1-crud-5v86t   0/1     Completed   0          48s   10.1.235.158   worker1   <none>           <none>
