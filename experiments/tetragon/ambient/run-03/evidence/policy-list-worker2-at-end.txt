@@ -1,0 +1,24 @@
+ID   NAME                                 STATE     FILTERID   NAMESPACE   SENSORS          KERNELMEMORY   MODE           NPOST    NENFORCE   NMONITOR
+11   falco-ref-clear-log                  enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   5        0          0
+32   falco-ref-aws-credential-search      enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   290      0          0
+33   falco-ref-exec-dev-shm               enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+25   falco-ref-memfd-exec-stage           enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   1588     0          0
+27   falco-ref-terminal-shell-container   enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   7        0          0
+39   falco-ref-directory-traversal-read   enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+28   falco-ref-netcat-rce                 enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+21   falco-ref-ptrace-antidebug           enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   0        0          0
+24   falco-ref-ssh-nonstandard-port       enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   0        0          0
+4    falco-ref-sensitive-read-trusted     enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   0        0          0
+29   falco-ref-private-key-search         enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   290      0          0
+13   falco-ref-symlink-sensitive          enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+14   falco-ref-hardlink-sensitive         enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+17   falco-ref-kernel-module              enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+31   falco-ref-debugfs-privileged         enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+40   falco-ref-ptrace-attach              enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   0        0          0
+26   falco-ref-run-shell-untrusted        enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   998      0          0
+30   falco-ref-remove-bulk-data           enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+15   falco-ref-packet-socket              enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   0        0          0
+16   falco-ref-stdio-network-redirect     enabled   0          (global)    generic_kprobe   685.21 kB      monitor_only   228142   0          0
+19   falco-ref-release-agent              enabled   0          (global)    generic_kprobe   516.66 kB      monitor_only   0        0          0
+5    falco-ref-sensitive-read-untrusted   enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   232693   0          0
+8    falco-ref-k8s-api-contact            enabled   0          (global)    generic_kprobe   511.83 kB      monitor_only   84       0          0

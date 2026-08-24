@@ -1,0 +1,4 @@
+Capture ended because all three kubectl exec streams terminated with an i/o timeout.
+Observed termination time: 2026-08-24T16:40:08Z
+Affected streams: worker1, worker2, master
+Error endpoint: 127.0.0.1:16443
