@@ -1,0 +1,1176 @@
+# # Tetragon v1.7.0 Falco-reference policy bundle, revision v3.2.
+#
+# Fix from v3:
+# matchPIDs.values must be integers according to the installed Tetragon CRD.
+# The terminal-shell policy therefore uses values: [1] instead of values: ["1"].
+#
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-directory-traversal-read
+  annotations:
+    thesis.fh/reference-rule: Directory traversal monitored file read
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_open
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: raw_path
+    - index: 1
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: SubString
+        values:
+        - ../
+      - index: 0
+        operator: SubString
+        values:
+        - /etc/
+        - /.ssh/
+        - id_rsa
+      matchActions:
+      - action: Post
+  - call: sys_openat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: raw_path
+    - index: 2
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: SubString
+        values:
+        - ../
+      - index: 1
+        operator: SubString
+        values:
+        - /etc/
+        - /.ssh/
+        - id_rsa
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-sensitive-read-trusted
+  annotations:
+    thesis.fh/reference-rule: Read sensitive file trusted after startup
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: security_file_permission
+    syscall: false
+    args:
+    - index: 0
+      type: file
+      label: file
+    - index: 1
+      type: int
+      label: mask
+    selectors:
+    - matchBinaries:
+      - operator: Postfix
+        values:
+        - /nginx
+        - /httpd
+        - /apache
+        - /apache2
+        - /mysqld
+        - /postgres
+        - /sqlplus
+      matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - /etc/shadow
+        - /etc/sudoers
+        - /etc/pam.conf
+        - /etc/security/pwquality.conf
+      - index: 1
+        operator: Equal
+        values:
+        - '4'
+      matchActions:
+      - action: Post
+    - matchBinaries:
+      - operator: Postfix
+        values:
+        - /nginx
+        - /httpd
+        - /apache
+        - /apache2
+        - /mysqld
+        - /postgres
+        - /sqlplus
+      matchArgs:
+      - index: 0
+        operator: Prefix
+        values:
+        - /etc/sudoers.d/
+        - /etc/pam.d/
+      - index: 1
+        operator: Equal
+        values:
+        - '4'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-sensitive-read-untrusted
+  annotations:
+    thesis.fh/reference-rule: Read sensitive file untrusted
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: security_file_permission
+    syscall: false
+    args:
+    - index: 0
+      type: file
+      label: file
+    - index: 1
+      type: int
+      label: mask
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - /etc/shadow
+        - /etc/sudoers
+        - /etc/pam.conf
+        - /etc/security/pwquality.conf
+      - index: 1
+        operator: Equal
+        values:
+        - '4'
+      matchActions:
+      - action: Post
+    - matchArgs:
+      - index: 0
+        operator: Prefix
+        values:
+        - /etc/sudoers.d/
+        - /etc/pam.d/
+      - index: 1
+        operator: Equal
+        values:
+        - '4'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-run-shell-untrusted
+  annotations:
+    thesis.fh/reference-rule: Run shell untrusted
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /sh
+        - /bash
+        - /dash
+        - /ash
+        - /zsh
+        - /ksh
+        - /csh
+        - /tcsh
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-terminal-shell-container
+  annotations:
+    thesis.fh/reference-rule: Terminal shell in container
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchPIDs:
+      - operator: NotIn
+        followForks: false
+        isNamespacePID: true
+        values:
+        - 1
+      matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /sh
+        - /bash
+        - /dash
+        - /ash
+        - /zsh
+        - /ksh
+        - /csh
+        - /tcsh
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchPIDs:
+      - operator: NotIn
+        followForks: false
+        isNamespacePID: true
+        values:
+        - 1
+      matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-k8s-api-contact
+  annotations:
+    thesis.fh/reference-rule: Contact K8S API Server From Container
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: tcp_connect
+    syscall: false
+    args:
+    - index: 0
+      type: sock
+      label: socket
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 0
+        operator: DPort
+        values:
+        - '443'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-netcat-rce
+  annotations:
+    thesis.fh/reference-rule: Netcat Remote Code Execution in Container
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /nc
+        - /ncat
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-private-key-search
+  annotations:
+    thesis.fh/reference-rule: Search Private Keys or Passwords
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /grep
+        - /egrep
+        - /fgrep
+        - /find
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-clear-log
+  annotations:
+    thesis.fh/reference-rule: Clear Log Activities
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_open
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: path
+    - index: 1
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Prefix
+        values:
+        - /var/log/
+        - /dev/log/
+      - index: 1
+        operator: Mask
+        values:
+        - '0x200'
+      matchActions:
+      - action: Post
+  - call: sys_openat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: path
+    - index: 2
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Prefix
+        values:
+        - /var/log/
+        - /dev/log/
+      - index: 2
+        operator: Mask
+        values:
+        - '0x200'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-remove-bulk-data
+  annotations:
+    thesis.fh/reference-rule: Remove Bulk Data from Disk
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /shred
+        - /mkfs
+        - /mke2fs
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-symlink-sensitive
+  annotations:
+    thesis.fh/reference-rule: Create Symlink Over Sensitive Files
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_symlink
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: target
+    - index: 1
+      type: string
+      label: linkpath
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - /etc/shadow
+        - /etc/sudoers
+        - /etc/pam.conf
+        - /etc/security/pwquality.conf
+        - /
+        - /etc
+        - /etc/
+        - /root
+        - /root/
+      matchActions:
+      - action: Post
+  - call: sys_symlinkat
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: target
+    - index: 1
+      type: int
+      label: newdirfd
+    - index: 2
+      type: string
+      label: linkpath
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - /etc/shadow
+        - /etc/sudoers
+        - /etc/pam.conf
+        - /etc/security/pwquality.conf
+        - /
+        - /etc
+        - /etc/
+        - /root
+        - /root/
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-hardlink-sensitive
+  annotations:
+    thesis.fh/reference-rule: Create Hardlink Over Sensitive Files
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_link
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: oldpath
+    - index: 1
+      type: string
+      label: newpath
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - /etc/shadow
+        - /etc/sudoers
+        - /etc/pam.conf
+        - /etc/security/pwquality.conf
+      matchActions:
+      - action: Post
+  - call: sys_linkat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: olddirfd
+    - index: 1
+      type: string
+      label: oldpath
+    - index: 2
+      type: int
+      label: newdirfd
+    - index: 3
+      type: string
+      label: newpath
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Equal
+        values:
+        - /etc/shadow
+        - /etc/sudoers
+        - /etc/pam.conf
+        - /etc/security/pwquality.conf
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-packet-socket
+  annotations:
+    thesis.fh/reference-rule: Packet socket created in container
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_socket
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: domain
+    - index: 1
+      type: int
+      label: type
+    - index: 2
+      type: int
+      label: protocol
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '17'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-stdio-network-redirect
+  annotations:
+    thesis.fh/reference-rule: Redirect STDOUT/STDIN to Network Connection in Container
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_dup
+    syscall: true
+    return: true
+    args:
+    - index: 0
+      type: fd
+      label: oldfd
+    returnArg:
+      index: 0
+      type: int
+      label: newfd
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchReturnArgs:
+      - operator: Equal
+        values:
+        - '0'
+        - '1'
+        - '2'
+      matchActions:
+      - action: Post
+  - call: sys_dup2
+    syscall: true
+    args:
+    - index: 0
+      type: fd
+      label: oldfd
+    - index: 1
+      type: int
+      label: newfd
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 1
+        operator: Equal
+        values:
+        - '0'
+        - '1'
+        - '2'
+      matchActions:
+      - action: Post
+  - call: sys_dup3
+    syscall: true
+    args:
+    - index: 0
+      type: fd
+      label: oldfd
+    - index: 1
+      type: int
+      label: newfd
+    - index: 2
+      type: int
+      label: flags
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 1
+        operator: Equal
+        values:
+        - '0'
+        - '1'
+        - '2'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-kernel-module
+  annotations:
+    thesis.fh/reference-rule: Linux Kernel Module Injection Detected
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_init_module
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchCapabilities:
+      - type: Effective
+        operator: In
+        values:
+        - CAP_SYS_MODULE
+      matchActions:
+      - action: Post
+  - call: sys_finit_module
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchCapabilities:
+      - type: Effective
+        operator: In
+        values:
+        - CAP_SYS_MODULE
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-debugfs-privileged
+  annotations:
+    thesis.fh/reference-rule: Debugfs Launched in Privileged Container
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /debugfs
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-release-agent
+  annotations:
+    thesis.fh/reference-rule: Detect release_agent File Container Escapes
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_open
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: path
+    - index: 1
+      type: int
+      label: flags
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchCapabilities:
+      - type: Effective
+        operator: In
+        values:
+        - CAP_SYS_ADMIN
+      matchArgs:
+      - index: 0
+        operator: Postfix
+        values:
+        - release_agent
+      - index: 1
+        operator: Mask
+        values:
+        - '0x1'
+        - '0x2'
+      matchActions:
+      - action: Post
+  - call: sys_openat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: path
+    - index: 2
+      type: int
+      label: flags
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+      matchCapabilities:
+      - type: Effective
+        operator: In
+        values:
+        - CAP_SYS_ADMIN
+      matchArgs:
+      - index: 1
+        operator: Postfix
+        values:
+        - release_agent
+      - index: 2
+        operator: Mask
+        values:
+        - '0x1'
+        - '0x2'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-ptrace-attach
+  annotations:
+    thesis.fh/reference-rule: PTRACE attached to process
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_ptrace
+    syscall: true
+    args:
+    - index: 0
+      type: long
+      label: request
+    - index: 1
+      type: long
+      label: pid
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '4'
+        - '5'
+        - '13'
+        - '16'
+      matchActions:
+      - action: Post
+
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '0x4206'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-ptrace-antidebug
+  annotations:
+    thesis.fh/reference-rule: PTRACE anti-debug attempt
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: sys_ptrace
+    syscall: true
+    args:
+    - index: 0
+      type: long
+      label: request
+    - index: 1
+      type: long
+      label: pid
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '0'
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-aws-credential-search
+  annotations:
+    thesis.fh/reference-rule: Find AWS Credentials
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Postfix
+        values: &id001
+        - /grep
+        - /egrep
+        - /fgrep
+        - /find
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Postfix
+        values: *id001
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-exec-dev-shm
+  annotations:
+    thesis.fh/reference-rule: Execution from /dev/shm
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_execve
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: filename
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Prefix
+        values:
+        - /dev/shm/
+      matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: Prefix
+        values:
+        - /dev/shm/
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-ssh-nonstandard-port
+  annotations:
+    thesis.fh/reference-rule: Disallowed SSH Connection Non Standard Port
+    thesis.fh/mapping-status: close
+spec:
+  kprobes:
+  - call: tcp_connect
+    syscall: false
+    args:
+    - index: 0
+      type: sock
+      label: socket
+    selectors:
+    - matchBinaries:
+      - operator: Postfix
+        values:
+        - /ssh
+      matchArgs:
+      - index: 0
+        operator: DPort
+        values:
+        - '80'
+        - '8080'
+        - '88'
+        - '443'
+        - '8443'
+        - '53'
+        - '4444'
+      - index: 0
+        operator: NotDAddr
+        values:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        - 127.0.0.0/8
+      matchActions:
+      - action: Post
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-memfd-exec-stage
+  annotations:
+    thesis.fh/reference-rule: Fileless execution via memfd_create
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: sys_memfd_create
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: name
+    - index: 1
+      type: int
+      label: flags
+    selectors:
+    - matchActions:
+      - action: Post
+  - call: sys_execveat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: filename
+    - index: 4
+      type: int
+      label: flags
+    selectors:
+    - matchActions:
+      - action: Post
