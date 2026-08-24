@@ -1,0 +1,107 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: test-directory-traversal-fix
+
+spec:
+  kprobes:
+
+  - call: sys_open
+    syscall: true
+    args:
+    - index: 0
+      type: string
+      label: raw_path
+    - index: 1
+      type: int
+      label: flags
+
+    selectors:
+
+    - matchArgs:
+      - index: 0
+        operator: SubString
+        values:
+        - "../"
+      - index: 0
+        operator: SubString
+        values:
+        - "/etc/"
+      matchActions:
+      - action: Post
+
+    - matchArgs:
+      - index: 0
+        operator: SubString
+        values:
+        - "../"
+      - index: 0
+        operator: SubString
+        values:
+        - "/.ssh/"
+      matchActions:
+      - action: Post
+
+    - matchArgs:
+      - index: 0
+        operator: SubString
+        values:
+        - "../"
+      - index: 0
+        operator: SubString
+        values:
+        - "id_rsa"
+      matchActions:
+      - action: Post
+
+
+  - call: sys_openat
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: dirfd
+    - index: 1
+      type: string
+      label: raw_path
+    - index: 2
+      type: int
+      label: flags
+
+    selectors:
+
+    - matchArgs:
+      - index: 1
+        operator: SubString
+        values:
+        - "../"
+      - index: 1
+        operator: SubString
+        values:
+        - "/etc/"
+      matchActions:
+      - action: Post
+
+    - matchArgs:
+      - index: 1
+        operator: SubString
+        values:
+        - "../"
+      - index: 1
+        operator: SubString
+        values:
+        - "/.ssh/"
+      matchActions:
+      - action: Post
+
+    - matchArgs:
+      - index: 1
+        operator: SubString
+        values:
+        - "../"
+      - index: 1
+        operator: SubString
+        values:
+        - "id_rsa"
+      matchActions:
+      - action: Post

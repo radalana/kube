@@ -1,0 +1,34 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: test-ptrace-attach-fix
+spec:
+  kprobes:
+  - call: sys_ptrace
+    syscall: true
+    args:
+    - index: 0
+      type: long
+      label: request
+    - index: 1
+      type: long
+      label: pid
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '4'
+        - '5'
+        - '13'
+        - '16'
+      matchActions:
+      - action: Post
+
+    - matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '0x4206'
+      matchActions:
+      - action: Post
