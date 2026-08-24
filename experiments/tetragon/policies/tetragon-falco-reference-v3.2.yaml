@@ -29,14 +29,9 @@ spec:
         operator: SubString
         values:
         - ../
-      - index: 0
-        operator: SubString
-        values:
-        - /etc/
-        - /.ssh/
-        - id_rsa
       matchActions:
       - action: Post
+
   - call: sys_openat
     syscall: true
     args:
@@ -55,12 +50,6 @@ spec:
         operator: SubString
         values:
         - ../
-      - index: 1
-        operator: SubString
-        values:
-        - /etc/
-        - /.ssh/
-        - id_rsa
       matchActions:
       - action: Post
 ---
