@@ -1,0 +1,3 @@
+"Policy","ScenarioAttribution","ActivityVerification","Classification","Rationale"
+"falco-ref-run-shell-untrusted","confirmed","confirmed","scenario-related benign alert","G2 container attribution confirmed; predefined workload explicitly executes /usr/bin/sh -c"
+"falco-ref-stdio-network-redirect","confirmed","unresolved","scenario-related policy match; activity verification unresolved","G2 attribution confirmed, but current evidence does not independently establish that the source FD was a network socket"
