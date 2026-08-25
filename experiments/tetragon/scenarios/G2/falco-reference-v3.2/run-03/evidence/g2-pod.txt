@@ -1,0 +1,2 @@
+NAME                        READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+g2-schema-migration-jllcj   0/1     Completed   0          18s   10.1.235.144   worker1   <none>           <none>

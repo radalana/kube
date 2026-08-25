@@ -1,0 +1,233 @@
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "annotations": {
+            "cni.projectcalico.org/containerID": "1ebdf4b7719b8b66eea9bbf3d2754759200a420318c336445215b597f502151e",
+            "cni.projectcalico.org/podIP": "",
+            "cni.projectcalico.org/podIPs": ""
+        },
+        "creationTimestamp": "2026-08-24T19:42:58Z",
+        "generateName": "g2-schema-migration-",
+        "generation": 1,
+        "labels": {
+            "batch.kubernetes.io/controller-uid": "11e6c137-4f27-438c-b4fe-2c31bf15a2e9",
+            "batch.kubernetes.io/job-name": "g2-schema-migration",
+            "controller-uid": "11e6c137-4f27-438c-b4fe-2c31bf15a2e9",
+            "experiment": "benign",
+            "job-name": "g2-schema-migration",
+            "scenario": "g2-schema-migration"
+        },
+        "name": "g2-schema-migration-s4x6k",
+        "namespace": "database",
+        "ownerReferences": [
+            {
+                "apiVersion": "batch/v1",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "Job",
+                "name": "g2-schema-migration",
+                "uid": "11e6c137-4f27-438c-b4fe-2c31bf15a2e9"
+            }
+        ],
+        "resourceVersion": "13753959",
+        "uid": "2c04a10e-6541-468f-bb23-736aa0c381c0"
+    },
+    "spec": {
+        "containers": [
+            {
+                "command": [
+                    "sh",
+                    "-c",
+                    "set -eu\n\nmariadb \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=migrationuser \\\n  --password=\"$MIGRATION_PASSWORD\" \\\n  appdb \u003c\u003c'SQL'\n\nSELECT CURRENT_USER() AS authenticated_as;\nSELECT DATABASE() AS current_database;\nSELECT @@hostname AS connected_to;\n\nDROP TABLE IF EXISTS g2_migration_test;\nSELECT 'Initial cleanup successful' AS step;\n\nCREATE TABLE g2_migration_test (\n  id INT NOT NULL AUTO_INCREMENT,\n  name VARCHAR(100) NOT NULL,\n  PRIMARY KEY (id)\n) ENGINE=InnoDB;\n\nSELECT 'CREATE TABLE successful' AS step;\n\nALTER TABLE g2_migration_test\n  ADD COLUMN created_at TIMESTAMP\n  NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\nSELECT 'ALTER TABLE successful' AS step;\n\nSELECT COUNT(*) AS added_column_count\nFROM information_schema.columns\nWHERE table_schema = DATABASE()\n  AND table_name = 'g2_migration_test'\n  AND column_name = 'created_at';\n\nCREATE INDEX idx_g2_name\nON g2_migration_test (name);\n\nSELECT 'CREATE INDEX successful' AS step;\n\nSELECT COUNT(*) AS created_index_count\nFROM information_schema.statistics\nWHERE table_schema = DATABASE()\n  AND table_name = 'g2_migration_test'\n  AND index_name = 'idx_g2_name';\n\nDROP INDEX idx_g2_name\nON g2_migration_test;\n\nSELECT 'DROP INDEX successful' AS step;\n\nSELECT COUNT(*) AS remaining_index_count\nFROM information_schema.statistics\nWHERE table_schema = DATABASE()\n  AND table_name = 'g2_migration_test'\n  AND index_name = 'idx_g2_name';\n\nSHOW CREATE TABLE g2_migration_test;\n\nDROP TABLE g2_migration_test;\nSELECT 'Final cleanup successful' AS step;\n\nSQL\n"
+                ],
+                "env": [
+                    {
+                        "name": "MIGRATION_PASSWORD",
+                        "valueFrom": {
+                            "secretKeyRef": {
+                                "key": "password",
+                                "name": "migration-password"
+                            }
+                        }
+                    }
+                ],
+                "image": "mariadb:11.8",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "mariadb-client",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-l4ggb",
+                        "readOnly": true
+                    }
+                ]
+            }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "worker1",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/not-ready",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            },
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/unreachable",
+                "operator": "Exists",
+                "tolerationSeconds": 300
+            }
+        ],
+        "volumes": [
+            {
+                "name": "kube-api-access-l4ggb",
+                "projected": {
+                    "defaultMode": 420,
+                    "sources": [
+                        {
+                            "serviceAccountToken": {
+                                "expirationSeconds": 3607,
+                                "path": "token"
+                            }
+                        },
+                        {
+                            "configMap": {
+                                "items": [
+                                    {
+                                        "key": "ca.crt",
+                                        "path": "ca.crt"
+                                    }
+                                ],
+                                "name": "kube-root-ca.crt"
+                            }
+                        },
+                        {
+                            "downwardAPI": {
+                                "items": [
+                                    {
+                                        "fieldRef": {
+                                            "apiVersion": "v1",
+                                            "fieldPath": "metadata.namespace"
+                                        },
+                                        "path": "namespace"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-24T19:43:00Z",
+                "observedGeneration": 1,
+                "status": "False",
+                "type": "PodReadyToStartContainers"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-24T19:42:58Z",
+                "observedGeneration": 1,
+                "reason": "PodCompleted",
+                "status": "True",
+                "type": "Initialized"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-24T19:42:58Z",
+                "observedGeneration": 1,
+                "reason": "PodCompleted",
+                "status": "False",
+                "type": "Ready"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-24T19:42:58Z",
+                "observedGeneration": 1,
+                "reason": "PodCompleted",
+                "status": "False",
+                "type": "ContainersReady"
+            },
+            {
+                "lastProbeTime": null,
+                "lastTransitionTime": "2026-08-24T19:42:58Z",
+                "observedGeneration": 1,
+                "status": "True",
+                "type": "PodScheduled"
+            }
+        ],
+        "containerStatuses": [
+            {
+                "containerID": "containerd://c777855f2d848c7e11f0d5bd544548f1e5b1ea10f9ee9ad44ffafb44c6b1b1c8",
+                "image": "docker.io/library/mariadb:11.8",
+                "imageID": "docker.io/library/mariadb@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61",
+                "lastState": {},
+                "name": "mariadb-client",
+                "ready": false,
+                "resources": {},
+                "restartCount": 0,
+                "started": false,
+                "state": {
+                    "terminated": {
+                        "containerID": "containerd://c777855f2d848c7e11f0d5bd544548f1e5b1ea10f9ee9ad44ffafb44c6b1b1c8",
+                        "exitCode": 0,
+                        "finishedAt": "2026-08-24T19:42:59Z",
+                        "reason": "Completed",
+                        "startedAt": "2026-08-24T19:42:58Z"
+                    }
+                },
+                "user": {
+                    "linux": {
+                        "gid": 0,
+                        "supplementalGroups": [
+                            0
+                        ],
+                        "uid": 0
+                    }
+                },
+                "volumeMounts": [
+                    {
+                        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                        "name": "kube-api-access-l4ggb",
+                        "readOnly": true,
+                        "recursiveReadOnly": "Disabled"
+                    }
+                ]
+            }
+        ],
+        "hostIP": "10.0.0.3",
+        "hostIPs": [
+            {
+                "ip": "10.0.0.3"
+            }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.1.235.162",
+        "podIPs": [
+            {
+                "ip": "10.1.235.162"
+            }
+        ],
+        "qosClass": "BestEffort",
+        "startTime": "2026-08-24T19:42:58Z"
+    }
+}

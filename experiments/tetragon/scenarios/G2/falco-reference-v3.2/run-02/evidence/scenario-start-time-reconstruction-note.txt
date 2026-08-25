@@ -1,0 +1,4 @@
+The manually recorded scenario-start-time-utc.txt was missing for G2 run-02.
+The scenario start boundary was reconstructed from the Kubernetes Job
+metadata.creationTimestamp. This timestamp precedes Pod/container startup
+and the scenario-related runtime events.

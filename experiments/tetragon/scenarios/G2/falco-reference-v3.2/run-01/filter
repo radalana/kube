@@ -1,0 +1,44 @@
+$start = [DateTimeOffset]::Parse(
+  (Get-Content "$base\scenario-start-time-utc.txt").Trim()
+)
+
+$end = [DateTimeOffset]::Parse(
+  (Get-Content "$base\scenario-end-time-utc.txt").Trim()
+)
+
+$files = @(
+  "$base\worker1-events.jsonl",
+  "$base\worker2-events.jsonl",
+  "$base\master-events.jsonl"
+)
+
+$g2PolicyEvents = foreach ($file in $files) {
+
+  Get-Content $file | ForEach-Object {
+
+    $e = $_ | ConvertFrom-Json
+
+    if ($e.process_kprobe.policy_name) {
+
+      $time = [DateTimeOffset]$e.time
+
+      if ($time -ge $start -and $time -le $end) {
+
+        [PSCustomObject]@{
+          Time         = $e.time
+          Node         = $e.node_name
+          Policy       = $e.process_kprobe.policy_name
+          Function     = $e.process_kprobe.function_name
+          Binary       = $e.process_kprobe.process.binary
+          Arguments    = $e.process_kprobe.process.arguments
+          Namespace    = $e.process_kprobe.process.pod.namespace
+          Pod          = $e.process_kprobe.process.pod.name
+          PID          = $e.process_kprobe.process.pid
+          ExecID       = $e.process_kprobe.process.exec_id
+          ParentExecID = $e.process_kprobe.process.parent_exec_id
+          KprobeArgs   = ($e.process_kprobe.args | ConvertTo-Json -Compress -Depth 10)
+        }
+      }
+    }
+  }
+}

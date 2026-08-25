@@ -1,0 +1,2 @@
+NAME                        READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+g2-schema-migration-s4x6k   0/1     Completed   0          35s   10.1.235.162   worker1   <none>           <none>
