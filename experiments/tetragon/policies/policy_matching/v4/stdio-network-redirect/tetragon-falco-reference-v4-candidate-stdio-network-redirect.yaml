@@ -1,0 +1,42 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-stdio-network-redirect-v4-candidate
+  annotations:
+    thesis.fh/reference-rule: Redirect STDOUT/STDIN to Network Connection in Container
+    thesis.fh/mapping-status: candidate
+spec:
+  kprobes:
+    - call: do_dup2
+      syscall: false
+      args:
+        - index: 1
+          type: file
+          label: source_file
+
+        - index: 2
+          type: int
+          label: newfd
+
+      selectors:
+      - matchNamespaces:
+          - namespace: Mnt
+            operator: NotIn
+            values:
+              - host_ns
+
+        matchArgs:
+          - index: 1
+            operator: FileType
+            values:
+              - socket
+
+          - index: 2
+            operator: Equal
+            values:
+              - "0"
+              - "1"
+              - "2"
+
+        matchActions:
+          - action: Post

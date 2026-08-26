@@ -1,78 +1,25 @@
-1. ## (tetragon-falco-reference-v4-candidate-run-shell.yaml) with partents
-### security_bprm_check + matchParentBinaries
-
-security_bprm_check - äто Linux Security Module hook, который вызывается во время exec до того, как новая программа полностью заменит текущий процесс.
-
-runc
-  ↓
-хочет выполнить /bin/sh
-  ↓
-security_bprm_check("/bin/sh")
-  ↓
-если всё разрешено
-  ↓
-процесс становится /bin/sh
-
-### tests:
-Мы хотели проверить, что новая candidate-policy не реагирует на любой обычный sh, а только когда shell запускается из нужного protected parent.
-
-обычный Kubernetes Job
-        ↓
-runc
-        ↓
-/bin/sh
-        ↓
-parent НЕ nginx/mysqld/postgres/...
-        ↓
-candidate НЕ срабатывает
-
-negative test failed
-
-
-2. ## tetragon-falco-reference-v4-candidate-run-shell-current-binary.yaml
-### sys_execve + matchBinaries:
-
-
-execve("/bin/sh")
-AND
-current binary that calls execve = protected application
-
-Почему:
-matchBinaries в Tetragon фильтрует binary процесса, который совершает syscall.
-Что хотим получить:
-
-nginx
-  ↓
-execve("/bin/sh")
-  ↓
-MATCH
-
-То есть неожидано в nginx открылся shell, и должно сработать правило
-
-
-Tests:
-
-Negative:  PASST
-обычный Kubernetes container
-runc → execve("/bin/sh")
-
-current binary = runc
-→ не match
-
-
-Positive PASST:
-
-current binary = nginx/mysqld/...
-→ match
-
-Подробнее:
-protected application
-      ↓
-execve("/bin/sh")
-      ↓
-candidate ДОЛЖНА сработать
-
-
-
-
-
+### List
+| Policy                             | Что планировали                                                                                                        |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `run-shell-untrusted`              | **MODIFY** — слишком широкая, ловила любой shell. Это мы сейчас и исправляем                                           |
+| `terminal-shell-container`         | **проверить/улучшить** — точнее учитывать TTY/interactive context                                                      |
+| `stdio-network-redirect`           | **MODIFY** — сейчас не проверяет, что source FD действительно network socket; G2 показал проблему                      |
+| `k8s-api-contact`                  | **проверить/адаптировать** — официальный Tetragon network mechanism есть, но его egress-пример не равен Falco semantic |
+| `kernel-module`                    | **проверить замену/адаптацию** на официальный Tetragon `modules.yaml` mechanism                                        |
+| `exec-dev-shm`                     | **проверить улучшение** через официальный binary-execution mechanism                                                   |
+| `memfd-exec-stage`                 | **проверить replacement** на официальный Fileless Execution pattern                                                    |
+| `private-key-search`               | **MODIFY/проверить** — текущая mapping довольно широкая                                                                |
+| `aws-credential-search`            | **MODIFY/проверить** — тоже слишком широкая                                                                            |
+| `ssh-nonstandard-port`             | проверить официальный Tetragon network/SSH pattern как основу                                                          |
+| `directory-traversal-read`         | скорее **KEEP** как custom partial mapping                                                                             |
+| `sensitive-read-trusted/untrusted` | скорее **KEEP**, но документировать partial semantics                                                                  |
+| `clear-log`                        | **KEEP**, mapping близкая                                                                                              |
+| `remove-bulk-data`                 | **KEEP**, близкая                                                                                                      |
+| `symlink-sensitive`                | **KEEP**, близкая                                                                                                      |
+| `hardlink-sensitive`               | **KEEP**, близкая                                                                                                      |
+| `packet-socket`                    | **KEEP**, близкая                                                                                                      |
+| `ptrace-attach`                    | **KEEP** после уже сделанной коррекции selectors                                                                       |
+| `ptrace-antidebug`                 | скорее **KEEP**                                                                                                        |
+| `netcat-rce`                       | скорее custom **KEEP**, если validation проходит                                                                       |
+| `debugfs-privileged`               | partial, проверить, но не обязательно менять                                                                           |
+| `release-agent`                    | partial, проверить, но не обязательно менять                                                                           |
