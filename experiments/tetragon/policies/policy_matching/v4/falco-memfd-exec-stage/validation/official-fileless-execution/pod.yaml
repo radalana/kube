@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 10b648224bbfb091ccbbf16f749920ee7ac9d34f3bed75e6b63fbff7afd179e7
+    cni.projectcalico.org/podIP: ""
+    cni.projectcalico.org/podIPs: ""
+  creationTimestamp: "2026-08-26T15:53:49Z"
+  generation: 1
+  labels:
+    run: memfd-v4-test
+  name: memfd-v4-test
+  namespace: default
+  resourceVersion: "14072011"
+  uid: ce8a09bb-c1ff-4c58-bad6-ce46830c3e13
+spec:
+  containers:
+  - command:
+    - python
+    - -c
+    - import os; assert os.execve in os.supports_fd; fd=os.memfd_create("tetragon-memfd-test",0);
+      data=open("/usr/local/bin/python3","rb").read(); os.write(fd,data); os.fchmod(fd,0o755);
+      os.lseek(fd,0,0); os.execve(fd,["python3","-c","print(\"memfd-exec-ok\")"],os.environ.copy())
+    image: python:3.14-slim
+    imagePullPolicy: IfNotPresent
+    name: memfd-v4-test
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dkv74
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: worker1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-dkv74
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-26T15:53:52Z"
+    observedGeneration: 1
+    status: "False"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-26T15:53:49Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-26T15:53:49Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-26T15:53:49Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-26T15:53:49Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://a247b1bf28380ef8593a1b53983f9f2408e4841a4c058d60b5acc89caf502f81
+    image: docker.io/library/python:3.14-slim
+    imageID: docker.io/library/python@sha256:83ff1d245a3d57d04152252d3ef9cb361494d0b3395abd65a5ebe91c401c8e83
+    lastState: {}
+    name: memfd-v4-test
+    ready: false
+    resources: {}
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://a247b1bf28380ef8593a1b53983f9f2408e4841a4c058d60b5acc89caf502f81
+        exitCode: 0
+        finishedAt: "2026-08-26T15:53:50Z"
+        reason: Completed
+        startedAt: "2026-08-26T15:53:50Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dkv74
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.0.0.3
+  hostIPs:
+  - ip: 10.0.0.3
+  observedGeneration: 1
+  phase: Succeeded
+  podIP: 10.1.235.171
+  podIPs:
+  - ip: 10.1.235.171
+  qosClass: BestEffort
+  startTime: "2026-08-26T15:53:49Z"

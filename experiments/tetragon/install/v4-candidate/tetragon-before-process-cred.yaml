@@ -1,0 +1,222 @@
+COMPUTED VALUES:
+affinity: {}
+crds:
+  installMethod: operator
+daemonSetAnnotations: {}
+daemonSetLabelsOverride: {}
+dnsPolicy: Default
+enabled: true
+export:
+  filenames:
+  - tetragon.log
+  mode: stdout
+  resources: {}
+  securityContext: {}
+  stdout:
+    argsOverride: []
+    commandOverride: []
+    enabledArgs: true
+    enabledCommand: true
+    envFromSecrets: []
+    extraEnv: []
+    extraEnvFrom: []
+    extraVolumeMounts: []
+    image:
+      repository: quay.io/cilium/hubble-export-stdout
+      tag: v1.1.1
+exportDirectory: /var/run/cilium/tetragon
+extraConfigmapMounts: []
+extraHostPathMounts: []
+extraVolumes: []
+hostNetwork: true
+imagePullPolicy: IfNotPresent
+imagePullSecrets: []
+nodeSelector: {}
+podAnnotations: {}
+podLabels: {}
+podLabelsOverride: {}
+podSecurityContext: {}
+priorityClassName: ""
+rthooks:
+  annotations: {}
+  enabled: false
+  extraHookArgs: {}
+  extraLabels: {}
+  extraVolumeMounts: []
+  failAllowNamespaces: ""
+  image:
+    repository: quay.io/cilium/tetragon-rthooks
+    tag: v0.8
+  installDir: /opt/tetragon
+  interface: ""
+  nameOverride: ""
+  nriHook:
+    nriSocket: /var/run/nri/nri.sock
+  ociHooks:
+    hooksPath: /usr/share/containers/oci/hooks.d
+  podAnnotations: {}
+  podSecurityContext: {}
+  priorityClassName: ""
+  resources: {}
+  serviceAccount:
+    name: ""
+selectorLabelsOverride: {}
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+serviceLabelsOverride: {}
+tetragon:
+  argsOverride: []
+  btf: ""
+  cgidmap:
+    enabled: false
+  clusterName: ""
+  commandOverride: []
+  cri:
+    enabled: false
+    socketHostPath: ""
+  debug: false
+  enableK8sAPI: true
+  enableKeepSensorsOnExit: false
+  enableMsgHandlingLatency: false
+  enablePolicyFilter: true
+  enablePolicyFilterCgroupMap: false
+  enablePolicyFilterDebug: false
+  enableProcessCred: false
+  enableProcessNs: false
+  enabled: true
+  eventCacheRetries: 15
+  eventCacheRetryDelay: 2
+  exportAllowList: '{"event_set":["PROCESS_EXEC", "PROCESS_EXIT", "PROCESS_KPROBE",
+    "PROCESS_UPROBE", "PROCESS_TRACEPOINT", "PROCESS_LSM"]}'
+  exportDenyList: |-
+    {"health_check":true}
+    {"namespace":["", "cilium", "kube-system"]}
+  exportFileCompress: false
+  exportFileMaxBackups: 5
+  exportFileMaxSizeMB: 10
+  exportFilePerm: "600"
+  exportFilename: tetragon.log
+  exportRateLimit: -1
+  extraArgs: {}
+  extraEnv: []
+  extraVolumeMounts: []
+  fieldFilters: ""
+  gops:
+    address: localhost
+    enabled: true
+    port: 8118
+  grpc:
+    address: unix:///var/run/tetragon/tetragon.sock
+    enabled: true
+  healthGrpc:
+    enabled: true
+    interval: 10
+    port: 6789
+  hostProcPath: /proc
+  image:
+    repository: quay.io/cilium/tetragon
+    tag: v1.7.0
+  livenessProbe: {}
+  nameOverride: ""
+  podAnnotations:
+    enabled: false
+  pprof:
+    address: localhost
+    enabled: false
+    port: 6060
+  processAncestors:
+    enabled: ""
+  processCacheGCInterval: 30s
+  processCacheSize: 65536
+  prometheus:
+    address: ""
+    enabled: true
+    metricsLabelFilter: namespace,workload,pod,binary
+    port: 2112
+    serviceMonitor:
+      enabled: false
+      extraLabels: {}
+      labelsOverride: {}
+      scrapeInterval: 60s
+  redactionFilters: ""
+  resources: {}
+  securityContext:
+    privileged: true
+  usePerfRingBuffer: false
+tetragonOperator:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: tetragon-operator
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+  annotations: {}
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+  enabled: true
+  extraLabels: {}
+  extraPodLabels: {}
+  extraVolumeMounts: []
+  extraVolumes: []
+  failoverLease:
+    enabled: false
+    leaseDuration: 15s
+    leaseRenewDeadline: 5s
+    leaseRetryPeriod: 2s
+    namespace: ""
+  forceUpdateCRDs: false
+  image:
+    pullPolicy: IfNotPresent
+    repository: quay.io/cilium/tetragon-operator
+    tag: v1.7.0
+  nameOverride: ""
+  nodeSelector: {}
+  podAnnotations: {}
+  podInfo:
+    enabled: false
+  podSecurityContext: {}
+  priorityClassName: ""
+  prometheus:
+    address: ""
+    enabled: true
+    port: 2113
+    serviceMonitor:
+      enabled: false
+      extraLabels: {}
+      labelsOverride: {}
+      scrapeInterval: 60s
+  replicas: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+  securityContext: {}
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  tolerations: []
+  tracingPolicy:
+    enabled: true
+tolerations:
+- operator: Exists
+updateStrategy: {}
