@@ -1,0 +1,59 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-run-shell-untrusted-v4-current-binary
+  annotations:
+    thesis.fh/reference-rule: Run shell untrusted
+    thesis.fh/mapping-status: candidate
+spec:
+  kprobes:
+    - call: sys_execve
+      syscall: true
+
+      args:
+        - index: 0
+          type: string
+          label: filename
+
+      selectors:
+        - matchBinaries:
+            - operator: Postfix
+              values:
+                - /nginx
+                - /httpd
+                - /apache
+                - /apache2
+                - /mysqld
+                - /postgres
+                - /sqlplus
+                - /couchdb
+                - /memcached
+                - /redis-server
+                - /rabbitmq-server
+                - /mongod
+                - /sendmail
+                - /postfix
+                - /dovecot
+                - /fluentd
+                - /flanneld
+                - /splunkd
+                - /consul
+                - /smbd
+                - /runsv
+                - /PM2
+
+          matchArgs:
+            - index: 0
+              operator: Postfix
+              values:
+                - /ash
+                - /bash
+                - /csh
+                - /ksh
+                - /sh
+                - /tcsh
+                - /zsh
+                - /dash
+
+          matchActions:
+            - action: Post
