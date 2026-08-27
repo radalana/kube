@@ -1,0 +1,23 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-exec-dev-shm-v4-kprobe-candidate
+  annotations:
+    thesis.fh/reference-rule: Execution from /dev/shm
+    thesis.fh/mapping-status: candidate
+spec:
+  kprobes:
+    - call: security_bprm_check
+      syscall: false
+      args:
+        - index: 0
+          type: linux_binprm
+          label: binary
+      selectors:
+        - matchArgs:
+            - index: 0
+              operator: Prefix
+              values:
+                - /dev/shm/
+          matchActions:
+            - action: Post
