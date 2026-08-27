@@ -1,0 +1,38 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Contact K8S API Server From Container"},"name":"falco-ref-k8s-api-contact-v4-candidate"},"spec":{"kprobes":[{"args":[{"index":0,"label":"socket","type":"sock"}],"call":"tcp_connect","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"DAddr","values":["10.152.183.1"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":false}]}}
+    thesis.fh/mapping-status: partial
+    thesis.fh/reference-rule: Contact K8S API Server From Container
+  creationTimestamp: "2026-08-27T12:34:52Z"
+  generation: 1
+  name: falco-ref-k8s-api-contact-v4-candidate
+  resourceVersion: "14220873"
+  uid: 4d347025-4815-4892-a4b9-592a875a12df
+spec:
+  kprobes:
+  - args:
+    - index: 0
+      label: socket
+      maxData: false
+      resolve: ""
+      returnCopy: false
+      type: sock
+    call: tcp_connect
+    return: false
+    selectors:
+    - matchActions:
+      - action: Post
+      matchArgs:
+      - index: 0
+        operator: DAddr
+        values:
+        - 10.152.183.1
+      matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+    syscall: false

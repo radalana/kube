@@ -1,0 +1,30 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: falco-ref-k8s-api-contact-v4-candidate
+  annotations:
+    thesis.fh/reference-rule: Contact K8S API Server From Container
+    thesis.fh/mapping-status: partial
+spec:
+  kprobes:
+  - call: tcp_connect
+    syscall: false
+    args:
+    - index: 0
+      type: sock
+      label: socket
+    selectors:
+    - matchNamespaces:
+      - namespace: Mnt
+        operator: NotIn
+        values:
+        - host_ns
+
+      matchArgs:
+      - index: 0
+        operator: DAddr
+        values:
+        - "10.152.183.1"
+
+      matchActions:
+      - action: Post
