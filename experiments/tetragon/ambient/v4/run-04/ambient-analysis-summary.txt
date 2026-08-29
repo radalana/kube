@@ -1,0 +1,34 @@
+Final Tetragon v4 ambient baseline: run-04
+
+Collection window:
+2026-08-29T14:33:55Z - 2026-08-29T15:03:55/56Z
+
+Valid run:
+- three-node concurrent collection
+- no administrative interaction during measurement window
+- collector errors: 0
+- Tetragon restarts: 0
+- Galera cluster size: 3
+- Galera state: Synced
+
+Ambient policy matches:
+
+falco-ref-sensitive-read-untrusted
+RawRecords: 1280
+UniqueExecIDs: 64
+Pattern: /usr/lib/openssh/sshd-session accessing /etc/pam.d/*
+Each process execution generated exactly 20 RawRecords.
+
+falco-ref-private-key-search
+RawRecords: 688
+UniqueExecIDs: 688
+Pattern: MicroK8s apiservice-kicker -> bash -> grep active
+All 688 correlated process_exec events had arguments: active.
+No private-key search was observed.
+
+falco-ref-memfd-exec-stage
+RawRecords: 18
+UniqueExecIDs: 3
+Pattern: host systemd PID 1 -> memfd_create("sd-executor-state")
+Three paired bursts per node, approximately every 10 minutes.
+No execveat policy match was observed.
