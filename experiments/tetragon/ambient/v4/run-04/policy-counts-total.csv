@@ -1,0 +1,4 @@
+"Policy","RawRecords","UniqueExecIDs"
+"falco-ref-sensitive-read-untrusted","1280","64"
+"falco-ref-private-key-search","688","688"
+"falco-ref-memfd-exec-stage","18","3"

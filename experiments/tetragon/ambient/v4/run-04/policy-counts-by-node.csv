@@ -1,0 +1,8 @@
+"Node","Policy","RawRecords","UniqueExecIDs"
+"master","falco-ref-memfd-exec-stage","6","1"
+"worker1","falco-ref-memfd-exec-stage","6","1"
+"worker2","falco-ref-memfd-exec-stage","6","1"
+"master","falco-ref-private-key-search","688","688"
+"master","falco-ref-sensitive-read-untrusted","780","39"
+"worker1","falco-ref-sensitive-read-untrusted","240","12"
+"worker2","falco-ref-sensitive-read-untrusted","260","13"
