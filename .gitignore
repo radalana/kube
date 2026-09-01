@@ -46,3 +46,6 @@ dqlite-before-encryption-2026-06-22-140748.tar.gz
 
 #zip
 *.zip
+
+tetragon-configs.txt
+tetragon-history.txt
