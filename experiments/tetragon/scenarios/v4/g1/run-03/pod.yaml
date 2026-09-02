@@ -1,0 +1,195 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: e514570ffc882ca880373262b79350f08836cc121758fddde9380f9c38e538f6
+    cni.projectcalico.org/podIP: ""
+    cni.projectcalico.org/podIPs: ""
+  creationTimestamp: "2026-08-29T17:48:36Z"
+  generateName: g1-crud-
+  generation: 1
+  labels:
+    batch.kubernetes.io/controller-uid: e28a0dc1-3341-47b4-ae3a-d72db3c7fe7a
+    batch.kubernetes.io/job-name: g1-crud
+    controller-uid: e28a0dc1-3341-47b4-ae3a-d72db3c7fe7a
+    experiment: benign
+    job-name: g1-crud
+    scenario: g1-crud
+  name: g1-crud-frxj8
+  namespace: database
+  ownerReferences:
+  - apiVersion: batch/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Job
+    name: g1-crud
+    uid: e28a0dc1-3341-47b4-ae3a-d72db3c7fe7a
+  resourceVersion: "14603368"
+  uid: 64fe156a-18cd-482b-ba2d-0b13e612bbe9
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - |
+      set -eu
+      mariadb \
+        --protocol=TCP \
+        --host=mariadb-galera.database.svc.cluster.local \
+        --port=3306 \
+        --user=appuser \
+        --password="$APP_PASSWORD" \
+        appdb <<'SQL'
+      SELECT CURRENT_USER() AS authenticated_as;
+      SELECT DATABASE() AS current_database;
+      SELECT @@hostname AS connected_to;
+
+      SHOW SESSION STATUS LIKE 'Ssl_version';
+      SHOW SESSION STATUS LIKE 'Ssl_cipher';
+
+      DELETE FROM connection_test
+      WHERE id = 1;
+
+      INSERT INTO connection_test (id, message)
+      VALUES (1, 'Initial test message');
+
+      SELECT 'INSERT successful' AS step;
+      SELECT * FROM connection_test WHERE id = 1;
+
+      UPDATE connection_test
+      SET message = 'Updated test message'
+      WHERE id = 1;
+
+      SELECT 'UPDATE successful' AS step;
+      SELECT * FROM connection_test WHERE id = 1;
+
+      DELETE FROM connection_test
+      WHERE id = 1;
+
+      SELECT 'DELETE successful' AS step;
+      SELECT COUNT(*) AS remaining_rows
+      FROM connection_test
+      WHERE id = 1;
+    env:
+    - name: APP_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: app-password
+    image: mariadb:11.8
+    imagePullPolicy: IfNotPresent
+    name: mariadb-client
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-mw759
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: worker1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-mw759
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-29T17:48:39Z"
+    observedGeneration: 1
+    status: "False"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-29T17:48:36Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-29T17:48:36Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-29T17:48:36Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-08-29T17:48:36Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://d52ec9fdccafebf7a5feb293958a2de7d8e4beb1b10be6598bb70a5db5e81a48
+    image: docker.io/library/mariadb:11.8
+    imageID: docker.io/library/mariadb@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
+    lastState: {}
+    name: mariadb-client
+    ready: false
+    resources: {}
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://d52ec9fdccafebf7a5feb293958a2de7d8e4beb1b10be6598bb70a5db5e81a48
+        exitCode: 0
+        finishedAt: "2026-08-29T17:48:37Z"
+        reason: Completed
+        startedAt: "2026-08-29T17:48:37Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-mw759
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.0.0.3
+  hostIPs:
+  - ip: 10.0.0.3
+  observedGeneration: 1
+  phase: Succeeded
+  podIP: 10.1.235.183
+  podIPs:
+  - ip: 10.1.235.183
+  qosClass: BestEffort
+  startTime: "2026-08-29T17:48:36Z"

@@ -1,0 +1,5 @@
+"Node","Time","EventType","Policy","PID","ExecID","Binary","Function"
+"master","2026-08-29T16:46:20.757107799Z","process_kprobe","falco-ref-private-key-search","3578418","bWFzdGVyOjI4NTY1MTQ3OTU2NDIyMzk6MzU3ODQxOA==","/usr/bin/bash","__x64_sys_execve"
+"master","2026-08-29T16:46:20.972946166Z","process_kprobe","falco-ref-private-key-search","3578437","bWFzdGVyOjI4NTY1MTUwMTA4NDM3ODk6MzU3ODQzNw==","/usr/bin/bash","__x64_sys_execve"
+"master","2026-08-29T16:46:26.035157912Z","process_kprobe","falco-ref-private-key-search","3578517","bWFzdGVyOjI4NTY1MjAwNzQwNzYzMDE6MzU3ODUxNw==","/usr/bin/bash","__x64_sys_execve"
+"master","2026-08-29T16:46:26.196593289Z","process_kprobe","falco-ref-private-key-search","3578542","bWFzdGVyOjI4NTY1MjAyMzU0NDg0OTg6MzU3ODU0Mg==","/usr/bin/bash","__x64_sys_execve"
