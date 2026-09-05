@@ -21,7 +21,8 @@ $nodes = @{
     worker1 = "$ambient\worker1.json"
     worker2 = "$ambient\worker2.json"
 }
-
+$results = @()
+$policyEvents = @()
 foreach ($node in $nodes.Keys) {
 
     Write-Host "`nProcessing $node ..."
@@ -65,11 +66,19 @@ foreach ($node in $nodes.Keys) {
 
         $stats[$policy].RawRecords++  #сразу увеличить счетчик
 
-        $execId = $pk.process.exec_id 
-        
+        $execId = $pk.process.exec_id
+        $policyEvents += [PSCustomObject]@{ #to save individual all policy_events individually
+            Node     = $node
+            Time     = $event.time
+            Policy   = $policy
+            PID      = $pk.process.pid
+            ExecID   = $execId
+            Binary   = $pk.process.binary
+            Function = $pk.function_name
+}
         
 
-        if (-not [string]::IsNullOrWhiteSpace($execId)) { \если не пустой еxecid до добавить его 
+        if (-not [string]::IsNullOrWhiteSpace($execId)) { #если не пустой еxecid до добавить его 
             [void]$stats[$policy].ExecIDs.Add($execId)
         }
     } # закончились events в ноде 
@@ -84,3 +93,34 @@ foreach ($node in $nodes.Keys) {
         }
     }
 }
+
+$results |
+    Sort-Object Policy, Node |
+    Format-Table -AutoSize
+
+# Group raw events by exec_id for each policy: repeat after that for each policy, so how many events belongs to one exec_id
+$sensitive |
+Group-Object Policy, ExecID |
+Sort-Object Name |
+Select-Object `
+    @{Name='RawRecords'; Expression={$_.Count}},
+    @{Name='Policy';     Expression={$_.Group[0].Policy}},
+    @{Name='ExecID';     Expression={$_.Group[0].ExecID}} |
+Format-Table -AutoSize
+
+# save to file
+$sensitiveByExec = $sensitive |
+    Group-Object Policy, ExecID |
+    Sort-Object Name |
+    Select-Object `
+        @{Name='RawRecords'; Expression={$_.Count}},
+        @{Name='Policy';     Expression={$_.Group[0].Policy}},
+        @{Name='ExecID';     Expression={$_.Group[0].ExecID}}
+
+$sensitiveByExec |
+Format-Table -AutoSize
+
+#$sensitiveByExec |
+#Export-Csv `
+#    ".\experiments\tetragon\ambient\v4\run-04\analysis\sensitive-read-by-execid.csv" `
+#    -NoTypeInformation
