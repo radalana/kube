@@ -166,3 +166,42 @@ Select-Object `
 prkeyByExec |
 >> Format-Table -AutoSize
 #output in experiments\tetragon\ambient\v4\run-04\analysis\private-key-search.csv
+
+
+
+$targetExecID = "bWFzdGVyOjI4NDg2Mzc2NDM2MDcyNTM6MzQ1MjgzMA=="
+
+foreach ($node in $nodes.Keys) {
+
+    Get-Content $nodes[$node] | ForEach-Object {
+
+        if ([string]::IsNullOrWhiteSpace($_)) {
+            return
+        }
+
+        try {
+            $event = $_ | ConvertFrom-Json
+        }
+        catch {
+            return
+        }
+
+        $pk = $event.process_kprobe
+
+        if (
+            $null -ne $pk -and
+            $pk.policy_name -eq "falco-ref-sensitive-read-untrusted" -and
+            $pk.process.exec_id -eq $targetExecID
+        ) {
+
+            [PSCustomObject]@{
+                Node     = $node
+                Time     = $event.time
+                PID      = $pk.process.pid
+                Binary   = $pk.process.binary
+                Function = $pk.function_name
+                Args     = ($pk.args | ConvertTo-Json -Compress -Depth 10)
+            }
+        }
+    }
+}
