@@ -98,7 +98,13 @@ $results |
     Sort-Object Policy, Node |
     Format-Table -AutoSize
 
-# Group raw events by exec_id for each policy: repeat after that for each policy, so how many events belongs to one exec_id
+# Group raw events by exec_id for each policy: repeat after that for each policy, so how many events belongs to one exec_id$policyEvents |
+
+#select all raw events with "falco-ref-sensitive-read-untrusted"
+sensitive = Where-Object {
+    $_.Policy -eq "falco-ref-sensitive-read-untrusted"
+}
+
 $sensitive |
 Group-Object Policy, ExecID |
 Sort-Object Name |
@@ -124,3 +130,39 @@ Format-Table -AutoSize
 #Export-Csv `
 #    ".\experiments\tetragon\ambient\v4\run-04\analysis\sensitive-read-by-execid.csv" `
 #    -NoTypeInformation
+
+## falco-ref-memfd-exec-stage
+$memfd = $policyEvents |
+Where-Object {
+    $_.Policy -eq "falco-ref-memfd-exec-stage"
+}
+
+$memfdByExec = $memfd |
+Group-Object Policy, ExecID |
+Sort-Object Name |
+Select-Object `
+    @{Name='RawRecords'; Expression={$_.Count}},
+    @{Name='Policy';     Expression={$_.Group[0].Policy}},
+    @{Name='ExecID';     Expression={$_.Group[0].ExecID}}
+
+$memfdByExec |
+Format-Table -AutoSize
+##output in experiments\tetragon\ambient\v4\run-04\analysis\memfd-by-execid.csv
+
+#Select all private-key search
+ 
+$prkey = $policyEvents |
+Where-Object {
+$_,Policy -eq "falco-ref-private-key-search"
+}
+
+$prkeyByExec= $prkey | 
+Group-Object Policy, ExecID |
+Sort-Object Name |
+Select-Object `
+    @{Name='RawRecords'; Expression={$_.Count}},
+    @{Name='Policy';     Expression={$_.Group[0].Policy}},
+    @{Name='ExecID';     Expression={$_.Group[0].ExecID}}
+prkeyByExec |
+>> Format-Table -AutoSize
+#output in experiments\tetragon\ambient\v4\run-04\analysis\private-key-search.csv
