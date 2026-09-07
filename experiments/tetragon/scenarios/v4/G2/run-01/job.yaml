@@ -1,0 +1,143 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"labels":{"experiment":"benign","scenario":"g2-schema-migration"},"name":"g2-schema-migration","namespace":"database"},"spec":{"backoffLimit":0,"template":{"metadata":{"labels":{"experiment":"benign","scenario":"g2-schema-migration"}},"spec":{"containers":[{"command":["sh","-c","set -eu\n\nmariadb \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=migrationuser \\\n  --password=\"$MIGRATION_PASSWORD\" \\\n  appdb \u003c\u003c'SQL'\n\nSELECT CURRENT_USER() AS authenticated_as;\nSELECT DATABASE() AS current_database;\nSELECT @@hostname AS connected_to;\n\nDROP TABLE IF EXISTS g2_migration_test;\nSELECT 'Initial cleanup successful' AS step;\n\nCREATE TABLE g2_migration_test (\n  id INT NOT NULL AUTO_INCREMENT,\n  name VARCHAR(100) NOT NULL,\n  PRIMARY KEY (id)\n) ENGINE=InnoDB;\n\nSELECT 'CREATE TABLE successful' AS step;\n\nALTER TABLE g2_migration_test\n  ADD COLUMN created_at TIMESTAMP\n  NOT NULL DEFAULT CURRENT_TIMESTAMP;\n\nSELECT 'ALTER TABLE successful' AS step;\n\nSELECT COUNT(*) AS added_column_count\nFROM information_schema.columns\nWHERE table_schema = DATABASE()\n  AND table_name = 'g2_migration_test'\n  AND column_name = 'created_at';\n\nCREATE INDEX idx_g2_name\nON g2_migration_test (name);\n\nSELECT 'CREATE INDEX successful' AS step;\n\nSELECT COUNT(*) AS created_index_count\nFROM information_schema.statistics\nWHERE table_schema = DATABASE()\n  AND table_name = 'g2_migration_test'\n  AND index_name = 'idx_g2_name';\n\nDROP INDEX idx_g2_name\nON g2_migration_test;\n\nSELECT 'DROP INDEX successful' AS step;\n\nSELECT COUNT(*) AS remaining_index_count\nFROM information_schema.statistics\nWHERE table_schema = DATABASE()\n  AND table_name = 'g2_migration_test'\n  AND index_name = 'idx_g2_name';\n\nSHOW CREATE TABLE g2_migration_test;\n\nDROP TABLE g2_migration_test;\nSELECT 'Final cleanup successful' AS step;\n\nSQL\n"],"env":[{"name":"MIGRATION_PASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"migration-password"}}}],"image":"mariadb:11.8","name":"mariadb-client"}],"restartPolicy":"Never"}}}}
+  creationTimestamp: "2026-09-07T13:11:59Z"
+  generation: 1
+  labels:
+    experiment: benign
+    scenario: g2-schema-migration
+  name: g2-schema-migration
+  namespace: database
+  resourceVersion: "16121884"
+  uid: 10040379-4ede-41cd-b17f-a4cb5739c1e4
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: 10040379-4ede-41cd-b17f-a4cb5739c1e4
+  suspend: false
+  template:
+    metadata:
+      labels:
+        batch.kubernetes.io/controller-uid: 10040379-4ede-41cd-b17f-a4cb5739c1e4
+        batch.kubernetes.io/job-name: g2-schema-migration
+        controller-uid: 10040379-4ede-41cd-b17f-a4cb5739c1e4
+        experiment: benign
+        job-name: g2-schema-migration
+        scenario: g2-schema-migration
+    spec:
+      containers:
+      - command:
+        - sh
+        - -c
+        - |
+          set -eu
+
+          mariadb \
+            --protocol=TCP \
+            --host=mariadb-galera.database.svc.cluster.local \
+            --port=3306 \
+            --user=migrationuser \
+            --password="$MIGRATION_PASSWORD" \
+            appdb <<'SQL'
+
+          SELECT CURRENT_USER() AS authenticated_as;
+          SELECT DATABASE() AS current_database;
+          SELECT @@hostname AS connected_to;
+
+          DROP TABLE IF EXISTS g2_migration_test;
+          SELECT 'Initial cleanup successful' AS step;
+
+          CREATE TABLE g2_migration_test (
+            id INT NOT NULL AUTO_INCREMENT,
+            name VARCHAR(100) NOT NULL,
+            PRIMARY KEY (id)
+          ) ENGINE=InnoDB;
+
+          SELECT 'CREATE TABLE successful' AS step;
+
+          ALTER TABLE g2_migration_test
+            ADD COLUMN created_at TIMESTAMP
+            NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+          SELECT 'ALTER TABLE successful' AS step;
+
+          SELECT COUNT(*) AS added_column_count
+          FROM information_schema.columns
+          WHERE table_schema = DATABASE()
+            AND table_name = 'g2_migration_test'
+            AND column_name = 'created_at';
+
+          CREATE INDEX idx_g2_name
+          ON g2_migration_test (name);
+
+          SELECT 'CREATE INDEX successful' AS step;
+
+          SELECT COUNT(*) AS created_index_count
+          FROM information_schema.statistics
+          WHERE table_schema = DATABASE()
+            AND table_name = 'g2_migration_test'
+            AND index_name = 'idx_g2_name';
+
+          DROP INDEX idx_g2_name
+          ON g2_migration_test;
+
+          SELECT 'DROP INDEX successful' AS step;
+
+          SELECT COUNT(*) AS remaining_index_count
+          FROM information_schema.statistics
+          WHERE table_schema = DATABASE()
+            AND table_name = 'g2_migration_test'
+            AND index_name = 'idx_g2_name';
+
+          SHOW CREATE TABLE g2_migration_test;
+
+          DROP TABLE g2_migration_test;
+          SELECT 'Final cleanup successful' AS step;
+
+          SQL
+        env:
+        - name: MIGRATION_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: migration-password
+        image: mariadb:11.8
+        imagePullPolicy: IfNotPresent
+        name: mariadb-client
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  completionTime: "2026-09-07T13:12:03Z"
+  conditions:
+  - lastProbeTime: "2026-09-07T13:12:03Z"
+    lastTransitionTime: "2026-09-07T13:12:03Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: SuccessCriteriaMet
+  - lastProbeTime: "2026-09-07T13:12:03Z"
+    lastTransitionTime: "2026-09-07T13:12:03Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: Complete
+  ready: 0
+  startTime: "2026-09-07T13:11:59Z"
+  succeeded: 1
+  terminating: 0
+  uncountedTerminatedPods: {}
