@@ -1,0 +1,117 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"labels":{"experiment":"benign","scenario":"g3-backup"},"name":"g3-backup","namespace":"database"},"spec":{"backoffLimit":0,"template":{"metadata":{"labels":{"experiment":"benign","scenario":"g3-backup"}},"spec":{"containers":[{"command":["sh","-c","set -eu\n\necho \"Starting authorized logical backup\"\n\nmariadb-dump \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=backupuser \\\n  --password=\"$BACKUP_PASSWORD\" \\\n  --single-transaction \\\n  --skip-lock-tables \\\n  --skip-add-locks \\\n  --triggers \\\n  appdb \u003e /backup/appdb.sql\n\ntest -s /backup/appdb.sql\n\necho \"Backup completed successfully\"\necho \"Backup file: /backup/appdb.sql\"\n\necho \"Backup size in bytes:\"\nwc -c \u003c /backup/appdb.sql\n\necho \"Backup checksum:\"\nsha256sum /backup/appdb.sql\n\necho \"Database statements found in dump:\"\ngrep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \\\n  /backup/appdb.sql || true\n\necho \"First lines of backup:\"\nhead -n 10 /backup/appdb.sql\n"],"env":[{"name":"BACKUP_PASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"backup-password"}}}],"image":"mariadb:11.8","name":"mariadb-backup-client","volumeMounts":[{"mountPath":"/backup","name":"backup-data"}]}],"restartPolicy":"Never","volumes":[{"emptyDir":{},"name":"backup-data"}]}}}}
+  creationTimestamp: "2026-09-08T07:28:13Z"
+  generation: 1
+  labels:
+    experiment: benign
+    scenario: g3-backup
+  name: g3-backup
+  namespace: database
+  resourceVersion: "16253294"
+  uid: c362d708-308d-4f28-9d1d-e1339706db6b
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: c362d708-308d-4f28-9d1d-e1339706db6b
+  suspend: false
+  template:
+    metadata:
+      labels:
+        batch.kubernetes.io/controller-uid: c362d708-308d-4f28-9d1d-e1339706db6b
+        batch.kubernetes.io/job-name: g3-backup
+        controller-uid: c362d708-308d-4f28-9d1d-e1339706db6b
+        experiment: benign
+        job-name: g3-backup
+        scenario: g3-backup
+    spec:
+      containers:
+      - command:
+        - sh
+        - -c
+        - |
+          set -eu
+
+          echo "Starting authorized logical backup"
+
+          mariadb-dump \
+            --protocol=TCP \
+            --host=mariadb-galera.database.svc.cluster.local \
+            --port=3306 \
+            --user=backupuser \
+            --password="$BACKUP_PASSWORD" \
+            --single-transaction \
+            --skip-lock-tables \
+            --skip-add-locks \
+            --triggers \
+            appdb > /backup/appdb.sql
+
+          test -s /backup/appdb.sql
+
+          echo "Backup completed successfully"
+          echo "Backup file: /backup/appdb.sql"
+
+          echo "Backup size in bytes:"
+          wc -c < /backup/appdb.sql
+
+          echo "Backup checksum:"
+          sha256sum /backup/appdb.sql
+
+          echo "Database statements found in dump:"
+          grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+            /backup/appdb.sql || true
+
+          echo "First lines of backup:"
+          head -n 10 /backup/appdb.sql
+        env:
+        - name: BACKUP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: backup-password
+        image: mariadb:11.8
+        imagePullPolicy: IfNotPresent
+        name: mariadb-backup-client
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /backup
+          name: backup-data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: backup-data
+status:
+  completionTime: "2026-09-08T07:28:17Z"
+  conditions:
+  - lastProbeTime: "2026-09-08T07:28:17Z"
+    lastTransitionTime: "2026-09-08T07:28:17Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: SuccessCriteriaMet
+  - lastProbeTime: "2026-09-08T07:28:17Z"
+    lastTransitionTime: "2026-09-08T07:28:17Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: Complete
+  ready: 0
+  startTime: "2026-09-08T07:28:13Z"
+  succeeded: 1
+  terminating: 0
+  uncountedTerminatedPods: {}
