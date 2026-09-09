@@ -1,0 +1,1 @@
+interactive command output was not retained
