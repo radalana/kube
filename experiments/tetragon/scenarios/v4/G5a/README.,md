@@ -1,0 +1,5 @@
+| Run | Scenario-related | Unrelated | Scenario-related policy    |
+| --- | ---------------: | --------: | -------------------------- |
+| 01  |            **1** |        12 | `terminal-shell-container` | 
+| 02  |            **1** |         5 | `terminal-shell-container` |
+  03               ****

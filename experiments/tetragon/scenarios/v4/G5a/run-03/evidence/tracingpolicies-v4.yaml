@@ -1,0 +1,1431 @@
+apiVersion: v1
+items:
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Clear Log Activities"},"name":"falco-ref-clear-log"},"spec":{"kprobes":[{"args":[{"index":0,"label":"path","type":"string"},{"index":1,"label":"flags","type":"int"}],"call":"sys_open","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Prefix","values":["/var/log/","/dev/log/"]},{"index":1,"operator":"Mask","values":["0x200"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"path","type":"string"},{"index":2,"label":"flags","type":"int"}],"call":"sys_openat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Prefix","values":["/var/log/","/dev/log/"]},{"index":2,"operator":"Mask","values":["0x200"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Clear Log Activities
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-clear-log
+    resourceVersion: "12858923"
+    uid: a0558da8-fd96-4255-8275-2c7133a75f21
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: path
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_open
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Prefix
+          values:
+          - /var/log/
+          - /dev/log/
+        - index: 1
+          operator: Mask
+          values:
+          - "0x200"
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: path
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 2
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_openat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Prefix
+          values:
+          - /var/log/
+          - /dev/log/
+        - index: 2
+          operator: Mask
+          values:
+          - "0x200"
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Debugfs Launched in Privileged Container"},"name":"falco-ref-debugfs-privileged"},"spec":{"kprobes":[{"args":[{"index":0,"label":"filename","type":"string"}],"call":"sys_execve","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["/debugfs"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"filename","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_execveat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Postfix","values":["/debugfs"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Debugfs Launched in Privileged Container
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 2
+    name: falco-ref-debugfs-privileged
+    resourceVersion: "12862634"
+    uid: edecd42e-85ea-4044-b5d3-f572e3cb7be6
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_execve
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - /debugfs
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_execveat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Postfix
+          values:
+          - /debugfs
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Directory traversal monitored file read"},"name":"falco-ref-directory-traversal-read"},"spec":{"kprobes":[{"args":[{"index":0,"label":"raw_path","type":"string"},{"index":1,"label":"flags","type":"int"}],"call":"sys_open","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"SubString","values":["../"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"raw_path","type":"string"},{"index":2,"label":"flags","type":"int"}],"call":"sys_openat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"SubString","values":["../"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Directory traversal monitored file read
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-directory-traversal-read
+    resourceVersion: "13711131"
+    uid: 897eb8f3-557c-4cc9-afe0-5e964d90abc0
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: raw_path
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_open
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: SubString
+          values:
+          - ../
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: raw_path
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 2
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_openat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: SubString
+          values:
+          - ../
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Execution from /dev/shm"},"name":"falco-ref-exec-dev-shm"},"spec":{"kprobes":[{"args":[{"index":0,"label":"binary","type":"linux_binprm"}],"call":"security_bprm_check","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Prefix","values":["/dev/shm/"]}]}],"syscall":false}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Execution from /dev/shm
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 3
+    name: falco-ref-exec-dev-shm
+    resourceVersion: "14565683"
+    uid: 596967b2-b3aa-496a-97a1-5d66005b0db7
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: binary
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: linux_binprm
+      call: security_bprm_check
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Prefix
+          values:
+          - /dev/shm/
+      syscall: false
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Create Hardlink Over Sensitive Files"},"name":"falco-ref-hardlink-sensitive"},"spec":{"kprobes":[{"args":[{"index":0,"label":"oldpath","type":"string"},{"index":1,"label":"newpath","type":"string"}],"call":"sys_link","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["/etc/shadow","/etc/sudoers","/etc/pam.conf","/etc/security/pwquality.conf"]}]}],"syscall":true},{"args":[{"index":0,"label":"olddirfd","type":"int"},{"index":1,"label":"oldpath","type":"string"},{"index":2,"label":"newdirfd","type":"int"},{"index":3,"label":"newpath","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_linkat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Equal","values":["/etc/shadow","/etc/sudoers","/etc/pam.conf","/etc/security/pwquality.conf"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Create Hardlink Over Sensitive Files
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-hardlink-sensitive
+    resourceVersion: "12858928"
+    uid: 57c92cd8-0de8-4db7-995d-161aca69772e
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: oldpath
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: newpath
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_link
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - /etc/shadow
+          - /etc/sudoers
+          - /etc/pam.conf
+          - /etc/security/pwquality.conf
+      syscall: true
+    - args:
+      - index: 0
+        label: olddirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: oldpath
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 2
+        label: newdirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 3
+        label: newpath
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_linkat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Equal
+          values:
+          - /etc/shadow
+          - /etc/sudoers
+          - /etc/pam.conf
+          - /etc/security/pwquality.conf
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Contact K8S API Server From Container"},"name":"falco-ref-k8s-api-contact"},"spec":{"kprobes":[{"args":[{"index":0,"label":"socket","type":"sock"}],"call":"tcp_connect","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"DAddr","values":["10.152.183.1"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":false}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Contact K8S API Server From Container
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-k8s-api-contact
+    resourceVersion: "14565680"
+    uid: 2103e7bf-e674-45fd-ab61-9db1ed5c6f05
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: socket
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: sock
+      call: tcp_connect
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: DAddr
+          values:
+          - 10.152.183.1
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: false
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Linux Kernel Module Injection Detected"},"name":"falco-ref-kernel-module"},"spec":{"kprobes":[{"call":"sys_init_module","selectors":[{"matchActions":[{"action":"Post"}],"matchCapabilities":[{"operator":"In","type":"Effective","values":["CAP_SYS_MODULE"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true},{"call":"sys_finit_module","selectors":[{"matchActions":[{"action":"Post"}],"matchCapabilities":[{"operator":"In","type":"Effective","values":["CAP_SYS_MODULE"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Linux Kernel Module Injection Detected
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-kernel-module
+    resourceVersion: "12858931"
+    uid: 7c03e5d9-ac59-4fd0-927f-4a2595c29543
+  spec:
+    kprobes:
+    - call: sys_init_module
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchCapabilities:
+        - isNamespaceCapability: false
+          operator: In
+          type: Effective
+          values:
+          - CAP_SYS_MODULE
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+    - call: sys_finit_module
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchCapabilities:
+        - isNamespaceCapability: false
+          operator: In
+          type: Effective
+          values:
+          - CAP_SYS_MODULE
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Fileless execution via memfd_create"},"name":"falco-ref-memfd-exec-stage"},"spec":{"kprobes":[{"args":[{"index":0,"label":"name","type":"string"},{"index":1,"label":"flags","type":"int"}],"call":"sys_memfd_create","selectors":[{"matchActions":[{"action":"Post"}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"filename","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_execveat","selectors":[{"matchActions":[{"action":"Post"}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Fileless execution via memfd_create
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 1
+    name: falco-ref-memfd-exec-stage
+    resourceVersion: "12858939"
+    uid: 0a66bd5b-4574-4561-9e3c-e98343ec0abb
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: name
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_memfd_create
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_execveat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Netcat Remote Code Execution in Container"},"name":"falco-ref-netcat-rce"},"spec":{"kprobes":[{"args":[{"index":0,"label":"filename","type":"string"}],"call":"sys_execve","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["/nc","/ncat"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"filename","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_execveat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Postfix","values":["/nc","/ncat"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Netcat Remote Code Execution in Container
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-netcat-rce
+    resourceVersion: "12862628"
+    uid: 295aec7d-2467-4950-a87a-053d092d3a97
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_execve
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - /nc
+          - /ncat
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_execveat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Postfix
+          values:
+          - /nc
+          - /ncat
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Packet socket created in container"},"name":"falco-ref-packet-socket"},"spec":{"kprobes":[{"args":[{"index":0,"label":"domain","type":"int"},{"index":1,"label":"type","type":"int"},{"index":2,"label":"protocol","type":"int"}],"call":"sys_socket","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["17"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Packet socket created in container
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-packet-socket
+    resourceVersion: "12858929"
+    uid: fd4036f7-a8e3-40ec-9fb9-d971687ae7d4
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: domain
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: type
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 2
+        label: protocol
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_socket
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - "17"
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Search Private Keys or Passwords"},"name":"falco-ref-private-key-search"},"spec":{"kprobes":[{"args":[{"index":0,"label":"filename","type":"string"}],"call":"sys_execve","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["/grep","/egrep","/fgrep","/find"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"filename","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_execveat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Postfix","values":["/grep","/egrep","/fgrep","/find"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Search Private Keys or Passwords
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-private-key-search
+    resourceVersion: "12862631"
+    uid: 4b5259e0-8f98-4b20-8704-4b8d12bfffd1
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_execve
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - /grep
+          - /egrep
+          - /fgrep
+          - /find
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_execveat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Postfix
+          values:
+          - /grep
+          - /egrep
+          - /fgrep
+          - /find
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"PTRACE anti-debug attempt"},"name":"falco-ref-ptrace-antidebug"},"spec":{"kprobes":[{"args":[{"index":0,"label":"request","type":"long"},{"index":1,"label":"pid","type":"long"}],"call":"sys_ptrace","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["0"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: PTRACE anti-debug attempt
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 1
+    name: falco-ref-ptrace-antidebug
+    resourceVersion: "12858935"
+    uid: 577ed63d-f01c-47b1-83a0-fbf59152f8b4
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: request
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: long
+      - index: 1
+        label: pid
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: long
+      call: sys_ptrace
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - "0"
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"PTRACE attached to process"},"name":"falco-ref-ptrace-attach"},"spec":{"kprobes":[{"args":[{"index":0,"label":"request","type":"long"},{"index":1,"label":"pid","type":"long"}],"call":"sys_ptrace","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["4","5","13","16"]}]},{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["0x4206"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: PTRACE attached to process
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 2
+    name: falco-ref-ptrace-attach
+    resourceVersion: "13711134"
+    uid: 60199eeb-c93c-4751-bcb1-d20fa69bc59b
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: request
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: long
+      - index: 1
+        label: pid
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: long
+      call: sys_ptrace
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - "4"
+          - "5"
+          - "13"
+          - "16"
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - "0x4206"
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Detect release_agent File Container Escapes"},"name":"falco-ref-release-agent"},"spec":{"kprobes":[{"args":[{"index":0,"label":"path","type":"string"},{"index":1,"label":"flags","type":"int"}],"call":"sys_open","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["release_agent"]},{"index":1,"operator":"Mask","values":["0x1","0x2"]}],"matchCapabilities":[{"operator":"In","type":"Effective","values":["CAP_SYS_ADMIN"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"path","type":"string"},{"index":2,"label":"flags","type":"int"}],"call":"sys_openat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Postfix","values":["release_agent"]},{"index":2,"operator":"Mask","values":["0x1","0x2"]}],"matchCapabilities":[{"operator":"In","type":"Effective","values":["CAP_SYS_ADMIN"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Detect release_agent File Container Escapes
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 1
+    name: falco-ref-release-agent
+    resourceVersion: "12858933"
+    uid: d7f4f64e-3b56-4ab5-ab4f-ebd0254f1751
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: path
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_open
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - release_agent
+        - index: 1
+          operator: Mask
+          values:
+          - "0x1"
+          - "0x2"
+        matchCapabilities:
+        - isNamespaceCapability: false
+          operator: In
+          type: Effective
+          values:
+          - CAP_SYS_ADMIN
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: path
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 2
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_openat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Postfix
+          values:
+          - release_agent
+        - index: 2
+          operator: Mask
+          values:
+          - "0x1"
+          - "0x2"
+        matchCapabilities:
+        - isNamespaceCapability: false
+          operator: In
+          type: Effective
+          values:
+          - CAP_SYS_ADMIN
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Remove Bulk Data from Disk"},"name":"falco-ref-remove-bulk-data"},"spec":{"kprobes":[{"args":[{"index":0,"label":"filename","type":"string"}],"call":"sys_execve","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["/shred","/mkfs","/mke2fs"]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"filename","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_execveat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Postfix","values":["/shred","/mkfs","/mke2fs"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Remove Bulk Data from Disk
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-remove-bulk-data
+    resourceVersion: "12862632"
+    uid: d8067dd7-22e6-4ab9-b9c4-948519d52707
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_execve
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - /shred
+          - /mkfs
+          - /mke2fs
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_execveat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Postfix
+          values:
+          - /shred
+          - /mkfs
+          - /mke2fs
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Run shell untrusted"},"name":"falco-ref-run-shell-untrusted"},"spec":{"kprobes":[{"args":[{"index":0,"label":"filename","type":"string"}],"call":"sys_execve","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["/ash","/bash","/csh","/ksh","/sh","/tcsh","/zsh","/dash"]}],"matchBinaries":[{"operator":"Postfix","values":["/nginx","/httpd","/apache","/apache2","/mysqld","/postgres","/sqlplus","/couchdb","/memcached","/redis-server","/rabbitmq-server","/mongod","/sendmail","/postfix","/dovecot","/fluentd","/flanneld","/splunkd","/consul","/smbd","/runsv","/PM2"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Run shell untrusted
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 3
+    name: falco-ref-run-shell-untrusted
+    resourceVersion: "14565678"
+    uid: 08a9e626-cbdb-4fa9-814d-de43c4ed945a
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_execve
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - /ash
+          - /bash
+          - /csh
+          - /ksh
+          - /sh
+          - /tcsh
+          - /zsh
+          - /dash
+        matchBinaries:
+        - followChildren: false
+          operator: Postfix
+          values:
+          - /nginx
+          - /httpd
+          - /apache
+          - /apache2
+          - /mysqld
+          - /postgres
+          - /sqlplus
+          - /couchdb
+          - /memcached
+          - /redis-server
+          - /rabbitmq-server
+          - /mongod
+          - /sendmail
+          - /postfix
+          - /dovecot
+          - /fluentd
+          - /flanneld
+          - /splunkd
+          - /consul
+          - /smbd
+          - /runsv
+          - /PM2
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Read sensitive file trusted after startup"},"name":"falco-ref-sensitive-read-trusted"},"spec":{"kprobes":[{"args":[{"index":0,"label":"file","type":"file"},{"index":1,"label":"mask","type":"int"}],"call":"security_file_permission","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["/etc/shadow","/etc/sudoers","/etc/pam.conf","/etc/security/pwquality.conf"]},{"index":1,"operator":"Equal","values":["4"]}],"matchBinaries":[{"operator":"Postfix","values":["/nginx","/httpd","/apache","/apache2","/mysqld","/postgres","/sqlplus"]}]},{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Prefix","values":["/etc/sudoers.d/","/etc/pam.d/"]},{"index":1,"operator":"Equal","values":["4"]}],"matchBinaries":[{"operator":"Postfix","values":["/nginx","/httpd","/apache","/apache2","/mysqld","/postgres","/sqlplus"]}]}],"syscall":false}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Read sensitive file trusted after startup
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-sensitive-read-trusted
+    resourceVersion: "12858916"
+    uid: 67eb8ed2-077c-4700-a3ae-f46803704b0d
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: file
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: file
+      - index: 1
+        label: mask
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: security_file_permission
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - /etc/shadow
+          - /etc/sudoers
+          - /etc/pam.conf
+          - /etc/security/pwquality.conf
+        - index: 1
+          operator: Equal
+          values:
+          - "4"
+        matchBinaries:
+        - followChildren: false
+          operator: Postfix
+          values:
+          - /nginx
+          - /httpd
+          - /apache
+          - /apache2
+          - /mysqld
+          - /postgres
+          - /sqlplus
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Prefix
+          values:
+          - /etc/sudoers.d/
+          - /etc/pam.d/
+        - index: 1
+          operator: Equal
+          values:
+          - "4"
+        matchBinaries:
+        - followChildren: false
+          operator: Postfix
+          values:
+          - /nginx
+          - /httpd
+          - /apache
+          - /apache2
+          - /mysqld
+          - /postgres
+          - /sqlplus
+      syscall: false
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Read sensitive file untrusted"},"name":"falco-ref-sensitive-read-untrusted"},"spec":{"kprobes":[{"args":[{"index":0,"label":"file","type":"file"},{"index":1,"label":"mask","type":"int"}],"call":"security_file_permission","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["/etc/shadow","/etc/sudoers","/etc/pam.conf","/etc/security/pwquality.conf"]},{"index":1,"operator":"Equal","values":["4"]}]},{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Prefix","values":["/etc/sudoers.d/","/etc/pam.d/"]},{"index":1,"operator":"Equal","values":["4"]}]}],"syscall":false}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Read sensitive file untrusted
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-sensitive-read-untrusted
+    resourceVersion: "12858917"
+    uid: d6e4c6de-a43a-4042-8c3c-c4384fb1db6d
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: file
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: file
+      - index: 1
+        label: mask
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: security_file_permission
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - /etc/shadow
+          - /etc/sudoers
+          - /etc/pam.conf
+          - /etc/security/pwquality.conf
+        - index: 1
+          operator: Equal
+          values:
+          - "4"
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Prefix
+          values:
+          - /etc/sudoers.d/
+          - /etc/pam.d/
+        - index: 1
+          operator: Equal
+          values:
+          - "4"
+      syscall: false
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Disallowed SSH Connection Non Standard Port"},"name":"falco-ref-ssh-nonstandard-port"},"spec":{"kprobes":[{"args":[{"index":0,"label":"socket","type":"sock"}],"call":"tcp_connect","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"DPort","values":["80","8080","88","443","8443","53","4444"]},{"index":0,"operator":"NotDAddr","values":["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","127.0.0.0/8"]}],"matchBinaries":[{"operator":"Postfix","values":["/ssh"]}]}],"syscall":false}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Disallowed SSH Connection Non Standard Port
+    creationTimestamp: "2026-08-19T15:12:59Z"
+    generation: 1
+    name: falco-ref-ssh-nonstandard-port
+    resourceVersion: "12858938"
+    uid: d01f9b60-5d50-437c-91ad-fb6a3fd9de80
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: socket
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: sock
+      call: tcp_connect
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: DPort
+          values:
+          - "80"
+          - "8080"
+          - "88"
+          - "443"
+          - "8443"
+          - "53"
+          - "4444"
+        - index: 0
+          operator: NotDAddr
+          values:
+          - 10.0.0.0/8
+          - 172.16.0.0/12
+          - 192.168.0.0/16
+          - 127.0.0.0/8
+        matchBinaries:
+        - followChildren: false
+          operator: Postfix
+          values:
+          - /ssh
+      syscall: false
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Redirect STDOUT/STDIN to Network Connection in Container"},"name":"falco-ref-stdio-network-redirect"},"spec":{"kprobes":[{"args":[{"index":1,"label":"source_file","type":"file"},{"index":2,"label":"newfd","type":"int"}],"call":"do_dup2","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"FileType","values":["socket"]},{"index":2,"operator":"Equal","values":["0","1","2"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}]}],"syscall":false}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Redirect STDOUT/STDIN to Network Connection in Container
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-stdio-network-redirect
+    resourceVersion: "14565682"
+    uid: bf70449f-3ebd-4515-86ad-6816bcb27357
+  spec:
+    kprobes:
+    - args:
+      - index: 1
+        label: source_file
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: file
+      - index: 2
+        label: newfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: do_dup2
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: FileType
+          values:
+          - socket
+        - index: 2
+          operator: Equal
+          values:
+          - "0"
+          - "1"
+          - "2"
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+      syscall: false
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"close","thesis.fh/reference-rule":"Create Symlink Over Sensitive Files"},"name":"falco-ref-symlink-sensitive"},"spec":{"kprobes":[{"args":[{"index":0,"label":"target","type":"string"},{"index":1,"label":"linkpath","type":"string"}],"call":"sys_symlink","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["/etc/shadow","/etc/sudoers","/etc/pam.conf","/etc/security/pwquality.conf","/","/etc","/etc/","/root","/root/"]}]}],"syscall":true},{"args":[{"index":0,"label":"target","type":"string"},{"index":1,"label":"newdirfd","type":"int"},{"index":2,"label":"linkpath","type":"string"}],"call":"sys_symlinkat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Equal","values":["/etc/shadow","/etc/sudoers","/etc/pam.conf","/etc/security/pwquality.conf","/","/etc","/etc/","/root","/root/"]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: close
+      thesis.fh/reference-rule: Create Symlink Over Sensitive Files
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 1
+    name: falco-ref-symlink-sensitive
+    resourceVersion: "12858927"
+    uid: 11ab630c-1e82-40d6-90c7-b4645a00ffea
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: target
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: linkpath
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_symlink
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - /etc/shadow
+          - /etc/sudoers
+          - /etc/pam.conf
+          - /etc/security/pwquality.conf
+          - /
+          - /etc
+          - /etc/
+          - /root
+          - /root/
+      syscall: true
+    - args:
+      - index: 0
+        label: target
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 1
+        label: newdirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 2
+        label: linkpath
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_symlinkat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Equal
+          values:
+          - /etc/shadow
+          - /etc/sudoers
+          - /etc/pam.conf
+          - /etc/security/pwquality.conf
+          - /
+          - /etc
+          - /etc/
+          - /root
+          - /root/
+      syscall: true
+- apiVersion: cilium.io/v1alpha1
+  kind: TracingPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v1alpha1","kind":"TracingPolicy","metadata":{"annotations":{"thesis.fh/mapping-status":"partial","thesis.fh/reference-rule":"Terminal shell in container"},"name":"falco-ref-terminal-shell-container"},"spec":{"kprobes":[{"args":[{"index":0,"label":"filename","type":"string"}],"call":"sys_execve","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":0,"operator":"Postfix","values":["/sh","/bash","/dash","/ash","/zsh","/ksh","/csh","/tcsh"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}],"matchPIDs":[{"followForks":false,"isNamespacePID":true,"operator":"NotIn","values":[1]}]}],"syscall":true},{"args":[{"index":0,"label":"dirfd","type":"int"},{"index":1,"label":"filename","type":"string"},{"index":4,"label":"flags","type":"int"}],"call":"sys_execveat","selectors":[{"matchActions":[{"action":"Post"}],"matchArgs":[{"index":1,"operator":"Postfix","values":["/sh","/bash","/dash","/ash","/zsh","/ksh","/csh","/tcsh"]}],"matchNamespaces":[{"namespace":"Mnt","operator":"NotIn","values":["host_ns"]}],"matchPIDs":[{"followForks":false,"isNamespacePID":true,"operator":"NotIn","values":[1]}]}],"syscall":true}]}}
+      thesis.fh/mapping-status: partial
+      thesis.fh/reference-rule: Terminal shell in container
+    creationTimestamp: "2026-08-19T15:12:58Z"
+    generation: 2
+    name: falco-ref-terminal-shell-container
+    resourceVersion: "12862626"
+    uid: 86d1c6de-ef40-4127-97f1-7124a8254ba2
+  spec:
+    kprobes:
+    - args:
+      - index: 0
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      call: sys_execve
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 0
+          operator: Postfix
+          values:
+          - /sh
+          - /bash
+          - /dash
+          - /ash
+          - /zsh
+          - /ksh
+          - /csh
+          - /tcsh
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+        matchPIDs:
+        - followForks: false
+          isNamespacePID: true
+          operator: NotIn
+          values:
+          - 1
+      syscall: true
+    - args:
+      - index: 0
+        label: dirfd
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      - index: 1
+        label: filename
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: string
+      - index: 4
+        label: flags
+        maxData: false
+        resolve: ""
+        returnCopy: false
+        type: int
+      call: sys_execveat
+      return: false
+      selectors:
+      - matchActions:
+        - action: Post
+        matchArgs:
+        - index: 1
+          operator: Postfix
+          values:
+          - /sh
+          - /bash
+          - /dash
+          - /ash
+          - /zsh
+          - /ksh
+          - /csh
+          - /tcsh
+        matchNamespaces:
+        - namespace: Mnt
+          operator: NotIn
+          values:
+          - host_ns
+        matchPIDs:
+        - followForks: false
+          isNamespacePID: true
+          operator: NotIn
+          values:
+          - 1
+      syscall: true
+kind: List
+metadata:
+  resourceVersion: ""
