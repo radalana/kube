@@ -1,0 +1,15 @@
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      mariadb-galera-0                           2/2     Running   0             3m13s   10.1.235.130   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running   0             18d     10.1.219.92    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running   0             18d     10.1.189.95    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running   2 (44d ago)   79d     10.1.189.84    worker2   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running   2 (44d ago)   99d     10.1.219.82    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running   1 (44d ago)   47d     10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running   1 (44d ago)   47d     10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running   1 (44d ago)   47d     10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running   2 (44d ago)   99d     10.1.219.83    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running   7 (12d ago)   85d     10.1.235.179   worker1   <none>           <none>
+kube-system   tetragon-c8h58                             2/2     Running   0             14d     10.0.0.4       worker2   <none>           <none>
+kube-system   tetragon-lmbtm                             2/2     Running   0             14d     10.0.0.2       master    <none>           <none>
+kube-system   tetragon-operator-7c9f964ff5-57xrd         1/1     Running   0             36d     10.1.235.146   worker1   <none>           <none>
+kube-system   tetragon-rnrjs                             2/2     Running   0             14d     10.0.0.3       worker1   <none>           <none>

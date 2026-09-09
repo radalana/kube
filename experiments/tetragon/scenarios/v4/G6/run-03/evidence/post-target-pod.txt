@@ -1,0 +1,2 @@
+NAME               READY   STATUS    RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+mariadb-galera-0   2/2     Running   0          57s   10.1.235.180   worker1   <none>           <none>

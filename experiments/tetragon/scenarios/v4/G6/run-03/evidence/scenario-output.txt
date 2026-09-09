@@ -1,0 +1,31 @@
+=== State before Pod deletion ===
+NAME               READY   STATUS    RESTARTS   AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+mariadb-galera-0   2/2     Running   0          3m42s   10.1.235.130   worker1   <none>           <none>
+
+=== Galera status before Pod deletion ===
+Variable_name	Value
+wsrep_cluster_size	3
+Variable_name	Value
+wsrep_local_state_comment	Synced
+Old Pod UID: 8fb0762f-9be7-4b31-956c-3520c8e78ff0
+
+=== Delete Pod ===
+pod "mariadb-galera-0" deleted
+
+=== Wait until new Pod object is created ===
+New Pod UID: 93b3e069-fccc-43c5-9f3b-19ddbbd6a0b5
+
+=== Wait until Pod is Ready again ===
+pod/mariadb-galera-0 condition met
+
+=== State after Pod recovery ===
+NAME               READY   STATUS    RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+mariadb-galera-0   2/2     Running   0          31s   10.1.235.180   worker1   <none>           <none>
+
+=== Galera status after Pod recovery ===
+Variable_name	Value
+wsrep_cluster_size	3
+Variable_name	Value
+wsrep_local_state_comment	Synced
+
+G6 Pod deletion and recovery completed successfully
