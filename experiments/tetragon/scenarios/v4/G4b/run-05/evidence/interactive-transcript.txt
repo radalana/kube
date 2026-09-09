@@ -1,0 +1,60 @@
+**********************
+PowerShell transcript start
+Start time: 20260909111608
+Username: DESKTOP-MP9LART\sveta
+RunAs User: DESKTOP-MP9LART\sveta
+Configuration Name: 
+Machine: DESKTOP-MP9LART (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Program Files\PowerShell\7\pwsh.dll -noexit -command try { . "c:\Users\sveta\AppData\Local\Programs\Microsoft VS Code\88e44fa0e0\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 13920
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is .\experiments\tetragon\scenarios\v4\G4b\run-05\interactive-transcript.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>$startTime = [DateTimeOffset]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>"G4b_START_UTC=$startTime" |
+  Set-Content "$g4\scenario-window.txt"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>Write-Host "G4b START: $startTime"
+G4b START: 2026-09-09T09:16:12.033Z
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>.\tests\scenarios\G4-kubectl-exec\run-g4b-interactive.ps1
+Starting G4b: authorized interactive shell
+Inside the container, run:
+  id
+  hostname
+  ps
+  exit
+
+G4b completed successfully
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>$execCode = $LASTEXITCODE
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>$endTime = [DateTimeOffset]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>"G4b_END_UTC=$endTime" |
+  Add-Content "$g4\scenario-window.txt"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>"G4b_EXIT_CODE=$execCode" |
+  Set-Content "$g4\exit-code.txt"
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>Write-Host "G4b END: $endTime"
+G4b END: 2026-09-09T09:16:42.723Z
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>Write-Host "Exit code: $execCode"
+Exit code: 0
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5csveta\x5cDocuments\x5ckubePS C:\Users\sveta\Documents\kube> ]633;B
+PS>Stop-Transcript
+**********************
+PowerShell transcript end
+End time: 20260909111655
+**********************
