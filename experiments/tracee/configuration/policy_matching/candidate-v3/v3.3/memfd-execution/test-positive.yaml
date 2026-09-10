@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memfd-pos
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: python:3.13-alpine
+      command:
+        - python3
+        - -c
+        - |
+          import os
+
+          fd = os.memfd_create("tracee-memfd-test", flags=0)
+
+          with open("/bin/busybox", "rb") as src:
+              os.write(fd, src.read())
+
+          os.fchmod(fd, 0o755)
+
+          print(f"executing memfd fd={fd}", flush=True)
+
+          os.execve(
+              f"/proc/self/fd/{fd}",
+              ["busybox", "echo", "executed from memfd"],
+              os.environ
+          )

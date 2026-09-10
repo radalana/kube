@@ -1,0 +1,2 @@
+positve: pass
+negative: pass

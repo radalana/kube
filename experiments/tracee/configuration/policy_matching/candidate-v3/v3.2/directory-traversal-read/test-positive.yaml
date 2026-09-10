@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dt-pos
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: python:3.13-alpine
+      workingDir: /
+      command:
+        - python3
+        - -c
+        - |
+          p = "../../etc/passwd"
+          with open(p, "r") as f:
+              print(f.readline().strip())

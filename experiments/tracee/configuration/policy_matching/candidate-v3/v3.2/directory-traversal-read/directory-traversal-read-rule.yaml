@@ -1,0 +1,14 @@
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-directory-traversal-read
+  annotations:
+    description: "Partial/narrower Falco mapping. Detects security_file_open when the raw syscall path starts with ../../ and the resolved target is monitored. Falco traversal occurring later in the path, failed opens, some SSH-directory/id_rsa patterns, and the parent-shell exclusion are not fully reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: security_file_open
+      filters:
+        - data.syscall_pathname=../../*
+        - data.pathname=/etc/*,/root/.ssh*,*id_rsa

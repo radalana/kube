@@ -1,0 +1,13 @@
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-memfd-execution
+  annotations:
+    description: "Partial Falco mapping: execution from memfd. Falco runc exclusions are not reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: sched_process_exec
+      filters:
+        - data.pathname=memfd:*

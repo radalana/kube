@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tracee-ssh-negative
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: alpine:3.22
+      command:
+        - /bin/sh
+        - -c
+        - |
+          apk add --no-cache openssh-client >/dev/null
+          timeout 5 ssh \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o ConnectTimeout=3 \
+            -p 2222 \
+            test@tracee-ssh-listener.default.svc.cluster.local || true
+          sleep 3

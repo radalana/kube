@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: clearlog-neg
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: alpine:3.22
+      command:
+        - /bin/sh
+        - -c
+        - |
+          echo "before" > /tmp/tracee-clear-test.txt
+          sleep 1
+          : > /tmp/tracee-clear-test.txt
+          echo "tmp file truncated"
+          sleep 3

@@ -1,0 +1,347 @@
+# Tracee 0.24.1 candidate Falco-reference policy bundle, v2
+#
+# Reference: the 25 enabled rules in the frozen Falco falco_rules.yaml.
+#
+# Design principle:
+# - Keep built-in Tracee detections when they represent the Falco behavior meaningfully.
+# - Use custom Tracee Policy rules only when the main security-relevant activity can
+#   be expressed at policy level.
+# - Do not instantiate a policy if it would be so broad that its matches would no
+#   longer meaningfully represent the Falco rule.
+#
+# 25 Falco rules were reviewed, but only 21 Tracee Policy resources are instantiated
+# in this candidate bundle.
+#
+# Intentionally not instantiated in v2:
+# - System user interactive
+# - Search Private Keys or Passwords
+# - Find AWS Credentials
+# - Disallowed SSH Connection Non Standard Port
+#
+# These four remain "unavailable" at policy level for now because the important
+# Falco conditions cannot be reproduced reliably with the verified Tracee 0.24.1
+# Policy filters without turning the rule into an overly broad collector.
+#
+# IMPORTANT:
+# - This remains a candidate configuration.
+# - Run kubectl apply --dry-run=server before any live apply.
+# - Then validate selected custom/ambiguous mappings with positive and negative tests.
+# - Remaining non-reproduced Falco conditions are documented in annotations.
+
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-directory-traversal-read
+  annotations:
+    description: "Partial: raw path contains traversal and a monitored-path indicator. Falco's second ../ requirement, resolved-path semantics, read/open-failure distinction, and parent-shell exclusion are not fully reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: open
+      filters:
+        - data.pathname=*../*
+        - data.pathname=*/etc/*,*/.ssh/*,*id_rsa*
+    - event: openat
+      filters:
+        - data.pathname=*../*
+        - data.pathname=*/etc/*,*/.ssh/*,*id_rsa*
+    - event: openat2
+      filters:
+        - data.pathname=*../*
+        - data.pathname=*/etc/*,*/.ssh/*,*id_rsa*
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-sensitive-read-trusted
+  annotations:
+    description: "Partial: sensitive-file access by Falco server-process names except sshd. Falco read-only semantics and process-age >5 s are not reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: security_file_open
+      filters:
+        - data.pathname=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/etc/sudoers.d/*,/etc/pam.d/*
+        - comm=nginx,httpd,httpd-foregroun,lighttpd,apache,apache2,mysqld,postgres,sqlplus,docker,dockerd,containerd-shim,pause,exe,docker-compose,docker-entrypoi,docker-runc-cur,docker-current,dockerd-current
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-sensitive-read-untrusted
+  annotations:
+    description: "Partial: sensitive-file access with many direct trusted process-name exclusions. Falco read-only, cmdline, ancestry, package-specific, and image exceptions are not fully reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: security_file_open
+      filters:
+        - data.pathname=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/etc/sudoers.d/*,/etc/pam.d/*
+        - comm!=sudo,su,suexec,critical-stack,dzdo,anacron,cron,crond,crontab
+        - comm!=ash,bash,csh,ksh,sh,tcsh,zsh,dash,openvpn
+        - comm!=iptables,ps,lsb_release,check-new-relea,dumpe2fs,accounts-daemon,sshd,vsftpd,systemd,mysql_install_d,psql,screen
+        - comm!=debconf-show,sa-update,pam-auth-update,pam-config,polkit-agent-he,lsattr,file,sosreport,scxcimservera,adclient,rtvscand,cockpit-session,userhelper
+        - comm!=ossec-syscheckd,sshd-session,rkhunter,aide,aide.wrapper,update-aide.con,logcheck,syslog-summary,osqueryd
+        - comm!=login,systemd-logind,nologin,faillog,lastlog,newgrp,sg,passwd,shadowconfig,grpck,pwunconv,grpconv,pwck,groupmod,vipw,pwconv,useradd,newusers
+        - comm!=cppw,chpasswd,usermod,groupadd,groupdel,grpunconv,chgpasswd,userdel,chage,chsh,gpasswd,chfn,expiry,vigr,cpgr,adduser,addgroup,deluser,delgroup
+        - comm!=groupmems,unix_chkpwd,dnf,dnf-automatic,rpm,rpmkey,yum,repoquery,rpmkeys,rpmq,yum-cron,microdnf,rhn_check,dpkg,apt,apt-get,aptitude
+        - comm!=pip,pip3,conda,uv,gem,npm,chef-client,apk,snapd,alternatives,update-alternat
+        - comm!=in.proftpd,mandb,salt-call,salt-minion,pg_dumpall,pg_ctl,pg_lsclusters,pg_ctlcluster,google_oslogin_
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-run-shell-untrusted
+  annotations:
+    description: "Partial: Tracee built-in illegitimate_shell covers a subset of Falco Run shell untrusted semantics."
+spec:
+  scope:
+    - global
+  rules:
+    - event: illegitimate_shell
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-terminal-shell-container
+  annotations:
+    description: "Partial: shell execution in a container. Falco proc.tty != 0 and container-entrypoint semantics are not reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: sched_process_exec
+      filters:
+        - container
+        - comm=ash,bash,csh,ksh,sh,tcsh,zsh,dash
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-k8s-api-contact
+  annotations:
+    description: "Partial: Tracee built-in k8s_api_connection; requires exec-env=true in the evaluated Tracee 0.24.1 deployment and differs from Falco exclusions."
+spec:
+  scope:
+    - global
+  rules:
+    - event: k8s_api_connection
+      filters:
+        - container
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-netcat-rce
+  annotations:
+    description: "Partial: nc/ncat execution in a container. Falco's required execution-option argv conditions remain unreproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: sched_process_exec
+      filters:
+        - container
+        - comm=nc,ncat
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-clear-log
+  annotations:
+    description: "Partial: actual truncation of Falco log paths. This is closer than collecting every log-file open, but also covers truncate paths beyond Falco's open-with-O_TRUNC mechanism; Falco container/image exclusions are not reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: do_truncate
+      filters:
+        - data.pathname=/var/log/*,/dev/log/*,*syslog,*auth.log,*secure,*kern.log,*cron,*user.log,*dpkg.log,*last.log,*yum.log,*access_log,*mysql.log,*mysqld.log
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-remove-bulk-data
+  annotations:
+    description: "Close candidate: execution of shred, mkfs, or mke2fs; Falco user-known exception is empty in the frozen ruleset."
+spec:
+  scope:
+    - global
+  rules:
+    - event: sched_process_exec
+      filters:
+        - comm=shred,mkfs,mke2fs
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-symlink-sensitive
+  annotations:
+    description: "Close candidate: symlink/symlinkat whose target is one of Falco's sensitive file or directory values; relative-path interpretation may differ."
+spec:
+  scope:
+    - global
+  rules:
+    - event: symlink
+      filters:
+        - data.target=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/,/etc,/etc/,/root,/root/
+    - event: symlinkat
+      filters:
+        - data.target=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/,/etc,/etc/,/root,/root/
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-hardlink-sensitive
+  annotations:
+    description: "Close candidate: link/linkat whose old path is one of Falco's sensitive files; relative-path interpretation may differ."
+spec:
+  scope:
+    - global
+  rules:
+    - event: link
+      filters:
+        - data.oldpath=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf
+    - event: linkat
+      filters:
+        - data.oldpath=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-packet-socket
+  annotations:
+    description: "Close candidate: socket creation in a container with AF_PACKET domain (17)."
+spec:
+  scope:
+    - global
+  rules:
+    - event: socket
+      filters:
+        - container
+        - data.domain=17
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-stdio-network-redirect
+  annotations:
+    description: "Partial: Tracee built-in stdio_over_socket limited here to containers. Its detector logic is still not identical to Falco dup/dup2/dup3 plus IPv4/IPv6 source-FD semantics."
+spec:
+  scope:
+    - global
+  rules:
+    - event: stdio_over_socket
+      filters:
+        - container
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-kernel-module
+  annotations:
+    description: "Partial: Tracee built-in kernel_module_loading limited to containers. Falco additionally requires effective CAP_SYS_MODULE; the frozen allowed-image list is empty."
+spec:
+  scope:
+    - global
+  rules:
+    - event: kernel_module_loading
+      filters:
+        - container
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-debugfs-privileged
+  annotations:
+    description: "Partial custom candidate: debugfs execution in a container. Falco container.privileged=true cannot be reproduced directly by this policy."
+spec:
+  scope:
+    - global
+  rules:
+    - event: sched_process_exec
+      filters:
+        - container
+        - comm=debugfs
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-release-agent
+  annotations:
+    description: "Partial: Tracee built-in cgroup_release_agent limited to containers. Falco's UID/CAP_DAC_OVERRIDE and CAP_SYS_ADMIN requirements are not reproduced by the built-in detector."
+spec:
+  scope:
+    - global
+  rules:
+    - event: cgroup_release_agent
+      filters:
+        - container
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-ptrace-attach
+  annotations:
+    description: "Close custom candidate: ptrace request values corresponding to PTRACE_POKETEXT, PTRACE_POKEDATA, PTRACE_ATTACH, PTRACE_SETREGS, and PTRACE_SEIZE."
+spec:
+  scope:
+    - global
+  rules:
+    - event: ptrace
+      filters:
+        - data.request=4,5,13,16,16902
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-ptrace-antidebug
+  annotations:
+    description: "Close: Tracee built-in anti_debugging detects PTRACE_TRACEME."
+spec:
+  scope:
+    - global
+  rules:
+    - event: anti_debugging
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-exec-dev-shm
+  annotations:
+    description: "Partial custom candidate: absolute execution path under /dev/shm. Falco's relative-cwd/shell-argv forms and image exclusions are not reproduced."
+spec:
+  scope:
+    - global
+  rules:
+    - event: security_bprm_check
+      filters:
+        - data.pathname=/dev/shm/*
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-drop-execute-container
+  annotations:
+    description: "Partial: Tracee built-in dropped_executable represents an executable being dropped into a container, not Falco's execution of an upper-layer executable. Kept as the closest native semantic detector instead of matching every container exec."
+spec:
+  scope:
+    - global
+  rules:
+    - event: dropped_executable
+      filters:
+        - container
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: falco-ref-memfd-execution
+  annotations:
+    description: "Partial: Tracee built-in fileless_execution covers memfd execution but also other memory-backed paths and does not reproduce Falco's runc exclusions."
+spec:
+  scope:
+    - global
+  rules:
+    - event: fileless_execution

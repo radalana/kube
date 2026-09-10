@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dt-neg
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: python:3.13-alpine
+      command:
+        - python3
+        - -c
+        - |
+          with open("/etc/passwd", "r") as f:
+              print(f.readline().strip())

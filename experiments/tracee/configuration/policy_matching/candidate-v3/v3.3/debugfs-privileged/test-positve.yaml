@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debugfs-pos
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: ubuntu:24.04
+      securityContext:
+        privileged: true
+      command:
+        - /bin/bash
+        - -c
+        - |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq e2fsprogs
+          /usr/sbin/debugfs -V
+          sleep 3

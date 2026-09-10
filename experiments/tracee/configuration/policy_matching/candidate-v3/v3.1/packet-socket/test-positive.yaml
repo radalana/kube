@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tracee-packet-socket-positive
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: python:3.13-alpine
+      securityContext:
+        capabilities:
+          add:
+            - NET_RAW
+      command:
+        - python3
+        - -c
+        - |
+          import socket
+          s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(3))
+          print("AF_PACKET socket created")
+          s.close()

@@ -1,0 +1,115 @@
+Name:             tracee-g5fhw
+Namespace:        tracee
+Priority:         0
+Service Account:  tracee
+Node:             worker2/10.0.0.4
+Start Time:       Thu, 10 Sep 2026 20:26:57 +0200
+Labels:           app.kubernetes.io/instance=tracee
+                  app.kubernetes.io/name=tracee
+                  controller-revision-hash=6685c74cd7
+                  pod-template-generation=50
+Annotations:      cni.projectcalico.org/containerID: fc807506f05d33ecde42b122b4b0f52edb382094e54d634b72caf4e7ecbc85c7
+                  cni.projectcalico.org/podIP: 10.1.189.108/32
+                  cni.projectcalico.org/podIPs: 10.1.189.108/32
+                  kubectl.kubernetes.io/restartedAt: 2026-09-10T12:29:02+02:00
+                  tracee-operator-restarted: 2026-09-10 18:26:56.318956141 +0000 UTC m=+34589.473020674
+Status:           Running
+IP:               10.1.189.108
+IPs:
+  IP:           10.1.189.108
+Controlled By:  DaemonSet/tracee
+Containers:
+  tracee:
+    Container ID:  containerd://10f5ea54580f674cfdae0675f8ec863ab9b32b502c225f1322ca02b9561aff6b
+    Image:         docker.io/aquasec/tracee:0.24.1
+    Image ID:      docker.io/aquasec/tracee@sha256:cfbbfee972e64a644f6b1bac74ee26998e6e12442697be4c797ae563553a2a5b
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /tracee/tracee
+    Args:
+      --config
+      /tracee/config.yaml
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Thu, 10 Sep 2026 20:28:24 +0200
+      Finished:     Thu, 10 Sep 2026 20:28:24 +0200
+    Ready:          False
+    Restart Count:  4
+    Readiness:      http-get http://:3366/healthz delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      LIBBPFGO_OSRELEASE_FILE:  /etc/os-release-host
+      NODE_NAME:                 (v1:spec.nodeName)
+    Mounts:
+      /etc/os-release-host from etc-os-release (ro)
+      /tmp/tracee from tmp-tracee (rw)
+      /tracee/config.yaml from tracee-config (ro,path="config.yaml")
+      /var/run/containerd/containerd.sock from containerd-sock (ro)
+      /var/run/crio/crio.sock from crio-sock (ro)
+      /var/run/docker.sock from docker-sock (ro)
+      /var/run/podman/podman.sock from podman-sock (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-cpxx5 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  tmp-tracee:
+    Type:          HostPath (bare host directory volume)
+    Path:          /tmp/tracee
+    HostPathType:  
+  etc-os-release:
+    Type:          HostPath (bare host directory volume)
+    Path:          /etc/os-release
+    HostPathType:  
+  containerd-sock:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/containerd/containerd.sock
+    HostPathType:  
+  crio-sock:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/crio/crio.sock
+    HostPathType:  
+  podman-sock:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/podman/podman.sock
+    HostPathType:  
+  docker-sock:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/docker.sock
+    HostPathType:  
+  tracee-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      tracee-config
+    Optional:  false
+  kube-api-access-cpxx5:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 :NoSchedule op=Exists
+                             :NoExecute op=Exists
+                             node.kubernetes.io/disk-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/memory-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/not-ready:NoExecute op=Exists
+                             node.kubernetes.io/pid-pressure:NoSchedule op=Exists
+                             node.kubernetes.io/unreachable:NoExecute op=Exists
+                             node.kubernetes.io/unschedulable:NoSchedule op=Exists
+Events:
+  Type     Reason     Age                 From               Message
+  ----     ------     ----                ----               -------
+  Normal   Scheduled  115s                default-scheduler  Successfully assigned tracee/tracee-g5fhw to worker2
+  Normal   Pulled     29s (x5 over 114s)  kubelet            Container image "docker.io/aquasec/tracee:0.24.1" already present on machine and can be accessed by the pod
+  Normal   Created    29s (x5 over 114s)  kubelet            Container created
+  Normal   Started    28s (x5 over 114s)  kubelet            Container started
+  Warning  Unhealthy  28s                 kubelet            Readiness probe failed: Get "http://10.1.189.108:3366/healthz": dial tcp 10.1.189.108:3366: connect: connection refused
+  Warning  BackOff    26s (x9 over 113s)  kubelet            Back-off restarting failed container tracee in pod tracee-g5fhw_tracee(9278eba5-37d2-414c-b3d0-f187e490fe69)

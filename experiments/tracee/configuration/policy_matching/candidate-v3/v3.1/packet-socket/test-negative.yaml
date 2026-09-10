@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tracee-packet-socket-negative
+  namespace: default
+spec:
+  nodeName: worker1
+  restartPolicy: Never
+  containers:
+    - name: test
+      image: python:3.13-alpine
+      command:
+        - python3
+        - -c
+        - |
+          import socket
+          s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+          print("AF_INET socket created")
+          s.close()
