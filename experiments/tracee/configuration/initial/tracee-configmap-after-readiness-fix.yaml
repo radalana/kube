@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  config.yaml: "perf-buffer-size: 1024\r\n\r\nserver:\r\n  http-address: \":3366\"\r\n
+    \ healthz: true\r\n  metrics: true\r\n  pprof: false\r\n  pyroscope: false\r\n\r\nlog:\r\n
+    \ level: info\r\n\r\noutput:\r\n  json:\r\n    files:\r\n      - stdout\r\n  options:\r\n
+    \   parse-arguments: true\r\n    stack-addresses: false\r\n    exec-env: false\r\n
+    \   exec-hash: dev-inode\r\n    sort-events: false"
+kind: ConfigMap
+metadata:
+  annotations:
+    meta.helm.sh/release-name: tracee
+    meta.helm.sh/release-namespace: tracee
+  creationTimestamp: "2026-09-10T08:50:21Z"
+  labels:
+    app.kubernetes.io/instance: tracee
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: tracee
+    app.kubernetes.io/version: 0.24.1
+    helm.sh/chart: tracee-0.24.1
+  name: tracee-config
+  namespace: tracee
+  resourceVersion: "16615470"
+  uid: b76d4446-c119-4dd2-ab21-d35869350dda

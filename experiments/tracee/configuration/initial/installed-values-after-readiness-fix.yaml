@@ -1,0 +1,61 @@
+COMPUTED VALUES:
+affinity: {}
+config:
+  blobPerfBufferSize: ""
+  healthz: true
+  installPath: ""
+  listenAddr: :3366
+  log:
+    level: info
+  metrics: true
+  output:
+    format: json
+    options:
+      execEnv: false
+      execHash: dev-inode
+      parseArguments: true
+      sortEvents: false
+      stackAddresses: false
+  perfBufferSize: 1024
+  pprof: false
+  pyroscope: false
+  signaturesDir: ""
+configFile: "perf-buffer-size: 1024\r\n\r\nserver:\r\n  http-address: \":3366\"\r\n
+  \ healthz: true\r\n  metrics: true\r\n  pprof: false\r\n  pyroscope: false\r\n\r\nlog:\r\n
+  \ level: info\r\n\r\noutput:\r\n  json:\r\n    files:\r\n      - stdout\r\n  options:\r\n
+  \   parse-arguments: true\r\n    stack-addresses: false\r\n    exec-env: false\r\n
+  \   exec-hash: dev-inode\r\n    sort-events: false"
+defaultPolicy: true
+extraWebhookTemplates: []
+fullnameOverride: ""
+hostPID: true
+image:
+  pullPolicy: IfNotPresent
+  repository: docker.io/aquasec/tracee
+  tag: ""
+imagePullSecrets: []
+nameOverride: ""
+nodeSelector: {}
+operator:
+  affinity: {}
+  create: true
+  healthProbeBindAddress: :8081
+  name: tracee-operator
+  nodeSelector: {}
+  serviceAccount:
+    name: tracee-operator
+  tolerations: []
+podAnnotations: {}
+podSecurityContext: {}
+resources: {}
+securityContext:
+  privileged: true
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+tolerations:
+- effect: NoSchedule
+  operator: Exists
+- effect: NoExecute
+  operator: Exists

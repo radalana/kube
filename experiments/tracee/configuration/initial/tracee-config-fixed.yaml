@@ -1,0 +1,22 @@
+perf-buffer-size: 1024
+
+server:
+  http-address: ":3366"
+  healthz: true
+  metrics: true
+  pprof: false
+  pyroscope: false
+
+log:
+  level: info
+
+output:
+  json:
+    files:
+      - stdout
+  options:
+    parse-arguments: true
+    stack-addresses: false
+    exec-env: false
+    exec-hash: dev-inode
+    sort-events: false

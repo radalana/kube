@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "3"
+    meta.helm.sh/release-name: tracee
+    meta.helm.sh/release-namespace: tracee
+  creationTimestamp: "2026-09-10T08:50:21Z"
+  generation: 3
+  labels:
+    app.kubernetes.io/instance: tracee
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: tracee
+    app.kubernetes.io/version: 0.24.1
+    helm.sh/chart: tracee-0.24.1
+  name: tracee
+  namespace: tracee
+  resourceVersion: "16615717"
+  uid: d91b386c-e0b1-4ef2-9f51-b076e295fdef
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: tracee
+      app.kubernetes.io/name: tracee
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: "2026-09-10T11:44:13+02:00"
+        tracee-operator-restarted: 2026-09-10 08:50:27.090546862 +0000 UTC m=+0.244611405
+      labels:
+        app.kubernetes.io/instance: tracee
+        app.kubernetes.io/name: tracee
+    spec:
+      containers:
+      - args:
+        - --config
+        - /tracee/config.yaml
+        command:
+        - /tracee/tracee
+        env:
+        - name: LIBBPFGO_OSRELEASE_FILE
+          value: /etc/os-release-host
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        image: docker.io/aquasec/tracee:0.24.1
+        imagePullPolicy: IfNotPresent
+        name: tracee
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 3366
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /tmp/tracee
+          name: tmp-tracee
+        - mountPath: /etc/os-release-host
+          name: etc-os-release
+          readOnly: true
+        - mountPath: /var/run/containerd/containerd.sock
+          name: containerd-sock
+          readOnly: true
+        - mountPath: /var/run/crio/crio.sock
+          name: crio-sock
+          readOnly: true
+        - mountPath: /var/run/docker.sock
+          name: docker-sock
+          readOnly: true
+        - mountPath: /var/run/podman/podman.sock
+          name: podman-sock
+          readOnly: true
+        - mountPath: /tracee/config.yaml
+          name: tracee-config
+          readOnly: true
+          subPath: config.yaml
+      dnsPolicy: ClusterFirst
+      hostPID: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: tracee
+      serviceAccountName: tracee
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+      volumes:
+      - hostPath:
+          path: /tmp/tracee
+          type: ""
+        name: tmp-tracee
+      - hostPath:
+          path: /etc/os-release
+          type: ""
+        name: etc-os-release
+      - hostPath:
+          path: /var/run/containerd/containerd.sock
+          type: ""
+        name: containerd-sock
+      - hostPath:
+          path: /var/run/crio/crio.sock
+          type: ""
+        name: crio-sock
+      - hostPath:
+          path: /var/run/podman/podman.sock
+          type: ""
+        name: podman-sock
+      - hostPath:
+          path: /var/run/docker.sock
+          type: ""
+        name: docker-sock
+      - configMap:
+          defaultMode: 420
+          name: tracee-config
+        name: tracee-config
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 3
+  desiredNumberScheduled: 3
+  numberAvailable: 3
+  numberMisscheduled: 0
+  numberReady: 3
+  observedGeneration: 3
+  updatedNumberScheduled: 3
