@@ -1,0 +1,56 @@
+NAME: tetragon
+LAST DEPLOYED: Wed Aug 26 18:12:29 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 5
+DESCRIPTION: Rollback to 3
+RESOURCES:
+==> v1/ClusterRole
+NAME       CREATED AT
+tetragon   2026-08-04T13:09:58Z
+tetragon-operator   2026-08-04T13:09:58Z
+
+==> v1/Role
+tetragon   2026-08-04T13:09:58Z
+
+==> v1/Pod(related)
+NAME             READY   STATUS    RESTARTS   AGE
+tetragon-c8h58   2/2     Running   0          14d
+tetragon-lmbtm   2/2     Running   0          14d
+tetragon-rnrjs   2/2     Running   0          14d
+tetragon-operator-7c9f964ff5-57xrd   1/1   Running   0     36d
+
+==> v1/Deployment
+NAME                READY   UP-TO-DATE   AVAILABLE   AGE
+tetragon-operator   1/1     1            1           36d
+
+==> v1/ServiceAccount
+NAME                                AGE
+tetragon-operator-service-account   36d
+tetragon   36d
+
+==> v1/ClusterRoleBinding
+NAME       ROLE                   AGE
+tetragon   ClusterRole/tetragon   36d
+tetragon-operator-rolebinding   ClusterRole/tetragon-operator   36d
+
+==> v1/RoleBinding
+NAME       ROLE            AGE
+tetragon   Role/tetragon   36d
+
+==> v1/Service
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+tetragon-operator-metrics   ClusterIP   10.152.183.140   <none>        2113/TCP   36d
+tetragon   ClusterIP   10.152.183.99   <none>   2112/TCP   36d
+
+==> v1/DaemonSet
+NAME       DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+tetragon   3         3         3       3            3           <none>          36d
+
+==> v1/ConfigMap
+NAME                       DATA   AGE
+tetragon-operator-config   9      36d
+tetragon-config   34    36d
+
+
+TEST SUITE: None

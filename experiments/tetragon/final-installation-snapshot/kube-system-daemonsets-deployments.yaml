@@ -1,0 +1,895 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "6"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"k8s-app":"calico-node"},"name":"calico-node","namespace":"kube-system"},"spec":{"selector":{"matchLabels":{"k8s-app":"calico-node"}},"template":{"metadata":{"labels":{"k8s-app":"calico-node"}},"spec":{"containers":[{"env":[{"name":"DATASTORE_TYPE","value":"kubernetes"},{"name":"WAIT_FOR_DATASTORE","value":"true"},{"name":"NODENAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"CALICO_NETWORKING_BACKEND","valueFrom":{"configMapKeyRef":{"key":"calico_backend","name":"calico-config"}}},{"name":"CLUSTER_TYPE","value":"k8s,bgp"},{"name":"IP","value":"autodetect"},{"name":"IP_AUTODETECTION_METHOD","value":"kubernetes-internal-ip"},{"name":"CALICO_IPV4POOL_VXLAN","value":"Always"},{"name":"CALICO_IPV6POOL_VXLAN","value":"Never"},{"name":"FELIX_IPINIPMTU","valueFrom":{"configMapKeyRef":{"key":"veth_mtu","name":"calico-config"}}},{"name":"FELIX_VXLANMTU","valueFrom":{"configMapKeyRef":{"key":"veth_mtu","name":"calico-config"}}},{"name":"FELIX_WIREGUARDMTU","valueFrom":{"configMapKeyRef":{"key":"veth_mtu","name":"calico-config"}}},{"name":"CALICO_IPV4POOL_CIDR","value":"10.1.0.0/16"},{"name":"CALICO_DISABLE_FILE_LOGGING","value":"true"},{"name":"FELIX_DEFAULTENDPOINTTOHOSTACTION","value":"ACCEPT"},{"name":"FELIX_IPV6SUPPORT","value":"false"},{"name":"FELIX_HEALTHENABLED","value":"true"},{"name":"FELIX_FEATUREDETECTOVERRIDE","value":"ChecksumOffloadBroken=true"}],"envFrom":[{"configMapRef":{"name":"kubernetes-services-endpoint","optional":true}}],"image":"docker.io/calico/node:v3.29.3","imagePullPolicy":"IfNotPresent","lifecycle":{"preStop":{"exec":{"command":["/bin/calico-node","-shutdown"]}}},"livenessProbe":{"exec":{"command":["/bin/calico-node","-felix-live"]},"failureThreshold":6,"initialDelaySeconds":10,"periodSeconds":10,"timeoutSeconds":10},"name":"calico-node","readinessProbe":{"exec":{"command":["/bin/calico-node","-felix-ready"]},"periodSeconds":10,"timeoutSeconds":10},"resources":{"requests":{"cpu":"250m"}},"securityContext":{"privileged":true},"volumeMounts":[{"mountPath":"/host/etc/cni/net.d","name":"cni-net-dir","readOnly":false},{"mountPath":"/lib/modules","name":"lib-modules","readOnly":true},{"mountPath":"/run/xtables.lock","name":"xtables-lock","readOnly":false},{"mountPath":"/var/run/calico","name":"var-run-calico","readOnly":false},{"mountPath":"/var/lib/calico","name":"var-lib-calico","readOnly":false},{"mountPath":"/var/run/nodeagent","name":"policysync"},{"mountPath":"/var/log/calico/cni","name":"cni-log-dir","readOnly":true}]}],"hostNetwork":true,"initContainers":[{"command":["/opt/cni/bin/calico-ipam","-upgrade"],"env":[{"name":"KUBERNETES_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"CALICO_NETWORKING_BACKEND","valueFrom":{"configMapKeyRef":{"key":"calico_backend","name":"calico-config"}}}],"envFrom":[{"configMapRef":{"name":"kubernetes-services-endpoint","optional":true}}],"image":"docker.io/calico/cni:v3.29.3","imagePullPolicy":"IfNotPresent","name":"upgrade-ipam","securityContext":{"privileged":true},"volumeMounts":[{"mountPath":"/var/lib/cni/networks","name":"host-local-net-dir"},{"mountPath":"/host/opt/cni/bin","name":"cni-bin-dir"}]},{"command":["/opt/cni/bin/install"],"env":[{"name":"CNI_CONF_NAME","value":"10-calico.conflist"},{"name":"CNI_NETWORK_CONFIG","valueFrom":{"configMapKeyRef":{"key":"cni_network_config","name":"calico-config"}}},{"name":"KUBERNETES_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"CNI_MTU","valueFrom":{"configMapKeyRef":{"key":"veth_mtu","name":"calico-config"}}},{"name":"SLEEP","value":"false"},{"name":"CNI_NET_DIR","value":"/var/snap/microk8s/current/args/cni-network"}],"envFrom":[{"configMapRef":{"name":"kubernetes-services-endpoint","optional":true}}],"image":"docker.io/calico/cni:v3.29.3","imagePullPolicy":"IfNotPresent","name":"install-cni","securityContext":{"privileged":true},"volumeMounts":[{"mountPath":"/host/opt/cni/bin","name":"cni-bin-dir"},{"mountPath":"/host/etc/cni/net.d","name":"cni-net-dir"}]}],"nodeSelector":{"kubernetes.io/os":"linux"},"priorityClassName":"system-node-critical","securityContext":{"seccompProfile":{"type":"RuntimeDefault"}},"serviceAccountName":"calico-node","terminationGracePeriodSeconds":0,"tolerations":[{"effect":"NoSchedule","operator":"Exists"},{"key":"CriticalAddonsOnly","operator":"Exists"},{"effect":"NoExecute","operator":"Exists"}],"volumes":[{"hostPath":{"path":"/lib/modules"},"name":"lib-modules"},{"hostPath":{"path":"/var/snap/microk8s/current/var/run/calico"},"name":"var-run-calico"},{"hostPath":{"path":"/var/snap/microk8s/current/var/lib/calico"},"name":"var-lib-calico"},{"hostPath":{"path":"/run/xtables.lock","type":"FileOrCreate"},"name":"xtables-lock"},{"hostPath":{"path":"/sys/fs/","type":"DirectoryOrCreate"},"name":"sys-fs"},{"hostPath":{"path":"/var/snap/microk8s/current/opt/cni/bin","type":"DirectoryOrCreate"},"name":"cni-bin-dir"},{"hostPath":{"path":"/var/snap/microk8s/current/args/cni-network"},"name":"cni-net-dir"},{"hostPath":{"path":"/var/snap/microk8s/common/var/log/calico/cni"},"name":"cni-log-dir"},{"hostPath":{"path":"/var/snap/microk8s/current/var/lib/cni/networks"},"name":"host-local-net-dir"},{"hostPath":{"path":"/var/snap/microk8s/current/var/run/nodeagent","type":"DirectoryOrCreate"},"name":"policysync"}]}},"updateStrategy":{"rollingUpdate":{"maxUnavailable":1},"type":"RollingUpdate"}}}
+    creationTimestamp: "2026-06-02T15:02:35Z"
+    generation: 6
+    labels:
+      k8s-app: calico-node
+    name: calico-node
+    namespace: kube-system
+    resourceVersion: "13244487"
+    uid: d24c9fb7-0c8a-4e0f-9523-b4a9e4642632
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: calico-node
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-07-24T11:16:35+02:00"
+        labels:
+          k8s-app: calico-node
+      spec:
+        containers:
+        - env:
+          - name: DATASTORE_TYPE
+            value: kubernetes
+          - name: WAIT_FOR_DATASTORE
+            value: "true"
+          - name: NODENAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: CALICO_NETWORKING_BACKEND
+            valueFrom:
+              configMapKeyRef:
+                key: calico_backend
+                name: calico-config
+          - name: CLUSTER_TYPE
+            value: k8s,bgp
+          - name: IP
+            value: autodetect
+          - name: IP_AUTODETECTION_METHOD
+            value: kubernetes-internal-ip
+          - name: CALICO_IPV4POOL_VXLAN
+            value: Always
+          - name: CALICO_IPV6POOL_VXLAN
+            value: Never
+          - name: FELIX_IPINIPMTU
+            valueFrom:
+              configMapKeyRef:
+                key: veth_mtu
+                name: calico-config
+          - name: FELIX_VXLANMTU
+            valueFrom:
+              configMapKeyRef:
+                key: veth_mtu
+                name: calico-config
+          - name: FELIX_WIREGUARDMTU
+            valueFrom:
+              configMapKeyRef:
+                key: veth_mtu
+                name: calico-config
+          - name: CALICO_IPV4POOL_CIDR
+            value: 10.1.0.0/16
+          - name: CALICO_DISABLE_FILE_LOGGING
+            value: "true"
+          - name: FELIX_DEFAULTENDPOINTTOHOSTACTION
+            value: ACCEPT
+          - name: FELIX_IPV6SUPPORT
+            value: "false"
+          - name: FELIX_HEALTHENABLED
+            value: "true"
+          - name: FELIX_FEATUREDETECTOVERRIDE
+            value: ChecksumOffloadBroken=true
+          envFrom:
+          - configMapRef:
+              name: kubernetes-services-endpoint
+              optional: true
+          image: docker.io/calico/node:v3.29.3
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/calico-node
+                - -shutdown
+          livenessProbe:
+            exec:
+              command:
+              - /bin/calico-node
+              - -felix-live
+            failureThreshold: 6
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: calico-node
+          readinessProbe:
+            exec:
+              command:
+              - /bin/calico-node
+              - -felix-ready
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            requests:
+              cpu: 250m
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /host/etc/cni/net.d
+            name: cni-net-dir
+          - mountPath: /lib/modules
+            name: lib-modules
+            readOnly: true
+          - mountPath: /run/xtables.lock
+            name: xtables-lock
+          - mountPath: /var/run/calico
+            name: var-run-calico
+          - mountPath: /var/lib/calico
+            name: var-lib-calico
+          - mountPath: /var/run/nodeagent
+            name: policysync
+          - mountPath: /var/log/calico/cni
+            name: cni-log-dir
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        hostNetwork: true
+        initContainers:
+        - command:
+          - /opt/cni/bin/calico-ipam
+          - -upgrade
+          env:
+          - name: KUBERNETES_NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: CALICO_NETWORKING_BACKEND
+            valueFrom:
+              configMapKeyRef:
+                key: calico_backend
+                name: calico-config
+          envFrom:
+          - configMapRef:
+              name: kubernetes-services-endpoint
+              optional: true
+          image: docker.io/calico/cni:v3.29.3
+          imagePullPolicy: IfNotPresent
+          name: upgrade-ipam
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/cni/networks
+            name: host-local-net-dir
+          - mountPath: /host/opt/cni/bin
+            name: cni-bin-dir
+        - command:
+          - /opt/cni/bin/install
+          env:
+          - name: CNI_CONF_NAME
+            value: 10-calico.conflist
+          - name: CNI_NETWORK_CONFIG
+            valueFrom:
+              configMapKeyRef:
+                key: cni_network_config
+                name: calico-config
+          - name: KUBERNETES_NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: CNI_MTU
+            valueFrom:
+              configMapKeyRef:
+                key: veth_mtu
+                name: calico-config
+          - name: SLEEP
+            value: "false"
+          - name: CNI_NET_DIR
+            value: /var/snap/microk8s/current/args/cni-network
+          envFrom:
+          - configMapRef:
+              name: kubernetes-services-endpoint
+              optional: true
+          image: docker.io/calico/cni:v3.29.3
+          imagePullPolicy: IfNotPresent
+          name: install-cni
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /host/opt/cni/bin
+            name: cni-bin-dir
+          - mountPath: /host/etc/cni/net.d
+            name: cni-net-dir
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: system-node-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: calico-node
+        serviceAccountName: calico-node
+        terminationGracePeriodSeconds: 0
+        tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+        volumes:
+        - hostPath:
+            path: /lib/modules
+            type: ""
+          name: lib-modules
+        - hostPath:
+            path: /var/snap/microk8s/current/var/run/calico
+            type: ""
+          name: var-run-calico
+        - hostPath:
+            path: /var/snap/microk8s/current/var/lib/calico
+            type: ""
+          name: var-lib-calico
+        - hostPath:
+            path: /run/xtables.lock
+            type: FileOrCreate
+          name: xtables-lock
+        - hostPath:
+            path: /sys/fs/
+            type: DirectoryOrCreate
+          name: sys-fs
+        - hostPath:
+            path: /var/snap/microk8s/current/opt/cni/bin
+            type: DirectoryOrCreate
+          name: cni-bin-dir
+        - hostPath:
+            path: /var/snap/microk8s/current/args/cni-network
+            type: ""
+          name: cni-net-dir
+        - hostPath:
+            path: /var/snap/microk8s/common/var/log/calico/cni
+            type: ""
+          name: cni-log-dir
+        - hostPath:
+            path: /var/snap/microk8s/current/var/lib/cni/networks
+            type: ""
+          name: host-local-net-dir
+        - hostPath:
+            path: /var/snap/microk8s/current/var/run/nodeagent
+            type: DirectoryOrCreate
+          name: policysync
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 3
+    desiredNumberScheduled: 3
+    numberAvailable: 3
+    numberMisscheduled: 0
+    numberReady: 3
+    observedGeneration: 6
+    updatedNumberScheduled: 3
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "5"
+      meta.helm.sh/release-name: tetragon
+      meta.helm.sh/release-namespace: kube-system
+    creationTimestamp: "2026-08-04T13:09:59Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/component: agent
+      app.kubernetes.io/instance: tetragon
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tetragon
+      app.kubernetes.io/part-of: tetragon
+      app.kubernetes.io/version: 1.7.0
+      helm.sh/chart: tetragon-1.7.0
+    name: tetragon
+    namespace: kube-system
+    resourceVersion: "14074392"
+    uid: 73afafff-73d2-4ee0-a23b-8c059d0492ce
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tetragon
+        app.kubernetes.io/name: tetragon
+    template:
+      metadata:
+        annotations:
+          checksum/configmap: 495510af950a101c71e022583d33c5b9cb2ace2d70470578bf24f0d346d37e99
+        labels:
+          app.kubernetes.io/component: agent
+          app.kubernetes.io/instance: tetragon
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: tetragon
+          app.kubernetes.io/part-of: tetragon
+          app.kubernetes.io/version: 1.7.0
+          helm.sh/chart: tetragon-1.7.0
+      spec:
+        containers:
+        - args:
+          - /var/run/cilium/tetragon/tetragon.log
+          command:
+          - hubble-export-stdout
+          image: quay.io/cilium/hubble-export-stdout:v1.1.1
+          imagePullPolicy: IfNotPresent
+          name: export-stdout
+          resources: {}
+          securityContext: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+          - mountPath: /var/run/cilium/tetragon
+            name: export-logs
+        - args:
+          - --config-dir=/etc/tetragon/tetragon.conf.d/
+          env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          image: quay.io/cilium/tetragon:v1.7.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            grpc:
+              port: 6789
+              service: liveness
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          name: tetragon
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+          - mountPath: /etc/tetragon/tetragon.conf.d/
+            name: tetragon-config
+            readOnly: true
+          - mountPath: /sys/fs/bpf
+            mountPropagation: Bidirectional
+            name: bpf-maps
+          - mountPath: /var/run/cilium
+            name: cilium-run
+          - mountPath: /var/run/tetragon
+            name: tetragon-run
+          - mountPath: /var/run/cilium/tetragon
+            name: export-logs
+          - mountPath: /procRoot
+            name: host-proc
+        dnsPolicy: Default
+        hostNetwork: true
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: tetragon
+        serviceAccountName: tetragon
+        terminationGracePeriodSeconds: 1
+        tolerations:
+        - operator: Exists
+        volumes:
+        - hostPath:
+            path: /var/run/cilium
+            type: DirectoryOrCreate
+          name: cilium-run
+        - hostPath:
+            path: /var/run/tetragon
+            type: DirectoryOrCreate
+          name: tetragon-run
+        - hostPath:
+            path: /var/run/cilium/tetragon
+            type: DirectoryOrCreate
+          name: export-logs
+        - configMap:
+            defaultMode: 420
+            name: tetragon-config
+          name: tetragon-config
+        - hostPath:
+            path: /sys/fs/bpf
+            type: DirectoryOrCreate
+          name: bpf-maps
+        - hostPath:
+            path: /proc
+            type: Directory
+          name: host-proc
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 3
+    desiredNumberScheduled: 3
+    numberAvailable: 3
+    numberMisscheduled: 0
+    numberReady: 3
+    observedGeneration: 5
+    updatedNumberScheduled: 3
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"calico-kube-controllers"},"name":"calico-kube-controllers","namespace":"kube-system"},"spec":{"replicas":1,"selector":{"matchLabels":{"k8s-app":"calico-kube-controllers"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"k8s-app":"calico-kube-controllers"},"name":"calico-kube-controllers","namespace":"kube-system"},"spec":{"containers":[{"env":[{"name":"ENABLED_CONTROLLERS","value":"node"},{"name":"DATASTORE_TYPE","value":"kubernetes"}],"image":"docker.io/calico/kube-controllers:v3.29.3","imagePullPolicy":"IfNotPresent","livenessProbe":{"exec":{"command":["/usr/bin/check-status","-l"]},"failureThreshold":6,"initialDelaySeconds":10,"periodSeconds":10,"timeoutSeconds":10},"name":"calico-kube-controllers","readinessProbe":{"exec":{"command":["/usr/bin/check-status","-r"]},"periodSeconds":10},"securityContext":{"runAsNonRoot":true}}],"nodeSelector":{"kubernetes.io/os":"linux"},"priorityClassName":"system-cluster-critical","securityContext":{"seccompProfile":{"type":"RuntimeDefault"}},"serviceAccountName":"calico-kube-controllers","tolerations":[{"key":"CriticalAddonsOnly","operator":"Exists"},{"effect":"NoSchedule","key":"node-role.kubernetes.io/master"},{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane"}]}}}}
+    creationTimestamp: "2026-06-02T15:02:35Z"
+    generation: 1
+    labels:
+      k8s-app: calico-kube-controllers
+    name: calico-kube-controllers
+    namespace: kube-system
+    resourceVersion: "347"
+    uid: 135d00ef-2a3d-4898-8a37-6281dfbeedde
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: calico-kube-controllers
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          k8s-app: calico-kube-controllers
+        name: calico-kube-controllers
+        namespace: kube-system
+      spec:
+        containers:
+        - env:
+          - name: ENABLED_CONTROLLERS
+            value: node
+          - name: DATASTORE_TYPE
+            value: kubernetes
+          image: docker.io/calico/kube-controllers:v3.29.3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /usr/bin/check-status
+              - -l
+            failureThreshold: 6
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: calico-kube-controllers
+          readinessProbe:
+            exec:
+              command:
+              - /usr/bin/check-status
+              - -r
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: system-cluster-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: calico-kube-controllers
+        serviceAccountName: calico-kube-controllers
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-06-02T15:03:02Z"
+      lastUpdateTime: "2026-06-02T15:03:02Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-06-02T15:02:41Z"
+      lastUpdateTime: "2026-06-02T15:03:02Z"
+      message: ReplicaSet "calico-kube-controllers-676854dc5d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","k8s-app":"kube-dns","kubernetes.io/cluster-service":"true","kubernetes.io/name":"CoreDNS"},"name":"coredns","namespace":"kube-system"},"spec":{"selector":{"matchLabels":{"k8s-app":"kube-dns"}},"strategy":{"rollingUpdate":{"maxSurge":"10%","maxUnavailable":0},"type":"RollingUpdate"},"template":{"metadata":{"annotations":{"priorityClassName":"system-cluster-critical"},"labels":{"k8s-app":"kube-dns"}},"spec":{"containers":[{"args":["-conf","/etc/coredns/Corefile"],"image":"coredns/coredns:1.13.1","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":5,"httpGet":{"path":"/health","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"successThreshold":1,"timeoutSeconds":5},"name":"coredns","ports":[{"containerPort":53,"name":"dns","protocol":"UDP"},{"containerPort":53,"name":"dns-tcp","protocol":"TCP"},{"containerPort":9153,"name":"metrics","protocol":"TCP"}],"readinessProbe":{"httpGet":{"path":"/ready","port":8181,"scheme":"HTTP"}},"resources":{"limits":{"memory":"170Mi"},"requests":{"cpu":"100m","memory":"70Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["all"]},"readOnlyRootFilesystem":true},"volumeMounts":[{"mountPath":"/etc/coredns","name":"config-volume","readOnly":true}]}],"dnsPolicy":"Default","priorityClassName":"system-cluster-critical","serviceAccountName":"coredns","tolerations":[{"key":"CriticalAddonsOnly","operator":"Exists"}],"volumes":[{"configMap":{"items":[{"key":"Corefile","path":"Corefile"}],"name":"coredns"},"name":"config-volume"}]}}}}
+    creationTimestamp: "2026-06-02T15:02:36Z"
+    generation: 1
+    labels:
+      addonmanager.kubernetes.io/mode: Reconcile
+      k8s-app: kube-dns
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: CoreDNS
+    name: coredns
+    namespace: kube-system
+    resourceVersion: "373"
+    uid: b7cafffc-7607-4cde-b695-d4d102ec75cc
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: kube-dns
+    strategy:
+      rollingUpdate:
+        maxSurge: 10%
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          priorityClassName: system-cluster-critical
+        labels:
+          k8s-app: kube-dns
+      spec:
+        containers:
+        - args:
+          - -conf
+          - /etc/coredns/Corefile
+          image: coredns/coredns:1.13.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: coredns
+          ports:
+          - containerPort: 53
+            name: dns
+            protocol: UDP
+          - containerPort: 53
+            name: dns-tcp
+            protocol: TCP
+          - containerPort: 9153
+            name: metrics
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: 8181
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 170Mi
+            requests:
+              cpu: 100m
+              memory: 70Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+              - NET_BIND_SERVICE
+              drop:
+              - all
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/coredns
+            name: config-volume
+            readOnly: true
+        dnsPolicy: Default
+        priorityClassName: system-cluster-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: coredns
+        serviceAccountName: coredns
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: Corefile
+              path: Corefile
+            name: coredns
+          name: config-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-06-02T15:03:07Z"
+      lastUpdateTime: "2026-06-02T15:03:07Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-06-02T15:02:41Z"
+      lastUpdateTime: "2026-06-02T15:03:07Z"
+      message: ReplicaSet "coredns-78894c95f4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"hostpath-provisioner"},"name":"hostpath-provisioner","namespace":"kube-system"},"spec":{"replicas":1,"revisionHistoryLimit":0,"selector":{"matchLabels":{"k8s-app":"hostpath-provisioner"}},"template":{"metadata":{"labels":{"k8s-app":"hostpath-provisioner"}},"spec":{"containers":[{"env":[{"name":"NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"PV_DIR","value":"/var/snap/microk8s/common/default-storage"},{"name":"BUSYBOX_IMAGE","value":"busybox:1.28.4"}],"image":"cdkbot/hostpath-provisioner:1.6.0","name":"hostpath-provisioner","volumeMounts":[{"mountPath":"/var/snap/microk8s/common/default-storage","name":"pv-volume"}]}],"serviceAccountName":"microk8s-hostpath","volumes":[{"hostPath":{"path":"/var/snap/microk8s/common/default-storage"},"name":"pv-volume"}]}}}}
+    creationTimestamp: "2026-06-16T10:35:02Z"
+    generation: 1
+    labels:
+      k8s-app: hostpath-provisioner
+    name: hostpath-provisioner
+    namespace: kube-system
+    resourceVersion: "14347133"
+    uid: 6b67ae9c-6d6c-49b7-9ef1-6484837fab4b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        k8s-app: hostpath-provisioner
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          k8s-app: hostpath-provisioner
+      spec:
+        containers:
+        - env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: PV_DIR
+            value: /var/snap/microk8s/common/default-storage
+          - name: BUSYBOX_IMAGE
+            value: busybox:1.28.4
+          image: cdkbot/hostpath-provisioner:1.6.0
+          imagePullPolicy: IfNotPresent
+          name: hostpath-provisioner
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/snap/microk8s/common/default-storage
+            name: pv-volume
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: microk8s-hostpath
+        serviceAccountName: microk8s-hostpath
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /var/snap/microk8s/common/default-storage
+            type: ""
+          name: pv-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-06-16T10:35:02Z"
+      lastUpdateTime: "2026-06-16T10:35:06Z"
+      message: ReplicaSet "hostpath-provisioner-7f665d64f6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-08-28T06:09:26Z"
+      lastUpdateTime: "2026-08-28T06:09:26Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: tetragon
+      meta.helm.sh/release-namespace: kube-system
+    creationTimestamp: "2026-08-04T13:09:59Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: operator
+      app.kubernetes.io/instance: tetragon
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tetragon-operator
+      app.kubernetes.io/part-of: tetragon
+      app.kubernetes.io/version: 1.7.0
+      helm.sh/chart: tetragon-1.7.0
+    name: tetragon-operator
+    namespace: kube-system
+    resourceVersion: "10257672"
+    uid: 317d0d9b-0892-4077-82b6-b0db05e8c102
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: tetragon
+        app.kubernetes.io/name: tetragon-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/component: operator
+          app.kubernetes.io/instance: tetragon
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: tetragon-operator
+          app.kubernetes.io/part-of: tetragon
+          app.kubernetes.io/version: 1.7.0
+          helm.sh/chart: tetragon-1.7.0
+      spec:
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: tetragon-operator
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+        containers:
+        - args:
+          - serve
+          - --config-dir=/etc/tetragon/operator.conf.d/
+          - --metrics-bind-address=:2113
+          command:
+          - /usr/bin/tetragon-operator
+          image: quay.io/cilium/tetragon-operator:v1.7.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: tetragon-operator
+          ports:
+          - containerPort: 2113
+            name: metrics
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /readyz
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            runAsGroup: 65532
+            runAsNonRoot: true
+            runAsUser: 65532
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/tetragon/operator.conf.d/
+            name: tetragon-operator-config
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: tetragon-operator-service-account
+        serviceAccountName: tetragon-operator-service-account
+        terminationGracePeriodSeconds: 10
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tetragon-operator-config
+          name: tetragon-operator-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-08-04T13:10:13Z"
+      lastUpdateTime: "2026-08-04T13:10:13Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-08-04T13:09:59Z"
+      lastUpdateTime: "2026-08-04T13:10:13Z"
+      message: ReplicaSet "tetragon-operator-7c9f964ff5" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

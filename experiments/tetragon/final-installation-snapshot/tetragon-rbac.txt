@@ -1,0 +1,6 @@
+
+clusterrole.rbac.authorization.k8s.io/tetragon                  2026-08-04T13:09:58Z
+clusterrole.rbac.authorization.k8s.io/tetragon-operator         2026-08-04T13:09:58Z
+clusterrolebinding.rbac.authorization.k8s.io/tetragon                        ClusterRole/tetragon                  36d
+clusterrolebinding.rbac.authorization.k8s.io/tetragon-operator-rolebinding   ClusterRole/tetragon-operator         36d
+

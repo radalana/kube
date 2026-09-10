@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "5"
+    meta.helm.sh/release-name: tetragon
+    meta.helm.sh/release-namespace: kube-system
+  creationTimestamp: "2026-08-04T13:09:59Z"
+  generation: 5
+  labels:
+    app.kubernetes.io/component: agent
+    app.kubernetes.io/instance: tetragon
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: tetragon
+    app.kubernetes.io/part-of: tetragon
+    app.kubernetes.io/version: 1.7.0
+    helm.sh/chart: tetragon-1.7.0
+  name: tetragon
+  namespace: kube-system
+  resourceVersion: "14074392"
+  uid: 73afafff-73d2-4ee0-a23b-8c059d0492ce
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: tetragon
+      app.kubernetes.io/name: tetragon
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 495510af950a101c71e022583d33c5b9cb2ace2d70470578bf24f0d346d37e99
+      labels:
+        app.kubernetes.io/component: agent
+        app.kubernetes.io/instance: tetragon
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: tetragon
+        app.kubernetes.io/part-of: tetragon
+        app.kubernetes.io/version: 1.7.0
+        helm.sh/chart: tetragon-1.7.0
+    spec:
+      containers:
+      - args:
+        - /var/run/cilium/tetragon/tetragon.log
+        command:
+        - hubble-export-stdout
+        image: quay.io/cilium/hubble-export-stdout:v1.1.1
+        imagePullPolicy: IfNotPresent
+        name: export-stdout
+        resources: {}
+        securityContext: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /var/run/cilium/tetragon
+          name: export-logs
+      - args:
+        - --config-dir=/etc/tetragon/tetragon.conf.d/
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        image: quay.io/cilium/tetragon:v1.7.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          grpc:
+            port: 6789
+            service: liveness
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 60
+        name: tetragon
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /etc/tetragon/tetragon.conf.d/
+          name: tetragon-config
+          readOnly: true
+        - mountPath: /sys/fs/bpf
+          mountPropagation: Bidirectional
+          name: bpf-maps
+        - mountPath: /var/run/cilium
+          name: cilium-run
+        - mountPath: /var/run/tetragon
+          name: tetragon-run
+        - mountPath: /var/run/cilium/tetragon
+          name: export-logs
+        - mountPath: /procRoot
+          name: host-proc
+      dnsPolicy: Default
+      hostNetwork: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: tetragon
+      serviceAccountName: tetragon
+      terminationGracePeriodSeconds: 1
+      tolerations:
+      - operator: Exists
+      volumes:
+      - hostPath:
+          path: /var/run/cilium
+          type: DirectoryOrCreate
+        name: cilium-run
+      - hostPath:
+          path: /var/run/tetragon
+          type: DirectoryOrCreate
+        name: tetragon-run
+      - hostPath:
+          path: /var/run/cilium/tetragon
+          type: DirectoryOrCreate
+        name: export-logs
+      - configMap:
+          defaultMode: 420
+          name: tetragon-config
+        name: tetragon-config
+      - hostPath:
+          path: /sys/fs/bpf
+          type: DirectoryOrCreate
+        name: bpf-maps
+      - hostPath:
+          path: /proc
+          type: Directory
+        name: host-proc
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 3
+  desiredNumberScheduled: 3
+  numberAvailable: 3
+  numberMisscheduled: 0
+  numberReady: 3
+  observedGeneration: 5
+  updatedNumberScheduled: 3

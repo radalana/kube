@@ -1,0 +1,4 @@
+NAME      KERNEL             OS                 CONTAINER-RUNTIME    KUBELET
+master    7.0.0-28-generic   Ubuntu 26.04 LTS   containerd://2.1.6   v1.35.6
+worker1   7.0.0-28-generic   Ubuntu 26.04 LTS   containerd://2.1.6   v1.35.6
+worker2   7.0.0-28-generic   Ubuntu 26.04 LTS   containerd://2.1.6   v1.35.6

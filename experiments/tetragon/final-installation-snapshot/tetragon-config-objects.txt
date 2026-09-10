@@ -1,0 +1,8 @@
+
+configmap/tetragon-config                                        34     36d
+configmap/tetragon-operator-config                               9      36d
+serviceaccount/tetragon                                      36d
+serviceaccount/tetragon-operator-service-account             36d
+service/tetragon                    ClusterIP   10.152.183.99    <none>        2112/TCP                 36d
+service/tetragon-operator-metrics   ClusterIP   10.152.183.140   <none>        2113/TCP                 36d
+

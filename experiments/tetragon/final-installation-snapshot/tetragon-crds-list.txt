@@ -1,0 +1,4 @@
+
+tracingpolicies.cilium.io                             2026-08-04T13:10:02Z
+tracingpoliciesnamespaced.cilium.io                   2026-08-04T13:10:03Z
+
