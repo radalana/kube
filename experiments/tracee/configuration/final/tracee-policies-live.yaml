@@ -1,0 +1,518 @@
+apiVersion: v1
+items:
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Falco reference: Find AWS Credentials; restrict grep/find executions
+        to AWS credential-related argv patterns.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Falco reference: Find AWS Credentials; restrict grep/find executions to AWS credential-related argv patterns."},"name":"falco-ref-aws-credential-search"},"spec":{"rules":[{"event":"sched_process_exec","filters":["comm=grep,egrep,fgrep,find","data.argv=*aws_access_key_id*,*aws_secret_access_key*,*aws_session_token*,*accesskeyid*,*secretaccesskey*,*.aws/credentials*"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T18:37:32Z"
+    generation: 1
+    name: falco-ref-aws-credential-search
+    resourceVersion: "16680438"
+    uid: 31f979ad-b495-4b32-a024-b49b2386d59a
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - comm=grep,egrep,fgrep,find
+      - data.argv=*aws_access_key_id*,*aws_secret_access_key*,*aws_session_token*,*accesskeyid*,*secretaccesskey*,*.aws/credentials*
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: actual truncation of Falco log paths. This is closer
+        than collecting every log-file open, but also covers truncate paths beyond
+        Falco''s open-with-O_TRUNC mechanism; Falco container/image exclusions are
+        not reproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: actual truncation of Falco log paths. This is closer than collecting every log-file open, but also covers truncate paths beyond Falco's open-with-O_TRUNC mechanism; Falco container/image exclusions are not reproduced."},"name":"falco-ref-clear-log"},"spec":{"rules":[{"event":"do_truncate","filters":["data.pathname=/var/log/*,/dev/log/*,*syslog,*auth.log,*secure,*kern.log,*cron,*user.log,*dpkg.log,*last.log,*yum.log,*access_log,*mysql.log,*mysqld.log"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 3
+    name: falco-ref-clear-log
+    resourceVersion: "16679496"
+    uid: bcee7ad7-44e0-43d4-8805-a9a66baf41f7
+  spec:
+    rules:
+    - event: do_truncate
+      filters:
+      - data.pathname=/var/log/*,/dev/log/*,*syslog,*auth.log,*secure,*kern.log,*cron,*user.log,*dpkg.log,*last.log,*yum.log,*access_log,*mysql.log,*mysqld.log
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial custom candidate: debugfs execution in a container. Falco
+        container.privileged=true cannot be reproduced directly by this policy.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial custom candidate: debugfs execution in a container. Falco container.privileged=true cannot be reproduced directly by this policy."},"name":"falco-ref-debugfs-privileged"},"spec":{"rules":[{"event":"sched_process_exec","filters":["container","comm=debugfs"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-debugfs-privileged
+    resourceVersion: "16679516"
+    uid: 432df917-d5ea-4522-a7a7-79de87e52e29
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - container
+      - comm=debugfs
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: Partial/narrower Falco mapping. Detects security_file_open when
+        the raw syscall path starts with ../../ and the resolved target is monitored.
+        Falco traversal occurring later in the path, failed opens, some SSH-directory/id_rsa
+        patterns, and the parent-shell exclusion are not fully reproduced.
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial/narrower Falco mapping. Detects security_file_open when the raw syscall path starts with ../../ and the resolved target is monitored. Falco traversal occurring later in the path, failed opens, some SSH-directory/id_rsa patterns, and the parent-shell exclusion are not fully reproduced."},"name":"falco-ref-directory-traversal-read"},"spec":{"rules":[{"event":"security_file_open","filters":["data.syscall_pathname=../../*","data.pathname=/etc/*,/root/.ssh*,*id_rsa"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 4
+    name: falco-ref-directory-traversal-read
+    resourceVersion: "16689534"
+    uid: ebc86ddb-ee16-42d4-bfe6-a2f3680daaaa
+  spec:
+    rules:
+    - event: security_file_open
+      filters:
+      - data.syscall_pathname=../../*
+      - data.pathname=/etc/*,/root/.ssh*,*id_rsa
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: Tracee built-in dropped_executable represents an executable
+        being dropped into a container, not Falco''s execution of an upper-layer executable.
+        Kept as the closest native semantic detector instead of matching every container
+        exec.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: Tracee built-in dropped_executable represents an executable being dropped into a container, not Falco's execution of an upper-layer executable. Kept as the closest native semantic detector instead of matching every container exec."},"name":"falco-ref-drop-execute-container"},"spec":{"rules":[{"event":"dropped_executable","filters":["container"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-drop-execute-container
+    resourceVersion: "16679528"
+    uid: 2e05fc5a-01c9-436a-a2c1-0fba2056f92f
+  spec:
+    rules:
+    - event: dropped_executable
+      filters:
+      - container
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial custom candidate: absolute execution path under /dev/shm.
+        Falco''s relative-cwd/shell-argv forms and image exclusions are not reproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial custom candidate: absolute execution path under /dev/shm. Falco's relative-cwd/shell-argv forms and image exclusions are not reproduced."},"name":"falco-ref-exec-dev-shm"},"spec":{"rules":[{"event":"security_bprm_check","filters":["data.pathname=/dev/shm/*"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-exec-dev-shm
+    resourceVersion: "16679525"
+    uid: 927f2cde-5eef-4f2a-8858-7d78d4fb431b
+  spec:
+    rules:
+    - event: security_bprm_check
+      filters:
+      - data.pathname=/dev/shm/*
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Close candidate: link/linkat whose old path is one of Falco''s
+        sensitive files; relative-path interpretation may differ.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Close candidate: link/linkat whose old path is one of Falco's sensitive files; relative-path interpretation may differ."},"name":"falco-ref-hardlink-sensitive"},"spec":{"rules":[{"event":"link","filters":["data.oldpath=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf"]},{"event":"linkat","filters":["data.oldpath=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-hardlink-sensitive
+    resourceVersion: "16679506"
+    uid: 5e7438f8-1e27-407d-a5d4-5ee574e94aa4
+  spec:
+    rules:
+    - event: link
+      filters:
+      - data.oldpath=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf
+    - event: linkat
+      filters:
+      - data.oldpath=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: Tracee built-in k8s_api_connection; requires exec-env=true
+        in the evaluated Tracee 0.24.1 deployment and differs from Falco exclusions.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: Tracee built-in k8s_api_connection; requires exec-env=true in the evaluated Tracee 0.24.1 deployment and differs from Falco exclusions."},"name":"falco-ref-k8s-api-contact"},"spec":{"rules":[{"event":"k8s_api_connection","filters":["container"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-k8s-api-contact
+    resourceVersion: "16679489"
+    uid: 77e229ba-d41c-403b-89d9-f56387c0c6b0
+  spec:
+    rules:
+    - event: k8s_api_connection
+      filters:
+      - container
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: Tracee built-in kernel_module_loading limited to containers.
+        Falco additionally requires effective CAP_SYS_MODULE; the frozen allowed-image
+        list is empty.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: Tracee built-in kernel_module_loading limited to containers. Falco additionally requires effective CAP_SYS_MODULE; the frozen allowed-image list is empty."},"name":"falco-ref-kernel-module"},"spec":{"rules":[{"event":"kernel_module_loading","filters":["container"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-kernel-module
+    resourceVersion: "16679513"
+    uid: 3a945d4a-55c0-4aa4-94f4-37f9370442fa
+  spec:
+    rules:
+    - event: kernel_module_loading
+      filters:
+      - container
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial Falco mapping: execution from memfd. Falco runc exclusions
+        are not reproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial Falco mapping: execution from memfd. Falco runc exclusions are not reproduced."},"name":"falco-ref-memfd-execution"},"spec":{"rules":[{"event":"sched_process_exec","filters":["data.pathname=memfd:*"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 2
+    name: falco-ref-memfd-execution
+    resourceVersion: "16692255"
+    uid: 83a3aca1-eff2-4335-957c-5f18a06320c0
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - data.pathname=memfd:*
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: nc/ncat execution in a container. Falco''s required execution-option
+        argv conditions remain unreproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: nc/ncat execution in a container. Falco's required execution-option argv conditions remain unreproduced."},"name":"falco-ref-netcat-rce"},"spec":{"rules":[{"event":"sched_process_exec","filters":["container","comm=nc,ncat"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-netcat-rce
+    resourceVersion: "16679494"
+    uid: fd79c893-e4bc-499e-b625-f676a79197a2
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - container
+      - comm=nc,ncat
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Close candidate: socket creation in a container with AF_PACKET
+        domain (17).'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Close candidate: socket creation in a container with AF_PACKET domain (17)."},"name":"falco-ref-packet-socket"},"spec":{"rules":[{"event":"socket","filters":["container","data.domain=17"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-packet-socket
+    resourceVersion: "16679508"
+    uid: b923d9d9-bcd2-489f-8d2f-73a69cb48fb8
+  spec:
+    rules:
+    - event: socket
+      filters:
+      - container
+      - data.domain=17
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Falco reference: Search Private Keys or Passwords; restrict grep/find
+        executions to private-key-related argv patterns.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Falco reference: Search Private Keys or Passwords; restrict grep/find executions to private-key-related argv patterns."},"name":"falco-ref-private-key-search"},"spec":{"rules":[{"event":"sched_process_exec","filters":["comm=grep,egrep,fgrep,find","data.argv=*BEGIN PRIVATE*,*BEGIN OPENSSH PRIVATE*,*BEGIN RSA PRIVATE*,*BEGIN DSA PRIVATE*,*BEGIN EC PRIVATE*,*id_rsa*,*id_dsa*,*id_ed25519*,*id_ecdsa*"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T18:37:32Z"
+    generation: 1
+    name: falco-ref-private-key-search
+    resourceVersion: "16680434"
+    uid: 44ec7c75-8f2c-4d6a-b959-301fba171a5f
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - comm=grep,egrep,fgrep,find
+      - data.argv=*BEGIN PRIVATE*,*BEGIN OPENSSH PRIVATE*,*BEGIN RSA PRIVATE*,*BEGIN
+        DSA PRIVATE*,*BEGIN EC PRIVATE*,*id_rsa*,*id_dsa*,*id_ed25519*,*id_ecdsa*
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Close: Tracee built-in anti_debugging detects PTRACE_TRACEME.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Close: Tracee built-in anti_debugging detects PTRACE_TRACEME."},"name":"falco-ref-ptrace-antidebug"},"spec":{"rules":[{"event":"anti_debugging"}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-ptrace-antidebug
+    resourceVersion: "16679523"
+    uid: 04e7e306-6f3e-43fa-a408-5a55d1340169
+  spec:
+    rules:
+    - event: anti_debugging
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Close custom candidate: ptrace request values corresponding to
+        PTRACE_POKETEXT, PTRACE_POKEDATA, PTRACE_ATTACH, PTRACE_SETREGS, and PTRACE_SEIZE.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Close custom candidate: ptrace request values corresponding to PTRACE_POKETEXT, PTRACE_POKEDATA, PTRACE_ATTACH, PTRACE_SETREGS, and PTRACE_SEIZE."},"name":"falco-ref-ptrace-attach"},"spec":{"rules":[{"event":"ptrace","filters":["data.request=4,5,13,16,16902"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-ptrace-attach
+    resourceVersion: "16679520"
+    uid: 3dd6bfb2-0f7a-4498-98c9-49fc34fe0d9e
+  spec:
+    rules:
+    - event: ptrace
+      filters:
+      - data.request=4,5,13,16,16902
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: Tracee built-in cgroup_release_agent limited to containers.
+        Falco''s UID/CAP_DAC_OVERRIDE and CAP_SYS_ADMIN requirements are not reproduced
+        by the built-in detector.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: Tracee built-in cgroup_release_agent limited to containers. Falco's UID/CAP_DAC_OVERRIDE and CAP_SYS_ADMIN requirements are not reproduced by the built-in detector."},"name":"falco-ref-release-agent"},"spec":{"rules":[{"event":"cgroup_release_agent","filters":["container"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-release-agent
+    resourceVersion: "16679518"
+    uid: d4af5a54-922b-4929-9702-7d9fbfc692f0
+  spec:
+    rules:
+    - event: cgroup_release_agent
+      filters:
+      - container
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Close candidate: execution of shred, mkfs, or mke2fs; Falco user-known
+        exception is empty in the frozen ruleset.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Close candidate: execution of shred, mkfs, or mke2fs; Falco user-known exception is empty in the frozen ruleset."},"name":"falco-ref-remove-bulk-data"},"spec":{"rules":[{"event":"sched_process_exec","filters":["comm=shred,mkfs,mke2fs"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-remove-bulk-data
+    resourceVersion: "16679499"
+    uid: 912faaad-62e1-4fea-8628-75dcc2148505
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - comm=shred,mkfs,mke2fs
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: Tracee built-in illegitimate_shell covers a subset of
+        Falco Run shell untrusted semantics.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: Tracee built-in illegitimate_shell covers a subset of Falco Run shell untrusted semantics."},"name":"falco-ref-run-shell-untrusted"},"spec":{"rules":[{"event":"illegitimate_shell"}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-run-shell-untrusted
+    resourceVersion: "16679479"
+    uid: d67f5a33-b3ae-4e71-99db-58772686d640
+  spec:
+    rules:
+    - event: illegitimate_shell
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: sensitive-file access by Falco server-process names except
+        sshd. Falco read-only semantics and process-age >5 s are not reproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: sensitive-file access by Falco server-process names except sshd. Falco read-only semantics and process-age \u003e5 s are not reproduced."},"name":"falco-ref-sensitive-read-trusted"},"spec":{"rules":[{"event":"security_file_open","filters":["data.pathname=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/etc/sudoers.d/*,/etc/pam.d/*","comm=nginx,httpd,httpd-foregroun,lighttpd,apache,apache2,mysqld,postgres,sqlplus,docker,dockerd,containerd-shim,pause,exe,docker-compose,docker-entrypoi,docker-runc-cur,docker-current,dockerd-current"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 3
+    name: falco-ref-sensitive-read-trusted
+    resourceVersion: "16679469"
+    uid: 93c7a3d4-ae48-4f55-af84-cb2fe825d3c7
+  spec:
+    rules:
+    - event: security_file_open
+      filters:
+      - data.pathname=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/etc/sudoers.d/*,/etc/pam.d/*
+      - comm=nginx,httpd,httpd-foregroun,lighttpd,apache,apache2,mysqld,postgres,sqlplus,docker,dockerd,containerd-shim,pause,exe,docker-compose,docker-entrypoi,docker-runc-cur,docker-current,dockerd-current
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: sensitive-file access with many direct trusted process-name
+        exclusions. Falco read-only, cmdline, ancestry, package-specific, and image
+        exceptions are not fully reproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: sensitive-file access with many direct trusted process-name exclusions. Falco read-only, cmdline, ancestry, package-specific, and image exceptions are not fully reproduced."},"name":"falco-ref-sensitive-read-untrusted"},"spec":{"rules":[{"event":"security_file_open","filters":["data.pathname=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/etc/sudoers.d/*,/etc/pam.d/*","comm!=sudo,su,suexec,critical-stack,dzdo,anacron,cron,crond,crontab","comm!=ash,bash,csh,ksh,sh,tcsh,zsh,dash,openvpn","comm!=iptables,ps,lsb_release,check-new-relea,dumpe2fs,accounts-daemon,sshd,vsftpd,systemd,mysql_install_d,psql,screen","comm!=debconf-show,sa-update,pam-auth-update,pam-config,polkit-agent-he,lsattr,file,sosreport,scxcimservera,adclient,rtvscand,cockpit-session,userhelper","comm!=ossec-syscheckd,sshd-session,rkhunter,aide,aide.wrapper,update-aide.con,logcheck,syslog-summary,osqueryd","comm!=login,systemd-logind,nologin,faillog,lastlog,newgrp,sg,passwd,shadowconfig,grpck,pwunconv,grpconv,pwck,groupmod,vipw,pwconv,useradd,newusers","comm!=cppw,chpasswd,usermod,groupadd,groupdel,grpunconv,chgpasswd,userdel,chage,chsh,gpasswd,chfn,expiry,vigr,cpgr,adduser,addgroup,deluser,delgroup","comm!=groupmems,unix_chkpwd,dnf,dnf-automatic,rpm,rpmkey,yum,repoquery,rpmkeys,rpmq,yum-cron,microdnf,rhn_check,dpkg,apt,apt-get,aptitude","comm!=pip,pip3,conda,uv,gem,npm,chef-client,apk,snapd,alternatives,update-alternat","comm!=in.proftpd,mandb,salt-call,salt-minion,pg_dumpall,pg_ctl,pg_lsclusters,pg_ctlcluster,google_oslogin_"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 3
+    name: falco-ref-sensitive-read-untrusted
+    resourceVersion: "16679474"
+    uid: 84ee81cd-3631-448d-9475-714bb6cd340e
+  spec:
+    rules:
+    - event: security_file_open
+      filters:
+      - data.pathname=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/etc/sudoers.d/*,/etc/pam.d/*
+      - comm!=sudo,su,suexec,critical-stack,dzdo,anacron,cron,crond,crontab
+      - comm!=ash,bash,csh,ksh,sh,tcsh,zsh,dash,openvpn
+      - comm!=iptables,ps,lsb_release,check-new-relea,dumpe2fs,accounts-daemon,sshd,vsftpd,systemd,mysql_install_d,psql,screen
+      - comm!=debconf-show,sa-update,pam-auth-update,pam-config,polkit-agent-he,lsattr,file,sosreport,scxcimservera,adclient,rtvscand,cockpit-session,userhelper
+      - comm!=ossec-syscheckd,sshd-session,rkhunter,aide,aide.wrapper,update-aide.con,logcheck,syslog-summary,osqueryd
+      - comm!=login,systemd-logind,nologin,faillog,lastlog,newgrp,sg,passwd,shadowconfig,grpck,pwunconv,grpconv,pwck,groupmod,vipw,pwconv,useradd,newusers
+      - comm!=cppw,chpasswd,usermod,groupadd,groupdel,grpunconv,chgpasswd,userdel,chage,chsh,gpasswd,chfn,expiry,vigr,cpgr,adduser,addgroup,deluser,delgroup
+      - comm!=groupmems,unix_chkpwd,dnf,dnf-automatic,rpm,rpmkey,yum,repoquery,rpmkeys,rpmq,yum-cron,microdnf,rhn_check,dpkg,apt,apt-get,aptitude
+      - comm!=pip,pip3,conda,uv,gem,npm,chef-client,apk,snapd,alternatives,update-alternat
+      - comm!=in.proftpd,mandb,salt-call,salt-minion,pg_dumpall,pg_ctl,pg_lsclusters,pg_ctlcluster,google_oslogin_
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Falco reference: Disallowed SSH Connection Non Standard Port;
+        use Tracee net_tcp_connect for ssh to Falco''s configured server/destination
+        ports. Falco external-address and successful/EINPROGRESS conditions remain
+        unreproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Falco reference: Disallowed SSH Connection Non Standard Port; use Tracee net_tcp_connect for ssh to Falco's configured server/destination ports. Falco external-address and successful/EINPROGRESS conditions remain unreproduced."},"name":"falco-ref-ssh-nonstandard-port"},"spec":{"rules":[{"event":"net_tcp_connect","filters":["comm=ssh","data.dst_port=80,8080,88,443,8443,53,4444"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T18:37:32Z"
+    generation: 1
+    name: falco-ref-ssh-nonstandard-port
+    resourceVersion: "16680446"
+    uid: 465826f2-49cf-4e8e-8364-3f3c5a9a8d40
+  spec:
+    rules:
+    - event: net_tcp_connect
+      filters:
+      - comm=ssh
+      - data.dst_port=80,8080,88,443,8443,53,4444
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: Tracee built-in stdio_over_socket limited here to containers.
+        Its detector logic is still not identical to Falco dup/dup2/dup3 plus IPv4/IPv6
+        source-FD semantics.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: Tracee built-in stdio_over_socket limited here to containers. Its detector logic is still not identical to Falco dup/dup2/dup3 plus IPv4/IPv6 source-FD semantics."},"name":"falco-ref-stdio-network-redirect"},"spec":{"rules":[{"event":"stdio_over_socket","filters":["container"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:14Z"
+    generation: 1
+    name: falco-ref-stdio-network-redirect
+    resourceVersion: "16679511"
+    uid: b1378f66-68ed-430a-9d3f-43d3036e7742
+  spec:
+    rules:
+    - event: stdio_over_socket
+      filters:
+      - container
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Close candidate: symlink/symlinkat whose target is one of Falco''s
+        sensitive file or directory values; relative-path interpretation may differ.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Close candidate: symlink/symlinkat whose target is one of Falco's sensitive file or directory values; relative-path interpretation may differ."},"name":"falco-ref-symlink-sensitive"},"spec":{"rules":[{"event":"symlink","filters":["data.target=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/,/etc,/etc/,/root,/root/"]},{"event":"symlinkat","filters":["data.target=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/,/etc,/etc/,/root,/root/"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-symlink-sensitive
+    resourceVersion: "16679502"
+    uid: 3d90554a-c40f-45ad-869b-034d9e3dd01c
+  spec:
+    rules:
+    - event: symlink
+      filters:
+      - data.target=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/,/etc,/etc/,/root,/root/
+    - event: symlinkat
+      filters:
+      - data.target=/etc/shadow,/etc/sudoers,/etc/pam.conf,/etc/security/pwquality.conf,/,/etc,/etc/,/root,/root/
+    scope:
+    - global
+- apiVersion: tracee.aquasec.com/v1beta1
+  kind: Policy
+  metadata:
+    annotations:
+      description: 'Partial: shell execution in a container. Falco proc.tty != 0 and
+        container-entrypoint semantics are not reproduced.'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"tracee.aquasec.com/v1beta1","kind":"Policy","metadata":{"annotations":{"description":"Partial: shell execution in a container. Falco proc.tty != 0 and container-entrypoint semantics are not reproduced."},"name":"falco-ref-terminal-shell-container"},"spec":{"rules":[{"event":"sched_process_exec","filters":["container","comm=ash,bash,csh,ksh,sh,tcsh,zsh,dash"]}],"scope":["global"]}}
+    creationTimestamp: "2026-09-10T17:25:13Z"
+    generation: 1
+    name: falco-ref-terminal-shell-container
+    resourceVersion: "16679484"
+    uid: ec445b31-1f72-4bca-8ee6-047d498cf859
+  spec:
+    rules:
+    - event: sched_process_exec
+      filters:
+      - container
+      - comm=ash,bash,csh,ksh,sh,tcsh,zsh,dash
+    scope:
+    - global
+kind: List
+metadata:
+  resourceVersion: ""
