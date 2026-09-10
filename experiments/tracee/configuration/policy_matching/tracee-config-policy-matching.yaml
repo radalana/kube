@@ -1,0 +1,23 @@
+# copy of experiments\tracee\configuration\initial\tracee-config-fixed.yaml with changed exec-env: false->true
+perf-buffer-size: 1024
+
+server:
+  http-address: ":3366"
+  healthz: true
+  metrics: true
+  pprof: false
+  pyroscope: false
+
+log:
+  level: info
+
+output:
+  json:
+    files:
+      - stdout
+  options:
+    parse-arguments: true
+    stack-addresses: false
+    exec-env: true
+    exec-hash: dev-inode
+    sort-events: false
