@@ -1,0 +1,4 @@
+NAME                  STATUS     COMPLETIONS   DURATION   AGE   CONTAINERS              IMAGES         SELECTOR
+g1-crud               Complete   1/1           3s         70s   mariadb-client          mariadb:11.8   batch.kubernetes.io/controller-uid=04ebf23f-c124-4c56-9a0c-ac9c8d7c2d24
+g2-schema-migration   Complete   1/1           4s         70s   mariadb-client          mariadb:11.8   batch.kubernetes.io/controller-uid=7f71ecb2-c3a2-48ab-8e26-36559245862f
+g3-backup             Complete   1/1           3s         69s   mariadb-backup-client   mariadb:11.8   batch.kubernetes.io/controller-uid=a3b4a1ba-972c-4e9f-832e-c222648f6d95
