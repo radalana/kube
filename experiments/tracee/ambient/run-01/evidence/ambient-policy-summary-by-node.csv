@@ -1,0 +1,4 @@
+"Node","Policy","RawRecords"
+"master","falco-ref-clear-log","138"
+"worker1","falco-ref-clear-log","64"
+"worker2","falco-ref-clear-log","36"
