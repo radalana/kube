@@ -1,6 +1,11 @@
 START  2026-09-13T20:43:41.157Z
 END    2026-09-13T20:43:44.918Z
 ≈ 3.76 s
+| Classification   | Policy                               | Detections |
+| ---------------- | ------------------------------------ | ---------: |
+| Scenario-related | `falco-ref-terminal-shell-container` |      **1** |
+| Unrelated        | `falco-ref-clear-log`                |      **2** |
+
 
 # Related 1
 G1 Pod was on worker 2
