@@ -1,0 +1,36 @@
+START  2026-09-14T17:00:01.256Z
+END    2026-09-14T17:00:05.873Z
+≈ 4.62 s#
+
+Pod g2-schema-migration-4lcxw on worker2
+
+| Classification   | Policy                               | Detections | Node                |
+| ---------------- | ------------------------------------ | ---------: | ------------------- |
+| Scenario-related | `falco-ref-terminal-shell-container` |      **1** | worker2             |
+| Unrelated        | `falco-ref-clear-log`                |     **10** | master 2, worker2 8 |
+
+
+# Sceanrio-related attribution: 1
+
+processName:   sh
+processId:     1
+cmdpath:       /usr/bin/sh
+pathname:      /usr/bin/dash
+stdin_path:    /dev/null
+eventName:     sched_process_exec
+policy:        falco-ref-terminal-shell-container
+node:          worker2
+
+argv contains G2 workload 
+shell is main process processid 1 and not interactive stdin_path=/dev/null
+
+# Unrelated 10
+
+falco-ref-clear-log
+systemd-journal
+do_truncate / ftruncate
+.../system.journal
+
+master:   2
+worker1:  0
+worker2:  8
