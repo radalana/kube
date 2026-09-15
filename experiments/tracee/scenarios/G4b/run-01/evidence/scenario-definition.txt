@@ -1,0 +1,9 @@
+Variant: G4b
+Target: namespace=database pod=mariadb-galera-0 container=mariadb
+Execution: kubectl exec -it and interactive sh
+Manual command sequence:
+  1. id
+  2. hostname
+  3. ps
+  4. exit
+Expected terminal state: pseudo-terminal such as pts/0 or pts/1

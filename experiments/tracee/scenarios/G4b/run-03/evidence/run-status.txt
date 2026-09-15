@@ -1,0 +1,8 @@
+G4b scenario: COMPLETE
+G4b interactive ground truth: OK
+Target Pod stability: OK
+Tracee stability: OK
+START: 2026-09-15T17:13:14.975Z
+END:   2026-09-15T17:13:31.640Z
+Observed TTY: pts/0
+Tracee detections in strict window: 16

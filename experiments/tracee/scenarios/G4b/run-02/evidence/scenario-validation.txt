@@ -1,0 +1,4 @@
+Interactive G4b validation: OK
+Predefined manual command sequence: CONFIRMED
+TTY observed during measured scenario: pts/0
+Supporting post-END TTY validation: CONFIRMED

@@ -1,0 +1,6 @@
+Interactive G4b validation: OK
+Predefined manual command sequence: CONFIRMED
+TTY observed during measured scenario: pts/0
+Tracee stdin_path during measured scenario: /dev/pts/0
+Supporting post-END TTY validation: NOT CONFIRMED
+The supporting validation was performed outside the measured scenario window and was not used as a run-validity criterion.

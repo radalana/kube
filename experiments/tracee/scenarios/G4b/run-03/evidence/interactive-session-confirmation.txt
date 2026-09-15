@@ -1,0 +1,5 @@
+Expected manual commands: id, hostname, ps, exit
+Operator confirmation: yes
+TTY observed in scenario ps output: pts/0
+Scenario START: 2026-09-15T17:13:14.975Z
+Scenario END:   2026-09-15T17:13:31.640Z

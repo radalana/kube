@@ -1,0 +1,5 @@
+uid=999(mysql) gid=999(mysql) groups=999(mysql)
+    PID TTY          TIME CMD
+      1 ?        00:21:19 mariadbd
+    425 ?        00:00:00 sh
+    432 ?        00:00:00 ps

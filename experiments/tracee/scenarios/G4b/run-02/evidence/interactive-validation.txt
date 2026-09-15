@@ -1,0 +1,5 @@
+/dev/pts/0
+uid=999(mysql) gid=999(mysql) groups=999(mysql)
+    PID TTY          TIME CMD
+    442 pts/0    00:00:00 sh
+    450 pts/0    00:00:00 ps

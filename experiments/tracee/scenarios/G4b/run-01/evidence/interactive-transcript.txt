@@ -1,0 +1,49 @@
+**********************
+Beginn des PowerShell-Transkripts
+Startzeit: 20260915173658
+Benutzername: DESKTOP-MP9LART\sveta
+RunAs-Benutzer: DESKTOP-MP9LART\sveta
+Konfigurationsname: 
+Computer: DESKTOP-MP9LART (Microsoft Windows NT 10.0.26200.0)
+Hostanwendung: C:\Program Files\PowerShell\7\pwsh.dll -noexit -command try { . "c:\Users\sveta\AppData\Local\Programs\Microsoft VS Code\645f29cc31\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Prozess-ID: 10588
+PSVersion: 7.6.6
+PSEdition: Core
+GitCommitId: 7.6.6
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+
+G4b START: 2026-09-15T15:36:59.341Z
+
+Inside the interactive shell run exactly:
+  id
+  hostname
+  ps
+  exit
+
+Starting G4b: authorized interactive shell
+Inside the container, run:
+  id
+  hostname
+  ps
+  exit
+$ id
+uid=999(mysql) gid=999(mysql) groups=999(mysql)
+$ hostname
+mariadb-galera-0
+$ ps
+    PID TTY          TIME CMD
+    416 pts/0    00:00:00 sh
+    424 pts/0    00:00:00 ps
+$ exit
+G4b completed successfully
+G4b END:   2026-09-15T15:37:16.767Z
+**********************
+Ende des PowerShell-Transkripts
+Endzeit: 20260915173716
+**********************
