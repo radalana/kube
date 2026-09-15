@@ -1,0 +1,2361 @@
+==================== cluster-time-sync.txt ====================
+
+Node    NTPSynchronized
+----    ---------------
+master  yes
+worker1 yes
+worker2 yes
+
+
+
+==================== collection-start-utc.txt ====================
+2026-09-15T20:11:48.360Z
+
+==================== detections-overview.txt ====================
+
+Node              Timestamp Event              Process             PID Policies
+----              --------- -----              -------             --- --------
+master  1789503110376635433 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789503110693705256 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789503110693821017 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789503111001096337 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+worker1 1789503110665874144 sched_process_exec sh                  489 falco-ref-terminal-shell-container
+worker1 1789503110998408760 do_truncate        systemd-journal  622175 falco-ref-clear-log
+
+
+
+==================== detections-summary.txt ====================
+
+Count Name
+----- ----
+    5 falco-ref-clear-log
+    1 falco-ref-terminal-shell-container
+
+
+
+==================== end-utc.txt ====================
+2026-09-15T20:11:51.294Z
+
+==================== exit-code.txt ====================
+G5a_EXIT_CODE=0
+
+==================== master-since-start.jsonl ====================
+{"timestamp":1789503109501093061,"threadStartTime":1789020214866233907,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+{"timestamp":1789503110376635433,"threadStartTime":1789020214866233907,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+{"timestamp":1789503110693705256,"threadStartTime":1789020214866233907,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/user-1000.journal"},{"name":"inode","type":"uint64","value":130102},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789503110693821017,"threadStartTime":1789020214866233907,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+{"timestamp":1789503111001096337,"threadStartTime":1789020214866233907,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+{"timestamp":1789503111501131556,"threadStartTime":1789020214866233907,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+
+==================== master-tracee-log-errors.txt ====================
+
+==================== master-window.jsonl ====================
+{"timestamp":1789503110376635433,"threadStartTime":1789020214866233907,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+{"timestamp":1789503110693705256,"threadStartTime":1789020214866233907,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/user-1000.journal"},{"name":"inode","type":"uint64","value":130102},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789503110693821017,"threadStartTime":1789020214866233907,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+{"timestamp":1789503111001096337,"threadStartTime":1789020214866233907,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":41943040}]}
+
+==================== post-all-pods.txt ====================
+NAMESPACE     NAME                                       READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      g2-schema-migration-ddqpc                  0/1     Completed   0             26h     10.1.189.67    worker2   <none>           <none>
+database      g3-backup-tmpcg                            0/1     Completed   0             9h      10.1.189.80    worker2   <none>           <none>
+database      mariadb-galera-0                           2/2     Running     0             5d22h   10.1.235.136   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running     2 (50d ago)   85d     10.1.189.84    worker2   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running     2 (50d ago)   105d    10.1.219.82    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running     1 (50d ago)   53d     10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running     1 (50d ago)   53d     10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running     1 (50d ago)   53d     10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running     2 (50d ago)   105d    10.1.219.83    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running     7 (18d ago)   91d     10.1.235.179   worker1   <none>           <none>
+tracee        tracee-98728                               1/1     Running     0             49m     10.1.235.189   worker1   <none>           <none>
+tracee        tracee-operator-7864bd8bdf-hg27z           1/1     Running     0             5d11h   10.1.235.133   worker1   <none>           <none>
+tracee        tracee-x2zjx                               1/1     Running     0             49m     10.1.189.81    worker2   <none>           <none>
+tracee        tracee-xpg29                               1/1     Running     0             50m     10.1.219.118   master    <none>           <none>
+
+==================== post-database-pods.txt ====================
+NAME                               READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+g2-schema-migration-ddqpc          0/1     Completed   0             26h     10.1.189.67    worker2   <none>           <none>
+g3-backup-tmpcg                    0/1     Completed   0             9h      10.1.189.80    worker2   <none>           <none>
+mariadb-galera-0                   2/2     Running     0             5d22h   10.1.235.136   worker1   <none>           <none>
+mariadb-galera-1                   2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+mariadb-galera-2                   2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+mariadb-operator-b6548b959-tqq6t   1/1     Running     2 (50d ago)   85d     10.1.189.84    worker2   <none>           <none>
+
+==================== post-tracee-pods.txt ====================
+NAME                               READY   STATUS    RESTARTS   AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+tracee-98728                       1/1     Running   0          49m     10.1.235.189   worker1   <none>           <none>
+tracee-operator-7864bd8bdf-hg27z   1/1     Running   0          5d11h   10.1.235.133   worker1   <none>           <none>
+tracee-x2zjx                       1/1     Running   0          49m     10.1.189.81    worker2   <none>           <none>
+tracee-xpg29                       1/1     Running   0          50m     10.1.219.118   master    <none>           <none>
+
+==================== pre-all-pods.txt ====================
+NAMESPACE     NAME                                       READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      g2-schema-migration-ddqpc                  0/1     Completed   0             26h     10.1.189.67    worker2   <none>           <none>
+database      g3-backup-tmpcg                            0/1     Completed   0             9h      10.1.189.80    worker2   <none>           <none>
+database      mariadb-galera-0                           2/2     Running     0             5d22h   10.1.235.136   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running     2 (50d ago)   85d     10.1.189.84    worker2   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running     2 (50d ago)   105d    10.1.219.82    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running     1 (50d ago)   53d     10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running     1 (50d ago)   53d     10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running     1 (50d ago)   53d     10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running     2 (50d ago)   105d    10.1.219.83    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running     7 (18d ago)   91d     10.1.235.179   worker1   <none>           <none>
+tracee        tracee-98728                               1/1     Running     0             49m     10.1.235.189   worker1   <none>           <none>
+tracee        tracee-operator-7864bd8bdf-hg27z           1/1     Running     0             5d11h   10.1.235.133   worker1   <none>           <none>
+tracee        tracee-x2zjx                               1/1     Running     0             49m     10.1.189.81    worker2   <none>           <none>
+tracee        tracee-xpg29                               1/1     Running     0             50m     10.1.219.118   master    <none>           <none>
+
+==================== pre-database-pods.txt ====================
+NAME                               READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+g2-schema-migration-ddqpc          0/1     Completed   0             26h     10.1.189.67    worker2   <none>           <none>
+g3-backup-tmpcg                    0/1     Completed   0             9h      10.1.189.80    worker2   <none>           <none>
+mariadb-galera-0                   2/2     Running     0             5d22h   10.1.235.136   worker1   <none>           <none>
+mariadb-galera-1                   2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+mariadb-galera-2                   2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+mariadb-operator-b6548b959-tqq6t   1/1     Running     2 (50d ago)   85d     10.1.189.84    worker2   <none>           <none>
+
+==================== pre-tracee-pods.txt ====================
+NAME                               READY   STATUS    RESTARTS   AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+tracee-98728                       1/1     Running   0          49m     10.1.235.189   worker1   <none>           <none>
+tracee-operator-7864bd8bdf-hg27z   1/1     Running   0          5d11h   10.1.235.133   worker1   <none>           <none>
+tracee-x2zjx                       1/1     Running   0          49m     10.1.189.81    worker2   <none>           <none>
+tracee-xpg29                       1/1     Running   0          50m     10.1.219.118   master    <none>           <none>
+
+==================== redaction-note.txt ====================
+Sensitive values are redacted from scenario-output.txt.
+Common secret-bearing environment variables are redacted from collected Tracee JSONL files.
+Redaction changes secret values only and does not alter timestamps, event names, process fields, container IDs, or matched policy names.
+
+==================== run-g5a-config-read.ps1 ====================
+# Reads selected MariaDB configuration files inside the container.
+# Sensitive configuration lines are redacted before they are written to evidence.
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "Starting G5a: authorized MariaDB configuration file inspection"
+Write-Host "Target: namespace=database, pod=mariadb-galera-0, container=mariadb"
+Write-Host ""
+
+k exec `
+    -n database `
+    mariadb-galera-0 `
+    -c mariadb `
+    -- sh -c 'set -eu; echo "=== Hostname ==="; hostname; echo ""; echo "=== Selected MariaDB configuration files ==="; for f in /etc/mysql/mariadb.cnf /etc/mysql/mariadb.conf.d/0-galera.cnf; do echo ""; echo "--- $f ---"; ls -l "$f"; echo ""; while IFS= read -r line; do case "$line" in wsrep_sst_auth=*) echo "wsrep_sst_auth=<redacted>";; *password*|*Password*|*PASSWORD*|*secret*|*Secret*|*SECRET*) echo "<redacted sensitive line>";; *) echo "$line";; esac; done < "$f"; done'
+
+if ($LASTEXITCODE -ne 0) {
+    throw "G5a config read failed with exit code $LASTEXITCODE"
+}
+
+Write-Host ""
+Write-Host "G5a config read completed successfully"
+
+==================== run-status.txt ====================
+G5a scenario: COMPLETE
+G5a ground truth: OK
+Target Pod stability: OK
+Tracee stability: OK
+START: 2026-09-15T20:11:50.360Z
+END:   2026-09-15T20:11:51.294Z
+Target node: worker1
+Tracee detections in strict window: 6
+
+==================== scenario-definition.txt ====================
+Variant: G5a
+Target: namespace=database pod=mariadb-galera-0 container=mariadb
+Execution: authorized non-interactive kubectl exec through the predefined G5a script
+Selected files:
+  /etc/mysql/mariadb.cnf
+  /etc/mysql/mariadb.conf.d/0-galera.cnf
+Validation: both selected file sections must be present in scenario output and the predefined script must complete successfully
+
+==================== scenario-output.txt ====================
+Starting G5a: authorized MariaDB configuration file inspection
+Target: namespace=database, pod=mariadb-galera-0, container=mariadb
+
+=== Hostname ===
+mariadb-galera-0
+
+=== Selected MariaDB configuration files ===
+
+--- /etc/mysql/mariadb.cnf ---
+-rw-r--r-- 1 root root 1127 Jun  2 08:19 /etc/mysql/mariadb.cnf
+
+# The MariaDB configuration file
+#
+# The MariaDB/MySQL tools read configuration files in the following order:
+# 0. "/etc/mysql/my.cnf" symlinks to this file, reason why all the rest is read.
+# 1. "/etc/mysql/mariadb.cnf" (this file) to set global defaults,
+# 2. "/etc/mysql/conf.d/*.cnf" to set global options.
+# 3. "/etc/mysql/mariadb.conf.d/*.cnf" to set MariaDB-only options.
+# 4. "~/.my.cnf" to set user-specific options.
+#
+# If the same option is defined multiple times, the last one will apply.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# If you are new to MariaDB, check out https://mariadb.com/kb/en/basic-mariadb-articles/
+
+#
+# This group is read both by the client and the server
+# use it for options that affect everything
+#
+[client-server]
+# Port or socket location where to connect
+# port = 3306
+socket = /run/mysqld/mysqld.sock
+
+# Import all .cnf files from configuration directory
+
+!includedir /etc/mysql/mariadb.conf.d/
+!includedir /etc/mysql/conf.d/
+
+--- /etc/mysql/mariadb.conf.d/0-galera.cnf ---
+-rwxr-xr-x 1 mysql mysql 919 Sep  9 22:06 /etc/mysql/mariadb.conf.d/0-galera.cnf
+
+[mariadb]
+bind_address=*
+default_storage_engine=InnoDB
+binlog_format=row
+innodb_autoinc_lock_mode=2
+
+# Cluster
+wsrep_on=ON
+wsrep_cluster_address="gcomm://mariadb-galera-0.mariadb-galera-internal.database.svc.cluster.local,mariadb-galera-1.mariadb-galera-internal.database.svc.cluster.local,mariadb-galera-2.mariadb-galera-internal.database.svc.cluster.local"
+wsrep_cluster_name=mariadb-operator
+wsrep_slave_threads=1
+
+# Node
+wsrep_node_address="10.1.235.136"
+wsrep_node_name="mariadb-galera-0"
+
+# Provider
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+wsrep_provider_options="gmcast.listen_addr=tcp://0.0.0.0:4567;ist.recv_addr=10.1.235.136:4568;socket.dynamic=true;socket.ssl=true;socket.ssl_ca=/etc/pki/ca.crt;socket.ssl_cert=/etc/pki/server.crt;socket.ssl_key=/etc/pki/server.key"
+
+# SST
+wsrep_sst_method="mariabackup"
+wsrep_sst_auth=<redacted>
+wsrep_sst_receive_address="10.1.235.136:4444"
+
+G5a config read completed successfully
+
+==================== scenario-validation.txt ====================
+G5a ground truth: OK
+/etc/mysql/mariadb.cnf inspection: CONFIRMED
+/etc/mysql/mariadb.conf.d/0-galera.cnf inspection: CONFIRMED
+Predefined G5a script completion: CONFIRMED
+
+==================== start-utc.txt ====================
+2026-09-15T20:11:50.360Z
+
+==================== target-pod-post.txt ====================
+
+Pod               : mariadb-galera-0
+UID               : 0c4af262-0f24-49cf-a752-3e0afa1ca86b
+Node              : worker1
+Phase             : Running
+Ready             : True
+Container         : mariadb
+ContainerID       : containerd://84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094
+ContainerRestarts : 0
+
+
+
+==================== target-pod-post.yaml ====================
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 6a5a56041baa5e5c9dcaddda6ee27d4a282fc26b02e428978a93dc0d44a3a06b
+    cni.projectcalico.org/podIP: 10.1.235.136/32
+    cni.projectcalico.org/podIPs: 10.1.235.136/32
+    k8s.mariadb.com/ca: 5254beba5ec98f8b4c67aae1abbff5b24b11ba93608ee01df436c286767d1cf4
+    k8s.mariadb.com/client-cert: 9c17cd8ffe7b5ad8affd5e93b826392aa183ed39381a684facff1b076ecff4e2
+    k8s.mariadb.com/config-galera: 6f1a0c01084ebc3ec47d877c7c2d64e55c84cb61e4f5124362e1586749cfb7e2
+    k8s.mariadb.com/config-tls: 169a08c8cb9d9b89643267e720eb6e3c3c7894d6c18d429404a88d762c7388cd
+    k8s.mariadb.com/galera: ""
+    k8s.mariadb.com/mariadb: mariadb-galera
+    k8s.mariadb.com/server-cert: 69150635be6960ba5239d21df41a199ff917afc588511d9b6694dd0816bdbd36
+  creationTimestamp: "2026-09-09T22:06:48Z"
+  generateName: mariadb-galera-
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: mariadb-galera
+    app.kubernetes.io/name: mariadb
+    apps.kubernetes.io/pod-index: "0"
+    controller-revision-hash: mariadb-galera-77df8bdfd7
+    k8s.mariadb.com/role: replica
+    statefulset.kubernetes.io/pod-name: mariadb-galera-0
+  name: mariadb-galera-0
+  namespace: database
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: StatefulSet
+    name: mariadb-galera
+    uid: bb9952b4-b9b3-4173-a35a-257231094cd7
+  resourceVersion: "16531702"
+  uid: 0c4af262-0f24-49cf-a752-3e0afa1ca86b
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - mariadb-galera
+        topologyKey: kubernetes.io/hostname
+  automountServiceAccountToken: false
+  containers:
+  - env:
+    - name: MYSQL_TCP_PORT
+      value: "3306"
+    - name: MARIADB_ROOT_HOST
+      value: '%'
+    - name: CLUSTER_NAME
+      value: cluster.local
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MARIADB_NAME
+      value: mariadb-galera
+    - name: TLS_ENABLED
+      value: "true"
+    - name: TLS_CA_CERT_PATH
+      value: /etc/pki/ca.crt
+    - name: TLS_SERVER_CERT_PATH
+      value: /etc/pki/server.crt
+    - name: TLS_SERVER_KEY_PATH
+      value: /etc/pki/server.key
+    - name: TLS_CLIENT_CERT_PATH
+      value: /etc/pki/client.crt
+    - name: TLS_CLIENT_KEY_PATH
+      value: /etc/pki/client.key
+    - name: WSREP_SST_OPT_REMOTE_AUTH
+      value: 'mariadb-galera-client:'
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mariadb-root-password
+    - name: MYSQL_INITDB_SKIP_TZINFO
+      value: "1"
+    image: mariadb:11.8.8
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /liveness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: mariadb
+    ports:
+    - containerPort: 3306
+      name: mariadb
+      protocol: TCP
+    - containerPort: 4567
+      name: cluster
+      protocol: TCP
+    - containerPort: 4568
+      name: ist
+      protocol: TCP
+    - containerPort: 4444
+      name: sst
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /readiness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    resources: {}
+    startupProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /liveness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  - args:
+    - agent
+    - galera
+    - --addr=:5555
+    - --probe-addr=:5566
+    - --config-dir=/etc/mysql/mariadb.conf.d
+    - --state-dir=/var/lib/mysql
+    - --graceful-shutdown-timeout=1s
+    - --basic-auth
+    - --basic-auth-username=mariadb-operator
+    - --basic-auth-password-path=/var/run/secrets/mariadb-operator/agent/password
+    env:
+    - name: MYSQL_TCP_PORT
+      value: "3306"
+    - name: MARIADB_ROOT_HOST
+      value: '%'
+    - name: CLUSTER_NAME
+      value: cluster.local
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MARIADB_NAME
+      value: mariadb-galera
+    - name: TLS_ENABLED
+      value: "true"
+    - name: TLS_CA_CERT_PATH
+      value: /etc/pki/ca.crt
+    - name: TLS_SERVER_CERT_PATH
+      value: /etc/pki/server.crt
+    - name: TLS_SERVER_KEY_PATH
+      value: /etc/pki/server.key
+    - name: TLS_CLIENT_CERT_PATH
+      value: /etc/pki/client.crt
+    - name: TLS_CLIENT_KEY_PATH
+      value: /etc/pki/client.key
+    - name: WSREP_SST_OPT_REMOTE_AUTH
+      value: 'mariadb-galera-client:'
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mariadb-root-password
+    - name: MYSQL_INITDB_SKIP_TZINFO
+      value: "1"
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 5566
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: agent
+    ports:
+    - containerPort: 5555
+      name: agent
+      protocol: TCP
+    - containerPort: 5566
+      name: agent-probe
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 5566
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostname: mariadb-galera-0
+  initContainers:
+  - args:
+    - init
+    - galera
+    - --config-dir=/etc/mysql/mariadb.conf.d
+    - --state-dir=/var/lib/mysql
+    env:
+    - name: MYSQL_TCP_PORT
+      value: "3306"
+    - name: MARIADB_ROOT_HOST
+      value: '%'
+    - name: CLUSTER_NAME
+      value: cluster.local
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MARIADB_NAME
+      value: mariadb-galera
+    - name: TLS_ENABLED
+      value: "true"
+    - name: TLS_CA_CERT_PATH
+      value: /etc/pki/ca.crt
+    - name: TLS_SERVER_CERT_PATH
+      value: /etc/pki/server.crt
+    - name: TLS_SERVER_KEY_PATH
+      value: /etc/pki/server.key
+    - name: TLS_CLIENT_CERT_PATH
+      value: /etc/pki/client.crt
+    - name: TLS_CLIENT_KEY_PATH
+      value: /etc/pki/client.key
+    - name: WSREP_SST_OPT_REMOTE_AUTH
+      value: 'mariadb-galera-client:'
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mariadb-root-password
+    - name: MYSQL_INITDB_SKIP_TZINFO
+      value: "1"
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imagePullPolicy: IfNotPresent
+    name: init
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  nodeName: worker1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 999
+    runAsGroup: 999
+    runAsNonRoot: true
+    runAsUser: 999
+  serviceAccount: mariadb-galera
+  serviceAccountName: mariadb-galera
+  subdomain: mariadb-galera-internal
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: storage-mariadb-galera-0
+  - name: galera
+    persistentVolumeClaim:
+      claimName: galera-mariadb-galera-0
+  - name: config
+    projected:
+      defaultMode: 420
+      sources:
+      - configMap:
+          items:
+          - key: 0-default.cnf
+            path: 0-default.cnf
+          name: mariadb-galera-config-default
+      - configMap:
+          items:
+          - key: 1-tls.cnf
+            path: 1-tls.cnf
+          name: mariadb-galera-config-tls
+  - name: pki
+    projected:
+      defaultMode: 420
+      sources:
+      - secret:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: mariadb-galera-ca-bundle
+      - secret:
+          items:
+          - key: tls.crt
+            path: client.crt
+          - key: tls.key
+            path: client.key
+          name: mariadb-galera-client-cert
+      - secret:
+          items:
+          - key: tls.crt
+            path: server.crt
+          - key: tls.key
+            path: server.key
+          name: mariadb-galera-server-cert
+  - name: agent-auth
+    secret:
+      defaultMode: 420
+      secretName: mariadb-galera-agent-auth
+  - name: serviceaccount
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3600
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:06:49Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:06:49Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:07:18Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:07:18Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:06:48Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://f406fa2ef3940354254d45cdf10d60eaae5e0d05112e50e3cca13135b52a6d0b
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imageID: ghcr.io/mariadb-operator/mariadb-operator@sha256:a5e17b48f08ef02cda59a5b0ed68a18ae5e0f820129ac391fa220ea117aebd6c
+    lastState: {}
+    name: agent
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-09T22:06:49Z"
+    user:
+      linux:
+        gid: 999
+        supplementalGroups:
+        - 999
+        uid: 999
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  - containerID: containerd://84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094
+    image: docker.io/library/mariadb:11.8
+    imageID: docker.io/library/mariadb@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
+    lastState: {}
+    name: mariadb
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-09T22:06:49Z"
+    user:
+      linux:
+        gid: 999
+        supplementalGroups:
+        - 999
+        uid: 999
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  hostIP: 10.0.0.3
+  hostIPs:
+  - ip: 10.0.0.3
+  initContainerStatuses:
+  - containerID: containerd://cba8e538a8fee94de52ade5fbf21e9a00a3060c2d5900ffdde5ff5c78c53d1c1
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imageID: ghcr.io/mariadb-operator/mariadb-operator@sha256:a5e17b48f08ef02cda59a5b0ed68a18ae5e0f820129ac391fa220ea117aebd6c
+    lastState: {}
+    name: init
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://cba8e538a8fee94de52ade5fbf21e9a00a3060c2d5900ffdde5ff5c78c53d1c1
+        exitCode: 0
+        finishedAt: "2026-09-09T22:06:48Z"
+        reason: Completed
+        startedAt: "2026-09-09T22:06:48Z"
+    user:
+      linux:
+        gid: 999
+        supplementalGroups:
+        - 999
+        uid: 999
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.1.235.136
+  podIPs:
+  - ip: 10.1.235.136
+  qosClass: BestEffort
+  startTime: "2026-09-09T22:06:48Z"
+
+==================== target-pod-pre.txt ====================
+
+Pod               : mariadb-galera-0
+UID               : 0c4af262-0f24-49cf-a752-3e0afa1ca86b
+Node              : worker1
+Phase             : Running
+Ready             : True
+Container         : mariadb
+ContainerID       : containerd://84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094
+ContainerRestarts : 0
+
+
+
+==================== target-pod-pre.yaml ====================
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 6a5a56041baa5e5c9dcaddda6ee27d4a282fc26b02e428978a93dc0d44a3a06b
+    cni.projectcalico.org/podIP: 10.1.235.136/32
+    cni.projectcalico.org/podIPs: 10.1.235.136/32
+    k8s.mariadb.com/ca: 5254beba5ec98f8b4c67aae1abbff5b24b11ba93608ee01df436c286767d1cf4
+    k8s.mariadb.com/client-cert: 9c17cd8ffe7b5ad8affd5e93b826392aa183ed39381a684facff1b076ecff4e2
+    k8s.mariadb.com/config-galera: 6f1a0c01084ebc3ec47d877c7c2d64e55c84cb61e4f5124362e1586749cfb7e2
+    k8s.mariadb.com/config-tls: 169a08c8cb9d9b89643267e720eb6e3c3c7894d6c18d429404a88d762c7388cd
+    k8s.mariadb.com/galera: ""
+    k8s.mariadb.com/mariadb: mariadb-galera
+    k8s.mariadb.com/server-cert: 69150635be6960ba5239d21df41a199ff917afc588511d9b6694dd0816bdbd36
+  creationTimestamp: "2026-09-09T22:06:48Z"
+  generateName: mariadb-galera-
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: mariadb-galera
+    app.kubernetes.io/name: mariadb
+    apps.kubernetes.io/pod-index: "0"
+    controller-revision-hash: mariadb-galera-77df8bdfd7
+    k8s.mariadb.com/role: replica
+    statefulset.kubernetes.io/pod-name: mariadb-galera-0
+  name: mariadb-galera-0
+  namespace: database
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: StatefulSet
+    name: mariadb-galera
+    uid: bb9952b4-b9b3-4173-a35a-257231094cd7
+  resourceVersion: "16531702"
+  uid: 0c4af262-0f24-49cf-a752-3e0afa1ca86b
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - mariadb-galera
+        topologyKey: kubernetes.io/hostname
+  automountServiceAccountToken: false
+  containers:
+  - env:
+    - name: MYSQL_TCP_PORT
+      value: "3306"
+    - name: MARIADB_ROOT_HOST
+      value: '%'
+    - name: CLUSTER_NAME
+      value: cluster.local
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MARIADB_NAME
+      value: mariadb-galera
+    - name: TLS_ENABLED
+      value: "true"
+    - name: TLS_CA_CERT_PATH
+      value: /etc/pki/ca.crt
+    - name: TLS_SERVER_CERT_PATH
+      value: /etc/pki/server.crt
+    - name: TLS_SERVER_KEY_PATH
+      value: /etc/pki/server.key
+    - name: TLS_CLIENT_CERT_PATH
+      value: /etc/pki/client.crt
+    - name: TLS_CLIENT_KEY_PATH
+      value: /etc/pki/client.key
+    - name: WSREP_SST_OPT_REMOTE_AUTH
+      value: 'mariadb-galera-client:'
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mariadb-root-password
+    - name: MYSQL_INITDB_SKIP_TZINFO
+      value: "1"
+    image: mariadb:11.8.8
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /liveness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: mariadb
+    ports:
+    - containerPort: 3306
+      name: mariadb
+      protocol: TCP
+    - containerPort: 4567
+      name: cluster
+      protocol: TCP
+    - containerPort: 4568
+      name: ist
+      protocol: TCP
+    - containerPort: 4444
+      name: sst
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /readiness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    resources: {}
+    startupProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /liveness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  - args:
+    - agent
+    - galera
+    - --addr=:5555
+    - --probe-addr=:5566
+    - --config-dir=/etc/mysql/mariadb.conf.d
+    - --state-dir=/var/lib/mysql
+    - --graceful-shutdown-timeout=1s
+    - --basic-auth
+    - --basic-auth-username=mariadb-operator
+    - --basic-auth-password-path=/var/run/secrets/mariadb-operator/agent/password
+    env:
+    - name: MYSQL_TCP_PORT
+      value: "3306"
+    - name: MARIADB_ROOT_HOST
+      value: '%'
+    - name: CLUSTER_NAME
+      value: cluster.local
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MARIADB_NAME
+      value: mariadb-galera
+    - name: TLS_ENABLED
+      value: "true"
+    - name: TLS_CA_CERT_PATH
+      value: /etc/pki/ca.crt
+    - name: TLS_SERVER_CERT_PATH
+      value: /etc/pki/server.crt
+    - name: TLS_SERVER_KEY_PATH
+      value: /etc/pki/server.key
+    - name: TLS_CLIENT_CERT_PATH
+      value: /etc/pki/client.crt
+    - name: TLS_CLIENT_KEY_PATH
+      value: /etc/pki/client.key
+    - name: WSREP_SST_OPT_REMOTE_AUTH
+      value: 'mariadb-galera-client:'
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mariadb-root-password
+    - name: MYSQL_INITDB_SKIP_TZINFO
+      value: "1"
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 5566
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: agent
+    ports:
+    - containerPort: 5555
+      name: agent
+      protocol: TCP
+    - containerPort: 5566
+      name: agent-probe
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 5566
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostname: mariadb-galera-0
+  initContainers:
+  - args:
+    - init
+    - galera
+    - --config-dir=/etc/mysql/mariadb.conf.d
+    - --state-dir=/var/lib/mysql
+    env:
+    - name: MYSQL_TCP_PORT
+      value: "3306"
+    - name: MARIADB_ROOT_HOST
+      value: '%'
+    - name: CLUSTER_NAME
+      value: cluster.local
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MARIADB_NAME
+      value: mariadb-galera
+    - name: TLS_ENABLED
+      value: "true"
+    - name: TLS_CA_CERT_PATH
+      value: /etc/pki/ca.crt
+    - name: TLS_SERVER_CERT_PATH
+      value: /etc/pki/server.crt
+    - name: TLS_SERVER_KEY_PATH
+      value: /etc/pki/server.key
+    - name: TLS_CLIENT_CERT_PATH
+      value: /etc/pki/client.crt
+    - name: TLS_CLIENT_KEY_PATH
+      value: /etc/pki/client.key
+    - name: WSREP_SST_OPT_REMOTE_AUTH
+      value: 'mariadb-galera-client:'
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mariadb-root-password
+    - name: MYSQL_INITDB_SKIP_TZINFO
+      value: "1"
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imagePullPolicy: IfNotPresent
+    name: init
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  nodeName: worker1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 999
+    runAsGroup: 999
+    runAsNonRoot: true
+    runAsUser: 999
+  serviceAccount: mariadb-galera
+  serviceAccountName: mariadb-galera
+  subdomain: mariadb-galera-internal
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: storage-mariadb-galera-0
+  - name: galera
+    persistentVolumeClaim:
+      claimName: galera-mariadb-galera-0
+  - name: config
+    projected:
+      defaultMode: 420
+      sources:
+      - configMap:
+          items:
+          - key: 0-default.cnf
+            path: 0-default.cnf
+          name: mariadb-galera-config-default
+      - configMap:
+          items:
+          - key: 1-tls.cnf
+            path: 1-tls.cnf
+          name: mariadb-galera-config-tls
+  - name: pki
+    projected:
+      defaultMode: 420
+      sources:
+      - secret:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: mariadb-galera-ca-bundle
+      - secret:
+          items:
+          - key: tls.crt
+            path: client.crt
+          - key: tls.key
+            path: client.key
+          name: mariadb-galera-client-cert
+      - secret:
+          items:
+          - key: tls.crt
+            path: server.crt
+          - key: tls.key
+            path: server.key
+          name: mariadb-galera-server-cert
+  - name: agent-auth
+    secret:
+      defaultMode: 420
+      secretName: mariadb-galera-agent-auth
+  - name: serviceaccount
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3600
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:06:49Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:06:49Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:07:18Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:07:18Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-09T22:06:48Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://f406fa2ef3940354254d45cdf10d60eaae5e0d05112e50e3cca13135b52a6d0b
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imageID: ghcr.io/mariadb-operator/mariadb-operator@sha256:a5e17b48f08ef02cda59a5b0ed68a18ae5e0f820129ac391fa220ea117aebd6c
+    lastState: {}
+    name: agent
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-09T22:06:49Z"
+    user:
+      linux:
+        gid: 999
+        supplementalGroups:
+        - 999
+        uid: 999
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  - containerID: containerd://84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094
+    image: docker.io/library/mariadb:11.8
+    imageID: docker.io/library/mariadb@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
+    lastState: {}
+    name: mariadb
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-09T22:06:49Z"
+    user:
+      linux:
+        gid: 999
+        supplementalGroups:
+        - 999
+        uid: 999
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  hostIP: 10.0.0.3
+  hostIPs:
+  - ip: 10.0.0.3
+  initContainerStatuses:
+  - containerID: containerd://cba8e538a8fee94de52ade5fbf21e9a00a3060c2d5900ffdde5ff5c78c53d1c1
+    image: ghcr.io/mariadb-operator/mariadb-operator:26.6.0
+    imageID: ghcr.io/mariadb-operator/mariadb-operator@sha256:a5e17b48f08ef02cda59a5b0ed68a18ae5e0f820129ac391fa220ea117aebd6c
+    lastState: {}
+    name: init
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://cba8e538a8fee94de52ade5fbf21e9a00a3060c2d5900ffdde5ff5c78c53d1c1
+        exitCode: 0
+        finishedAt: "2026-09-09T22:06:48Z"
+        reason: Completed
+        startedAt: "2026-09-09T22:06:48Z"
+    user:
+      linux:
+        gid: 999
+        supplementalGroups:
+        - 999
+        uid: 999
+    volumeMounts:
+    - mountPath: /etc/mysql/conf.d
+      name: config
+    - mountPath: /etc/pki
+      name: pki
+    - mountPath: /var/lib/mysql
+      name: storage
+    - mountPath: /var/run/secrets/mariadb-operator/agent
+      name: agent-auth
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: serviceaccount
+    - mountPath: /etc/mysql/mariadb.conf.d
+      name: galera
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.1.235.136
+  podIPs:
+  - ip: 10.1.235.136
+  qosClass: BestEffort
+  startTime: "2026-09-09T22:06:48Z"
+
+==================== target-pod-stability.txt ====================
+Target Pod remained stable during the run.
+
+==================== tracee-agents-post.txt ====================
+
+Node    Pod          Phase   Restarts
+----    ---          -----   --------
+master  tracee-xpg29 Running        0
+worker1 tracee-98728 Running        0
+worker2 tracee-x2zjx Running        0
+
+
+
+==================== tracee-agents-pre.txt ====================
+
+Node    Pod          Phase   Restarts
+----    ---          -----   --------
+master  tracee-xpg29 Running        0
+worker1 tracee-98728 Running        0
+worker2 tracee-x2zjx Running        0
+
+
+
+==================== tracee-g5a-run.ps1 ====================
+param(
+    [ValidateSet("run-01", "run-02", "run-03")]
+    [string]$Run
+)
+
+# ============================================================
+# Tracee G5a - MariaDB configuration file inspection
+#
+# Place this file at:
+#   experiments\tracee\scenarios\G5a\tracee-g5a-run.ps1
+#
+# Run it from the repository root:
+#   .\experiments\tracee\scenarios\G5a\tracee-g5a-run.ps1
+#
+# If -Run is omitted, the script automatically selects the first
+# missing run directory in this order:
+#   run-01 -> run-02 -> run-03
+#
+# Formal scenario:
+#   tests\scenarios\G5-file-process-inspection\run-g5a-config-read.ps1
+#
+# The measured window contains ONLY the predefined G5a scenario.
+# Tracee collection, validation, and post-state checks are performed
+# outside the strict START-END window.
+# ============================================================
+
+$ErrorActionPreference = "Stop"
+
+$namespace       = "database"
+$targetPod       = "mariadb-galera-0"
+$targetContainer = "mariadb"
+
+$traceeNamespace = "tracee"
+$nodes = @("master", "worker1", "worker2")
+
+# Expected location of this wrapper:
+# repo\experiments\tracee\scenarios\G5a\tracee-g5a-run.ps1
+$repoRoot = [System.IO.Path]::GetFullPath(
+    (Join-Path $PSScriptRoot "..\..\..\..")
+)
+
+$scenarioScript = Join-Path `
+    $repoRoot `
+    "tests\scenarios\G5-file-process-inspection\run-g5a-config-read.ps1"
+
+$g5Root = Join-Path `
+    $repoRoot `
+    "experiments\tracee\scenarios\G5a"
+
+if (-not (Test-Path $scenarioScript)) {
+    throw "Scenario script not found: $scenarioScript"
+}
+
+New-Item -ItemType Directory -Force -Path $g5Root | Out-Null
+
+if (-not $Run) {
+    foreach ($candidate in @("run-01", "run-02", "run-03")) {
+        if (-not (Test-Path (Join-Path $g5Root $candidate))) {
+            $Run = $candidate
+            break
+        }
+    }
+
+    if (-not $Run) {
+        throw "run-01, run-02, and run-03 already exist under $g5Root."
+    }
+}
+
+$g5 = Join-Path $g5Root $Run
+
+if (Test-Path $g5) {
+    throw "Evidence directory already exists: $g5. Rename/remove it or choose another run."
+}
+
+New-Item -ItemType Directory -Force -Path $g5 | Out-Null
+
+Write-Host ""
+Write-Host "============================================"
+Write-Host "Tracee G5a $Run"
+Write-Host "============================================"
+Write-Host "Evidence directory:"
+Write-Host $g5
+Write-Host ""
+
+
+# ============================================================
+# Helper functions
+# ============================================================
+
+function Get-TraceeAgents {
+    $items = (k get pods -n $traceeNamespace -o json | ConvertFrom-Json).items
+
+    foreach ($item in $items) {
+        if (
+            $item.metadata.name -like "tracee-*" -and
+            $item.metadata.name -notlike "tracee-operator*" -and
+            $nodes -contains $item.spec.nodeName
+        ) {
+            $restarts = 0
+
+            if ($item.status.containerStatuses) {
+                $sum = (
+                    $item.status.containerStatuses |
+                    Measure-Object -Property restartCount -Sum
+                ).Sum
+
+                if ($null -ne $sum) {
+                    $restarts = [int]$sum
+                }
+            }
+
+            [PSCustomObject]@{
+                Node     = $item.spec.nodeName
+                Pod      = $item.metadata.name
+                Phase    = $item.status.phase
+                Restarts = $restarts
+            }
+        }
+    }
+}
+
+
+function Get-TargetPodSnapshot {
+    $podObject = (
+        k get pod $targetPod -n $namespace -o json |
+        ConvertFrom-Json
+    )
+
+    if ($LASTEXITCODE -ne 0 -or -not $podObject) {
+        throw "Could not read target Pod $targetPod."
+    }
+
+    $readyCondition = (
+        $podObject.status.conditions |
+        Where-Object type -eq "Ready" |
+        Select-Object -First 1
+    )
+
+    $containerStatus = (
+        $podObject.status.containerStatuses |
+        Where-Object name -eq $targetContainer |
+        Select-Object -First 1
+    )
+
+    if (-not $containerStatus) {
+        throw "Container $targetContainer not found in Pod $targetPod."
+    }
+
+    [PSCustomObject]@{
+        Pod               = $podObject.metadata.name
+        UID               = $podObject.metadata.uid
+        Node              = $podObject.spec.nodeName
+        Phase             = $podObject.status.phase
+        Ready             = ($readyCondition.status -eq "True")
+        Container         = $containerStatus.name
+        ContainerID       = $containerStatus.containerID
+        ContainerRestarts = [int]$containerStatus.restartCount
+    }
+}
+
+
+function Get-ClusterUtc {
+    # Formal scenario boundaries always use the master node clock.
+    $remoteOutput = @(ssh master "date -u +%s%N")
+    $sshExit = $LASTEXITCODE
+
+    if ($sshExit -ne 0) {
+        throw "Could not obtain UTC timestamp from master."
+    }
+
+    $remoteNsRaw = ($remoteOutput -join "").Trim()
+
+    if ($remoteNsRaw -notmatch '^\d+$') {
+        throw "Unexpected timestamp returned by master: $remoteNsRaw"
+    }
+
+    $remoteNs = [decimal]$remoteNsRaw
+    $remoteMs = [Int64][decimal]::Floor($remoteNs / 1000000)
+
+    return (
+        [DateTimeOffset]::FromUnixTimeMilliseconds($remoteMs)
+    ).UtcDateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+}
+
+
+function Convert-IsoToDateTimeOffset {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Timestamp
+    )
+
+    return [DateTimeOffset]::Parse(
+        $Timestamp,
+        [System.Globalization.CultureInfo]::InvariantCulture,
+        [System.Globalization.DateTimeStyles]::AssumeUniversal
+    ).ToUniversalTime()
+}
+
+
+function Convert-IsoToUnixNs {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Timestamp
+    )
+
+    $dto = Convert-IsoToDateTimeOffset $Timestamp
+    $epochTicks = [DateTimeOffset]::UnixEpoch.UtcDateTime.Ticks
+
+    return [Int64](($dto.UtcDateTime.Ticks - $epochTicks) * 100)
+}
+
+
+function Redact-TraceeLine {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Line
+    )
+
+    # Tracee is configured with exec-env=true. Mask common secret-bearing
+    # environment variables while preserving the event structure.
+    return [regex]::Replace(
+        $Line,
+        '(?i)("[^"]*(?:PASSWORD|PASSWD|SECRET|TOKEN)[^"]*=)[^"]*"',
+        '${1}<redacted>"'
+    )
+}
+
+
+function Redact-G5aScenarioOutput {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$InputFile,
+
+        [Parameter(Mandatory = $true)]
+        [string]$OutputFile
+    )
+
+    $result = @(
+        foreach ($line in Get-Content $InputFile) {
+            if (
+                $line -notmatch '^\s*[#;]' -and
+                $line -match '^(?<prefix>\s*[^=]*(?:wsrep_sst_auth|password|passwd|secret|token)[^=]*=).*$'
+            ) {
+                "$($Matches.prefix)<redacted>"
+            }
+            else {
+                $line
+            }
+        }
+    )
+
+    $result | Set-Content -Path $OutputFile -Encoding utf8
+}
+
+
+function Collect-TraceeLogs {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$CollectionStartUtc,
+
+        [Parameter(Mandatory = $true)]
+        [array]$TraceePre
+    )
+
+    foreach ($node in $nodes) {
+        $agent = $TraceePre |
+            Where-Object Node -eq $node |
+            Select-Object -First 1
+
+        if (-not $agent) {
+            throw "No Tracee agent found on $node."
+        }
+
+        $pod = $agent.Pod
+        $logFile   = Join-Path $g5 "$node-since-start.jsonl"
+        $errorFile = Join-Path $g5 "$node-tracee-log-errors.txt"
+
+        Write-Host "Collecting Tracee output: $node -> $pod"
+
+        New-Item -ItemType File -Force -Path $logFile | Out-Null
+
+        $output = @(
+            k logs `
+                -n $traceeNamespace `
+                $pod `
+                --since-time=$CollectionStartUtc `
+                2> $errorFile
+        )
+
+        $logExit = $LASTEXITCODE
+
+        if ($logExit -ne 0) {
+            throw "Could not collect Tracee logs from ${node}. See $errorFile"
+        }
+
+        if ($output.Count -gt 0) {
+            $output |
+                ForEach-Object { Redact-TraceeLine ([string]$_) } |
+                Set-Content -Path $logFile -Encoding utf8
+        }
+
+        Write-Host "${node}: $($output.Count) lines collected"
+    }
+}
+
+
+function Filter-TraceeWindow {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$InputFile,
+
+        [Parameter(Mandatory = $true)]
+        [string]$OutputFile,
+
+        [Parameter(Mandatory = $true)]
+        [Int64]$StartNs,
+
+        [Parameter(Mandatory = $true)]
+        [Int64]$EndNs
+    )
+
+    New-Item -ItemType File -Force -Path $OutputFile | Out-Null
+
+    if (-not (Test-Path $InputFile)) {
+        return
+    }
+
+    $selected = @(
+        foreach ($line in Get-Content $InputFile) {
+            if ([string]::IsNullOrWhiteSpace($line)) {
+                continue
+            }
+
+            try {
+                $event = $line | ConvertFrom-Json -ErrorAction Stop
+            }
+            catch {
+                # Ignore non-JSON Tracee diagnostic lines.
+                continue
+            }
+
+            if ($null -eq $event.timestamp) {
+                continue
+            }
+
+            $ts = [Int64]$event.timestamp
+
+            if ($ts -ge $StartNs -and $ts -le $EndNs) {
+                $line
+            }
+        }
+    )
+
+    if ($selected.Count -gt 0) {
+        $selected | Set-Content -Path $OutputFile -Encoding utf8
+    }
+}
+
+
+function Build-DetectionOverview {
+    $detections = @()
+
+    foreach ($node in $nodes) {
+        $file = Join-Path $g5 "$node-window.jsonl"
+
+        if (-not (Test-Path $file)) {
+            continue
+        }
+
+        foreach ($line in Get-Content $file) {
+            if ([string]::IsNullOrWhiteSpace($line)) {
+                continue
+            }
+
+            try {
+                $event = $line | ConvertFrom-Json -ErrorAction Stop
+            }
+            catch {
+                continue
+            }
+
+            $falcoRefPolicies = @(
+                $event.matchedPolicies |
+                Where-Object { $_ -like "falco-ref-*" }
+            )
+
+            if ($falcoRefPolicies.Count -eq 0) {
+                continue
+            }
+
+            $detections += [PSCustomObject]@{
+                Node      = $node
+                Timestamp = $event.timestamp
+                Event     = $event.eventName
+                Process   = $event.processName
+                PID       = $event.processId
+                Policies  = ($falcoRefPolicies -join ", ")
+            }
+        }
+    }
+
+    $overviewFile = Join-Path $g5 "detections-overview.txt"
+    $summaryFile  = Join-Path $g5 "detections-summary.txt"
+
+    if ($detections.Count -gt 0) {
+        $detections |
+            Format-Table -AutoSize |
+            Out-String -Width 300 |
+            Set-Content $overviewFile
+
+        $detections |
+            Group-Object Policies |
+            Sort-Object Count -Descending |
+            Select-Object Count, Name |
+            Format-Table -AutoSize |
+            Out-String |
+            Set-Content $summaryFile
+    }
+    else {
+        "No falco-ref-* matched policy events in the strict scenario window." |
+            Set-Content $overviewFile
+
+        "No falco-ref-* matched policy events in the strict scenario window." |
+            Set-Content $summaryFile
+    }
+
+    return $detections
+}
+
+
+# ============================================================
+# 0. Verify NTP synchronization
+# ============================================================
+
+$timeSyncStatus = @()
+$timeSyncProblems = @()
+
+foreach ($node in $nodes) {
+    $ntpOutput = @(ssh $node "timedatectl show -p NTPSynchronized --value")
+    $sshExit = $LASTEXITCODE
+
+    if ($sshExit -ne 0) {
+        $timeSyncProblems += "Could not check time synchronization on $node."
+        continue
+    }
+
+    $ntp = ($ntpOutput -join "").Trim().ToLowerInvariant()
+
+    $timeSyncStatus += [PSCustomObject]@{
+        Node            = $node
+        NTPSynchronized = $ntp
+    }
+
+    if ($ntp -ne "yes") {
+        $timeSyncProblems += "NTP synchronization is not confirmed on $node."
+    }
+}
+
+$timeSyncStatus |
+    Format-Table -AutoSize |
+    Out-String |
+    Set-Content (Join-Path $g5 "cluster-time-sync.txt")
+
+Write-Host "Cluster time synchronization:"
+$timeSyncStatus | Format-Table -AutoSize
+
+if ($timeSyncProblems.Count -gt 0) {
+    $timeSyncProblems |
+        Add-Content (Join-Path $g5 "cluster-time-sync.txt")
+
+    throw "Cluster node time synchronization check failed."
+}
+
+
+# ============================================================
+# 1. Save scenario definition and PRE state
+# ============================================================
+
+Copy-Item `
+    $scenarioScript `
+    (Join-Path $g5 "run-g5a-config-read.ps1") `
+    -Force
+
+Copy-Item `
+    $PSCommandPath `
+    (Join-Path $g5 "tracee-g5a-run.ps1") `
+    -Force
+
+@"
+Variant: G5a
+Target: namespace=$namespace pod=$targetPod container=$targetContainer
+Execution: authorized non-interactive kubectl exec through the predefined G5a script
+Selected files:
+  /etc/mysql/mariadb.cnf
+  /etc/mysql/mariadb.conf.d/0-galera.cnf
+Validation: both selected file sections must be present in scenario output and the predefined script must complete successfully
+"@ | Set-Content (Join-Path $g5 "scenario-definition.txt")
+
+@"
+Sensitive values are redacted from scenario-output.txt.
+Common secret-bearing environment variables are redacted from collected Tracee JSONL files.
+Redaction changes secret values only and does not alter timestamps, event names, process fields, container IDs, or matched policy names.
+"@ | Set-Content (Join-Path $g5 "redaction-note.txt")
+
+k get pods -A -o wide |
+    Out-File (Join-Path $g5 "pre-all-pods.txt")
+
+k get pods -n $namespace -o wide |
+    Out-File (Join-Path $g5 "pre-database-pods.txt")
+
+k get pods -n $traceeNamespace -o wide |
+    Out-File (Join-Path $g5 "pre-tracee-pods.txt")
+
+k get pod $targetPod -n $namespace -o yaml |
+    Out-File (Join-Path $g5 "target-pod-pre.yaml")
+
+$targetPre = Get-TargetPodSnapshot
+
+$targetPre |
+    Format-List |
+    Out-String |
+    Set-Content (Join-Path $g5 "target-pod-pre.txt")
+
+if ($targetPre.Phase -ne "Running" -or -not $targetPre.Ready) {
+    throw "Target Pod is not Running and Ready before G5a."
+}
+
+$traceePre = @(Get-TraceeAgents)
+
+$traceePre |
+    Sort-Object Node |
+    Format-Table -AutoSize |
+    Out-String |
+    Set-Content (Join-Path $g5 "tracee-agents-pre.txt")
+
+foreach ($node in $nodes) {
+    $agent = @($traceePre | Where-Object Node -eq $node)
+
+    if ($agent.Count -ne 1) {
+        throw "Expected exactly one Tracee agent on $node, found $($agent.Count)."
+    }
+
+    if ($agent[0].Phase -ne "Running") {
+        throw "Tracee agent on $node is not Running."
+    }
+}
+
+
+# ============================================================
+# 2. START strict scenario window
+# ============================================================
+
+$startUtc = Get-ClusterUtc
+$startUtc | Set-Content (Join-Path $g5 "start-utc.txt")
+
+Write-Host ""
+Write-Host "G5a START: $startUtc"
+Write-Host ""
+
+
+# ============================================================
+# 3. Execute the predefined G5a scenario once
+# ============================================================
+
+$scenarioSucceeded = $false
+$scenarioError = $null
+$scenarioExitCode = $null
+$tempScenarioOutput = [System.IO.Path]::GetTempFileName()
+
+try {
+    & $scenarioScript *>&1 |
+        Tee-Object -FilePath $tempScenarioOutput
+
+    $scenarioExitCode = $LASTEXITCODE
+
+    if ($null -eq $scenarioExitCode) {
+        $scenarioExitCode = 0
+    }
+
+    if ($scenarioExitCode -ne 0) {
+        throw "G5a scenario returned exit code $scenarioExitCode."
+    }
+
+    $scenarioSucceeded = $true
+}
+catch {
+    $scenarioError = $_.Exception.Message
+    $scenarioError |
+        Set-Content (Join-Path $g5 "scenario-error.txt")
+
+    if ($null -eq $scenarioExitCode) {
+        if ($null -ne $LASTEXITCODE) {
+            $scenarioExitCode = $LASTEXITCODE
+        }
+        else {
+            $scenarioExitCode = 1
+        }
+    }
+}
+finally {
+    if (Test-Path $tempScenarioOutput) {
+        Redact-G5aScenarioOutput `
+            -InputFile $tempScenarioOutput `
+            -OutputFile (Join-Path $g5 "scenario-output.txt")
+
+        Remove-Item $tempScenarioOutput -Force
+    }
+}
+
+" G5a_EXIT_CODE=$scenarioExitCode".Trim() |
+    Set-Content (Join-Path $g5 "exit-code.txt")
+
+
+# ============================================================
+# 4. END strict scenario window immediately after G5a returns
+# ============================================================
+
+$endUtc = Get-ClusterUtc
+$endUtc | Set-Content (Join-Path $g5 "end-utc.txt")
+
+Write-Host ""
+Write-Host "G5a END:   $endUtc"
+Write-Host ""
+
+
+# ============================================================
+# 5. Collect Tracee logs
+# ============================================================
+
+$collectionStartUtc = (
+    (Convert-IsoToDateTimeOffset $startUtc).AddSeconds(-2)
+).UtcDateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+
+$collectionStartUtc |
+    Set-Content (Join-Path $g5 "collection-start-utc.txt")
+
+Collect-TraceeLogs `
+    -CollectionStartUtc $collectionStartUtc `
+    -TraceePre $traceePre
+
+
+# ============================================================
+# 6. Save POST state
+# ============================================================
+
+k get pods -A -o wide |
+    Out-File (Join-Path $g5 "post-all-pods.txt")
+
+k get pods -n $namespace -o wide |
+    Out-File (Join-Path $g5 "post-database-pods.txt")
+
+k get pods -n $traceeNamespace -o wide |
+    Out-File (Join-Path $g5 "post-tracee-pods.txt")
+
+k get pod $targetPod -n $namespace -o yaml |
+    Out-File (Join-Path $g5 "target-pod-post.yaml")
+
+$targetPost = Get-TargetPodSnapshot
+
+$targetPost |
+    Format-List |
+    Out-String |
+    Set-Content (Join-Path $g5 "target-pod-post.txt")
+
+$traceePost = @(Get-TraceeAgents)
+
+$traceePost |
+    Sort-Object Node |
+    Format-Table -AutoSize |
+    Out-String |
+    Set-Content (Join-Path $g5 "tracee-agents-post.txt")
+
+
+# ============================================================
+# 7. Validate target Pod and Tracee stability
+# ============================================================
+
+$targetProblems = @()
+
+if ($targetPost.UID -ne $targetPre.UID) {
+    $targetProblems += "Target Pod UID changed during G5a."
+}
+
+if ($targetPost.Node -ne $targetPre.Node) {
+    $targetProblems += "Target Pod node changed during G5a."
+}
+
+if ($targetPost.Phase -ne "Running" -or -not $targetPost.Ready) {
+    $targetProblems += "Target Pod is not Running and Ready after G5a."
+}
+
+if ($targetPost.ContainerRestarts -ne $targetPre.ContainerRestarts) {
+    $targetProblems += "Target container restart count changed during G5a."
+}
+
+if ($targetPost.ContainerID -ne $targetPre.ContainerID) {
+    $targetProblems += "Target container ID changed during G5a."
+}
+
+if ($targetProblems.Count -eq 0) {
+    "Target Pod remained stable during the run." |
+        Set-Content (Join-Path $g5 "target-pod-stability.txt")
+}
+else {
+    $targetProblems |
+        Set-Content (Join-Path $g5 "target-pod-stability.txt")
+}
+
+
+$stabilityProblems = @()
+
+foreach ($node in $nodes) {
+    $before = $traceePre |
+        Where-Object Node -eq $node |
+        Select-Object -First 1
+
+    $after = $traceePost |
+        Where-Object Node -eq $node |
+        Select-Object -First 1
+
+    if (-not $after) {
+        $stabilityProblems += "No Tracee agent found on $node after G5a."
+        continue
+    }
+
+    if ($before.Pod -ne $after.Pod) {
+        $stabilityProblems += "Tracee Pod changed on ${node}: $($before.Pod) -> $($after.Pod)"
+    }
+
+    if ($after.Restarts -ne $before.Restarts) {
+        $stabilityProblems += "Tracee restart count changed on ${node}: $($before.Restarts) -> $($after.Restarts)"
+    }
+
+    if ($after.Phase -ne "Running") {
+        $stabilityProblems += "Tracee agent on $node is not Running after G5a."
+    }
+}
+
+if ($stabilityProblems.Count -eq 0) {
+    "Tracee agents stable during the run." |
+        Set-Content (Join-Path $g5 "tracee-stability.txt")
+}
+else {
+    $stabilityProblems |
+        Set-Content (Join-Path $g5 "tracee-stability.txt")
+}
+
+
+# ============================================================
+# 8. Strict START-END filtering
+# ============================================================
+
+$startNs = Convert-IsoToUnixNs $startUtc
+$endNs   = Convert-IsoToUnixNs $endUtc
+
+foreach ($node in $nodes) {
+    Filter-TraceeWindow `
+        -InputFile (Join-Path $g5 "$node-since-start.jsonl") `
+        -OutputFile (Join-Path $g5 "$node-window.jsonl") `
+        -StartNs $startNs `
+        -EndNs $endNs
+}
+
+
+# ============================================================
+# 9. Build detection overview
+# ============================================================
+
+$detections = @(Build-DetectionOverview)
+
+
+# ============================================================
+# 10. Ground-truth validation from scenario output
+# ============================================================
+
+$groundTruthProblems = @()
+$scenarioOutputFile = Join-Path $g5 "scenario-output.txt"
+
+if (-not (Test-Path $scenarioOutputFile)) {
+    $groundTruthProblems += "scenario-output.txt is missing."
+}
+else {
+    $scenarioText = Get-Content $scenarioOutputFile -Raw
+
+    if ($scenarioText -notmatch [regex]::Escape("--- /etc/mysql/mariadb.cnf ---")) {
+        $groundTruthProblems += "Output for /etc/mysql/mariadb.cnf was not confirmed."
+    }
+
+    if ($scenarioText -notmatch [regex]::Escape("--- /etc/mysql/mariadb.conf.d/0-galera.cnf ---")) {
+        $groundTruthProblems += "Output for /etc/mysql/mariadb.conf.d/0-galera.cnf was not confirmed."
+    }
+
+    if ($scenarioText -notmatch [regex]::Escape("G5a config read completed successfully")) {
+        $groundTruthProblems += "G5a completion marker was not found."
+    }
+}
+
+if (-not $scenarioSucceeded) {
+    $groundTruthProblems += "The predefined G5a script did not complete successfully."
+}
+
+if ($groundTruthProblems.Count -eq 0) {
+    @"
+G5a ground truth: OK
+/etc/mysql/mariadb.cnf inspection: CONFIRMED
+/etc/mysql/mariadb.conf.d/0-galera.cnf inspection: CONFIRMED
+Predefined G5a script completion: CONFIRMED
+"@ | Set-Content (Join-Path $g5 "scenario-validation.txt")
+}
+else {
+    @(
+        "G5a ground truth: CHECK REQUIRED"
+        $groundTruthProblems
+    ) | Set-Content (Join-Path $g5 "scenario-validation.txt")
+}
+
+
+# ============================================================
+# 11. Run status
+# ============================================================
+
+$runStatus = @()
+
+if ($scenarioSucceeded) {
+    $runStatus += "G5a scenario: COMPLETE"
+}
+else {
+    $runStatus += "G5a scenario: FAILED"
+}
+
+if ($groundTruthProblems.Count -eq 0) {
+    $runStatus += "G5a ground truth: OK"
+}
+else {
+    $runStatus += "G5a ground truth: CHECK REQUIRED"
+}
+
+if ($targetProblems.Count -eq 0) {
+    $runStatus += "Target Pod stability: OK"
+}
+else {
+    $runStatus += "Target Pod stability: CHECK REQUIRED"
+}
+
+if ($stabilityProblems.Count -eq 0) {
+    $runStatus += "Tracee stability: OK"
+}
+else {
+    $runStatus += "Tracee stability: CHECK REQUIRED"
+}
+
+$runStatus += "START: $startUtc"
+$runStatus += "END:   $endUtc"
+$runStatus += "Target node: $($targetPre.Node)"
+$runStatus += "Tracee detections in strict window: $($detections.Count)"
+
+$runStatus |
+    Set-Content (Join-Path $g5 "run-status.txt")
+
+
+# ============================================================
+# 12. Console summary
+# ============================================================
+
+Write-Host ""
+Write-Host "============================================"
+Write-Host "G5a $Run finished"
+Write-Host "============================================"
+Write-Host "START: $startUtc"
+Write-Host "END:   $endUtc"
+Write-Host "Target Pod: $targetPod"
+Write-Host "Target Node: $($targetPre.Node)"
+Write-Host ""
+
+if ($groundTruthProblems.Count -eq 0) {
+    Write-Host "Ground truth: OK"
+}
+else {
+    Write-Host "Ground truth: CHECK REQUIRED"
+}
+
+Write-Host ""
+Write-Host "Tracee detections in strict window:"
+Write-Host ""
+
+if ($detections.Count -gt 0) {
+    $detections |
+        Format-Table Node, Event, Process, PID, Policies -AutoSize
+}
+else {
+    Write-Host "No falco-ref-* matched-policy detections."
+}
+
+Write-Host ""
+Write-Host "Evidence directory:"
+Write-Host $g5
+Write-Host ""
+
+
+# ============================================================
+# Final validity checks
+# ============================================================
+
+if (-not $scenarioSucceeded) {
+    throw "G5a scenario failed. See scenario-error.txt and scenario-output.txt."
+}
+
+if ($groundTruthProblems.Count -gt 0) {
+    throw "G5a ground-truth validation failed. See scenario-validation.txt."
+}
+
+if ($targetProblems.Count -gt 0) {
+    throw "Target Pod stability check failed. See target-pod-stability.txt."
+}
+
+if ($stabilityProblems.Count -gt 0) {
+    throw "Tracee stability check failed. See tracee-stability.txt."
+}
+
+Write-Host "Run validity checks: OK"
+
+==================== tracee-stability.txt ====================
+Tracee agents stable during the run.
+
+==================== worker1-since-start.jsonl ====================
+{"timestamp":1789503110665874144,"threadStartTime":1789503110653490766,"processorId":3,"processId":489,"cgroupId":402081,"threadId":489,"parentProcessId":0,"hostProcessId":2804056,"hostThreadId":2804056,"hostParentProcessId":2804043,"userId":999,"mountNamespace":4026532704,"pidNamespace":4026532705,"processName":"sh","executable":{"path":""},"hostName":"mariadb-galera-","containerId":"84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094","container":{"id":"84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094"},"kubernetes":{},"eventId":"715","eventName":"sched_process_exec","matchedPolicies":["falco-ref-terminal-shell-container"],"argsNum":19,"returnValue":0,"syscall":"execve","stackAddresses":null,"contextFlags":{"containerStarted":true,"isCompat":false},"threadEntityId":1466610305,"processEntityId":1466610305,"parentEntityId":2033569376,"args":[{"name":"cmdpath","type":"string","value":"/usr/bin/sh"},{"name":"pathname","type":"string","value":"/usr/bin/dash"},{"name":"dev","type":"uint32","value":84},{"name":"inode","type":"uint64","value":646823},{"name":"ctime","type":"uint64","value":1782143400832368519},{"name":"inode_mode","type":"uint16","value":33261},{"name":"interpreter_pathname","type":"string","value":"/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"},{"name":"interpreter_dev","type":"uint32","value":84},{"name":"interpreter_inode","type":"uint64","value":647437},{"name":"interpreter_ctime","type":"uint64","value":1782143401018839939},{"name":"argv","type":"[]string","value":["sh","-c","set -eu; echo \"=== Hostname ===\"; hostname; echo \"\"; echo \"=== Selected MariaDB configuration files ===\"; for f in /etc/mysql/mariadb.cnf /etc/mysql/mariadb.conf.d/0-galera.cnf; do echo \"\"; echo \"--- $f ---\"; ls -l \"$f\"; echo \"\"; while IFS= read -r line; do case \"$line\" in wsrep_sst_auth=*) echo \"wsrep_sst_auth=\u003credacted\u003e\";; *password*|*Password*|*PASSWORD*|*secret*|*Secret*|*SECRET*) echo \"\u003credacted sensitive line\u003e\";; *) echo \"$line\";; esac; done \u003c \"$f\"; done"]},{"name":"interp","type":"string","value":"/usr/bin/sh"},{"name":"stdin_type","type":"string","value":"S_IFCHR"},{"name":"stdin_path","type":"string","value":"/dev/null"},{"name":"invoked_from_kernel","type":"bool","value":false},{"name":"prev_comm","type":"string","value":"runc:[2:INIT]"},{"name":"env","type":"[]string","value":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","HOSTNAME=mariadb-galera-0","GOSU_VERSION=1.19","LANG=C.UTF-8","MARIADB_VERSION=1:11.8.8+maria~ubu2404","POD_NAMESPACE=database","TLS_ENABLED=true","TLS_CA_CERT_PATH=/etc/pki/ca.crt","TLS_SERVER_CERT_PATH=/etc/pki/server.crt","POD_NAME=mariadb-galera-0","MARIADB_NAME=mariadb-galera","WSREP_SST_OPT_REMOTE_AUTH=mariadb-galera-client:","MYSQL_INITDB_SKIP_TZINFO=1","TLS_CLIENT_KEY_PATH=/etc/pki/client.key","MYSQL_TCP_PORT=3306","CLUSTER_NAME=cluster.local","POD_IP=10.1.235.136","TLS_CLIENT_CERT_PATH=/etc/pki/client.crt","MARIADB_ROOT_HOST=%","TLS_SERVER_KEY_PATH=/etc/pki/server.key","MARIADB_ROOT_PASSWORD=<redacted>","MARIADB_GALERA_PRIMARY_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_SECONDARY_PORT=tcp://10.152.183.54:3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP=tcp://10.152.183.54:3306","KUBERNETES_PORT_443_TCP_ADDR=10.152.183.1","MARIADB_GALERA_PORT_3306_TCP=tcp://10.152.183.39:3306","MARIADB_GALERA_PRIMARY_PORT=tcp://10.152.183.42:3306","MARIADB_GALERA_SECONDARY_SERVICE_PORT=3306","MARIADB_GALERA_SECONDARY_SERVICE_PORT_MARIADB=3306","KUBERNETES_SERVICE_HOST=10.152.183.1","MARIADB_GALERA_PRIMARY_SERVICE_PORT=3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP=tcp://10.152.183.42:3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PORT=3306","KUBERNETES_PORT_443_TCP_PROTO=tcp","MARIADB_GALERA_SERVICE_PORT=3306","MARIADB_GALERA_PRIMARY_SERVICE_HOST=10.152.183.42","MARIADB_GALERA_SERVICE_HOST=10.152.183.39","MARIADB_GALERA_PORT=tcp://10.152.183.39:3306","MARIADB_GALERA_PORT_3306_TCP_PROTO=tcp","KUBERNETES_PORT_443_TCP_PORT=443","MARIADB_GALERA_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_SECONDARY_SERVICE_HOST=10.152.183.54","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_ADDR=10.152.183.54","MARIADB_GALERA_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PROTO=tcp","KUBERNETES_PORT=tcp://10.152.183.1:443","MARIADB_GALERA_PORT_3306_TCP_ADDR=10.152.183.39","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_ADDR=10.152.183.42","KUBERNETES_SERVICE_PORT=443","KUBERNETES_SERVICE_PORT_HTTPS=443","KUBERNETES_PORT_443_TCP=tcp://10.152.183.1:443","HOME=/var/lib/mysql"]},{"name":"pwd","type":"string","value":"/"},{"name":"sha256","type":"string","value":"86d31f6fb799e91fa21bad341484564510ca287703a16e9e46c53338776f4f42"}]}
+{"timestamp":1789503110998408760,"threadStartTime":1789106680597426466,"processorId":2,"processId":622175,"cgroupId":423837,"threadId":622175,"parentProcessId":1,"hostProcessId":622175,"hostThreadId":622175,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker1","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":544880569,"processEntityId":544880569,"parentEntityId":1780024112,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/63cd1cb10b804f47b2519f5886839092/system.journal"},{"name":"inode","type":"uint64","value":129979},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":50331648}]}
+
+==================== worker1-tracee-log-errors.txt ====================
+
+==================== worker1-window.jsonl ====================
+{"timestamp":1789503110665874144,"threadStartTime":1789503110653490766,"processorId":3,"processId":489,"cgroupId":402081,"threadId":489,"parentProcessId":0,"hostProcessId":2804056,"hostThreadId":2804056,"hostParentProcessId":2804043,"userId":999,"mountNamespace":4026532704,"pidNamespace":4026532705,"processName":"sh","executable":{"path":""},"hostName":"mariadb-galera-","containerId":"84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094","container":{"id":"84cf901dc9ed8ef000c0a52ab1a364abb5693496790d0e136ca70bfb3c038094"},"kubernetes":{},"eventId":"715","eventName":"sched_process_exec","matchedPolicies":["falco-ref-terminal-shell-container"],"argsNum":19,"returnValue":0,"syscall":"execve","stackAddresses":null,"contextFlags":{"containerStarted":true,"isCompat":false},"threadEntityId":1466610305,"processEntityId":1466610305,"parentEntityId":2033569376,"args":[{"name":"cmdpath","type":"string","value":"/usr/bin/sh"},{"name":"pathname","type":"string","value":"/usr/bin/dash"},{"name":"dev","type":"uint32","value":84},{"name":"inode","type":"uint64","value":646823},{"name":"ctime","type":"uint64","value":1782143400832368519},{"name":"inode_mode","type":"uint16","value":33261},{"name":"interpreter_pathname","type":"string","value":"/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"},{"name":"interpreter_dev","type":"uint32","value":84},{"name":"interpreter_inode","type":"uint64","value":647437},{"name":"interpreter_ctime","type":"uint64","value":1782143401018839939},{"name":"argv","type":"[]string","value":["sh","-c","set -eu; echo \"=== Hostname ===\"; hostname; echo \"\"; echo \"=== Selected MariaDB configuration files ===\"; for f in /etc/mysql/mariadb.cnf /etc/mysql/mariadb.conf.d/0-galera.cnf; do echo \"\"; echo \"--- $f ---\"; ls -l \"$f\"; echo \"\"; while IFS= read -r line; do case \"$line\" in wsrep_sst_auth=*) echo \"wsrep_sst_auth=\u003credacted\u003e\";; *password*|*Password*|*PASSWORD*|*secret*|*Secret*|*SECRET*) echo \"\u003credacted sensitive line\u003e\";; *) echo \"$line\";; esac; done \u003c \"$f\"; done"]},{"name":"interp","type":"string","value":"/usr/bin/sh"},{"name":"stdin_type","type":"string","value":"S_IFCHR"},{"name":"stdin_path","type":"string","value":"/dev/null"},{"name":"invoked_from_kernel","type":"bool","value":false},{"name":"prev_comm","type":"string","value":"runc:[2:INIT]"},{"name":"env","type":"[]string","value":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","HOSTNAME=mariadb-galera-0","GOSU_VERSION=1.19","LANG=C.UTF-8","MARIADB_VERSION=1:11.8.8+maria~ubu2404","POD_NAMESPACE=database","TLS_ENABLED=true","TLS_CA_CERT_PATH=/etc/pki/ca.crt","TLS_SERVER_CERT_PATH=/etc/pki/server.crt","POD_NAME=mariadb-galera-0","MARIADB_NAME=mariadb-galera","WSREP_SST_OPT_REMOTE_AUTH=mariadb-galera-client:","MYSQL_INITDB_SKIP_TZINFO=1","TLS_CLIENT_KEY_PATH=/etc/pki/client.key","MYSQL_TCP_PORT=3306","CLUSTER_NAME=cluster.local","POD_IP=10.1.235.136","TLS_CLIENT_CERT_PATH=/etc/pki/client.crt","MARIADB_ROOT_HOST=%","TLS_SERVER_KEY_PATH=/etc/pki/server.key","MARIADB_ROOT_PASSWORD=<redacted>","MARIADB_GALERA_PRIMARY_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_SECONDARY_PORT=tcp://10.152.183.54:3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP=tcp://10.152.183.54:3306","KUBERNETES_PORT_443_TCP_ADDR=10.152.183.1","MARIADB_GALERA_PORT_3306_TCP=tcp://10.152.183.39:3306","MARIADB_GALERA_PRIMARY_PORT=tcp://10.152.183.42:3306","MARIADB_GALERA_SECONDARY_SERVICE_PORT=3306","MARIADB_GALERA_SECONDARY_SERVICE_PORT_MARIADB=3306","KUBERNETES_SERVICE_HOST=10.152.183.1","MARIADB_GALERA_PRIMARY_SERVICE_PORT=3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP=tcp://10.152.183.42:3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PORT=3306","KUBERNETES_PORT_443_TCP_PROTO=tcp","MARIADB_GALERA_SERVICE_PORT=3306","MARIADB_GALERA_PRIMARY_SERVICE_HOST=10.152.183.42","MARIADB_GALERA_SERVICE_HOST=10.152.183.39","MARIADB_GALERA_PORT=tcp://10.152.183.39:3306","MARIADB_GALERA_PORT_3306_TCP_PROTO=tcp","KUBERNETES_PORT_443_TCP_PORT=443","MARIADB_GALERA_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_SECONDARY_SERVICE_HOST=10.152.183.54","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_ADDR=10.152.183.54","MARIADB_GALERA_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PROTO=tcp","KUBERNETES_PORT=tcp://10.152.183.1:443","MARIADB_GALERA_PORT_3306_TCP_ADDR=10.152.183.39","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_ADDR=10.152.183.42","KUBERNETES_SERVICE_PORT=443","KUBERNETES_SERVICE_PORT_HTTPS=443","KUBERNETES_PORT_443_TCP=tcp://10.152.183.1:443","HOME=/var/lib/mysql"]},{"name":"pwd","type":"string","value":"/"},{"name":"sha256","type":"string","value":"86d31f6fb799e91fa21bad341484564510ca287703a16e9e46c53338776f4f42"}]}
+{"timestamp":1789503110998408760,"threadStartTime":1789106680597426466,"processorId":2,"processId":622175,"cgroupId":423837,"threadId":622175,"parentProcessId":1,"hostProcessId":622175,"hostThreadId":622175,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker1","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":544880569,"processEntityId":544880569,"parentEntityId":1780024112,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/63cd1cb10b804f47b2519f5886839092/system.journal"},{"name":"inode","type":"uint64","value":129979},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":50331648}]}
+
+==================== worker2-since-start.jsonl ====================
+{"timestamp":1789503108086220231,"threadStartTime":1789107560462488750,"processorId":0,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789503108322364178,"threadStartTime":1789107560462488750,"processorId":0,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/user-1000.journal"},{"name":"inode","type":"uint64","value":136453},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789503108446874206,"threadStartTime":1789107560462488750,"processorId":0,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789503108946956423,"threadStartTime":1789107560462488750,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789503109196889587,"threadStartTime":1789107560462488750,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/user-1000.journal"},{"name":"inode","type":"uint64","value":136453},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+
+==================== worker2-tracee-log-errors.txt ====================
+
+==================== worker2-window.jsonl ====================
+

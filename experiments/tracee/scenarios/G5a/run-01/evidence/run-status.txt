@@ -1,0 +1,8 @@
+G5a scenario: COMPLETE
+G5a ground truth: OK
+Target Pod stability: OK
+Tracee stability: OK
+START: 2026-09-15T20:00:52.053Z
+END:   2026-09-15T20:00:53.054Z
+Target node: worker1
+Tracee detections in strict window: 5

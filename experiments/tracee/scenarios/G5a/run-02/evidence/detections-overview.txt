@@ -1,0 +1,10 @@
+
+Node              Timestamp Event              Process             PID Policies
+----              --------- -----              -------             --- --------
+master  1789502906251097797 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789502906467129563 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789502906751091396 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+worker1 1789502906438713403 sched_process_exec sh                  479 falco-ref-terminal-shell-container
+worker1 1789502906748408089 do_truncate        systemd-journal  622175 falco-ref-clear-log
+
+

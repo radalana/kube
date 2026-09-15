@@ -1,0 +1,7 @@
+Variant: G5a
+Target: namespace=database pod=mariadb-galera-0 container=mariadb
+Execution: authorized non-interactive kubectl exec through the predefined G5a script
+Selected files:
+  /etc/mysql/mariadb.cnf
+  /etc/mysql/mariadb.conf.d/0-galera.cnf
+Validation: both selected file sections must be present in scenario output and the predefined script must complete successfully

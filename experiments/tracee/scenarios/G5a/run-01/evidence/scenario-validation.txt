@@ -1,0 +1,4 @@
+G5a ground truth: OK
+/etc/mysql/mariadb.cnf inspection: CONFIRMED
+/etc/mysql/mariadb.conf.d/0-galera.cnf inspection: CONFIRMED
+Predefined G5a script completion: CONFIRMED
