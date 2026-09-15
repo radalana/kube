@@ -1,0 +1,5 @@
+G4a scenario output captured successfully.
+id output: OK
+hostname output: OK
+ps output: OK
+Non-interactive shell with TTY=?: CONFIRMED

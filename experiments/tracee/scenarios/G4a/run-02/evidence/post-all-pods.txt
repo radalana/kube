@@ -1,0 +1,17 @@
+NAMESPACE     NAME                                       READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      g2-schema-migration-ddqpc                  0/1     Completed   0             21h     10.1.189.67    worker2   <none>           <none>
+database      g3-backup-tmpcg                            0/1     Completed   0             4h15m   10.1.189.80    worker2   <none>           <none>
+database      mariadb-galera-0                           2/2     Running     0             5d17h   10.1.235.136   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running     2 (50d ago)   85d     10.1.189.84    worker2   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running     2 (50d ago)   105d    10.1.219.82    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running     1 (50d ago)   53d     10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running     1 (50d ago)   53d     10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running     1 (50d ago)   53d     10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running     2 (50d ago)   105d    10.1.219.83    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running     7 (18d ago)   91d     10.1.235.179   worker1   <none>           <none>
+tracee        tracee-9vpkj                               1/1     Running     0             5h21m   10.1.235.188   worker1   <none>           <none>
+tracee        tracee-hb4wn                               1/1     Running     0             5h20m   10.1.219.117   master    <none>           <none>
+tracee        tracee-mw454                               1/1     Running     0             5h20m   10.1.189.70    worker2   <none>           <none>
+tracee        tracee-operator-7864bd8bdf-hg27z           1/1     Running     0             5d6h    10.1.235.133   worker1   <none>           <none>

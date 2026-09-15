@@ -1,0 +1,5 @@
+Variant: G4a
+Target: namespace=database pod=mariadb-galera-0 container=mariadb
+Execution: kubectl exec without -i/-t
+Predefined commands: id; hostname; ps
+Expected terminal state: no pseudo-terminal; ps should show ? in TTY column
