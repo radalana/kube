@@ -1,0 +1,2 @@
+Common secret-bearing environment variables are redacted from collected Tracee JSONL files.
+Redaction changes secret values only and does not alter timestamps, event names, process fields, container IDs, or matched policy names.

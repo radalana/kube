@@ -1,0 +1,9 @@
+Variant: G5c
+Target: namespace=database pod=mariadb-galera-0 container=mariadb
+Execution: authorized non-interactive kubectl exec
+Selected /proc files:
+  /proc/1/cmdline
+  /proc/1/status
+  /proc/self/status
+  /proc/meminfo
+Validation: output for all four selected /proc files must be present and the command must complete successfully

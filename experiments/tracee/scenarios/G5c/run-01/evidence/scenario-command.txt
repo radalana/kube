@@ -1,0 +1,1 @@
+kubectl exec -n database mariadb-galera-0 -c mariadb -- sh -c 'set -eu; echo "=== Hostname ==="; hostname; echo ""; echo "=== /proc/1/cmdline ==="; cat /proc/1/cmdline; echo ""; echo ""; echo "=== /proc/1/status ==="; cat /proc/1/status; echo ""; echo "=== /proc/self/status ==="; cat /proc/self/status; echo ""; echo "=== /proc/meminfo ==="; cat /proc/meminfo'

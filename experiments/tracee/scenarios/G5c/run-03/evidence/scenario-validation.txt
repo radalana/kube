@@ -1,0 +1,6 @@
+G5c ground truth: OK
+/proc/1/cmdline inspection: CONFIRMED
+/proc/1/status inspection: CONFIRMED
+/proc/self/status inspection: CONFIRMED
+/proc/meminfo inspection: CONFIRMED
+Predefined G5c operation completion: CONFIRMED

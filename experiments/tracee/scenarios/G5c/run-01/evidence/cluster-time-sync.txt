@@ -1,0 +1,8 @@
+
+Node    NTPSynchronized
+----    ---------------
+master  yes
+worker1 yes
+worker2 yes
+
+

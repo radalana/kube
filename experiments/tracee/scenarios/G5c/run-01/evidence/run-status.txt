@@ -1,0 +1,9 @@
+G5c scenario: COMPLETE
+G5c ground truth: OK (manually verified)
+Target Pod stability: OK
+Tracee stability: OK
+START: 2026-09-15T20:25:48.213Z
+END:   2026-09-15T20:25:49.121Z
+Target node: worker1
+Tracee detections in strict window: 5
+Retention decision: RETAINED
