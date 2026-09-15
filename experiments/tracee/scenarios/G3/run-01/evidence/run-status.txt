@@ -1,0 +1,6 @@
+G3 Job: COMPLETE
+Tracee stability: OK
+Scenario window: OK
+START: 2026-09-15T10:29:38.867Z
+END:   2026-09-15T10:29:43.460Z
+Tracee detections in strict window: 12

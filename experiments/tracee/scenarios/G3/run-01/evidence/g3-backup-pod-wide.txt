@@ -1,0 +1,2 @@
+NAME              READY   STATUS      RESTARTS   AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+g3-backup-fggf5   0/1     Completed   0          5s    10.1.189.78   worker2   <none>           <none>

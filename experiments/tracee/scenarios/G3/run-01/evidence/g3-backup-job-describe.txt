@@ -1,0 +1,80 @@
+Name:             g3-backup
+Namespace:        database
+Selector:         batch.kubernetes.io/controller-uid=2d69eb1c-b7b1-46f2-a1e3-61540936b784
+Labels:           experiment=benign
+                  scenario=g3-backup
+Annotations:      <none>
+Parallelism:      1
+Completions:      1
+Completion Mode:  NonIndexed
+Suspend:          false
+Backoff Limit:    0
+Start Time:       Tue, 15 Sep 2026 12:29:39 +0200
+Completed At:     Tue, 15 Sep 2026 12:29:42 +0200
+Duration:         3s
+Pods Statuses:    0 Active (0 Ready) / 1 Succeeded / 0 Failed
+Pod Template:
+  Labels:  batch.kubernetes.io/controller-uid=2d69eb1c-b7b1-46f2-a1e3-61540936b784
+           batch.kubernetes.io/job-name=g3-backup
+           controller-uid=2d69eb1c-b7b1-46f2-a1e3-61540936b784
+           experiment=benign
+           job-name=g3-backup
+           scenario=g3-backup
+  Containers:
+   mariadb-backup-client:
+    Image:      mariadb:11.8
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      set -eu
+      
+      echo "Starting authorized logical backup"
+      
+      mariadb-dump \
+        --protocol=TCP \
+        --host=mariadb-galera.database.svc.cluster.local \
+        --port=3306 \
+        --user=backupuser \
+        --password="$BACKUP_PASSWORD" \
+        --single-transaction \
+        --skip-lock-tables \
+        --skip-add-locks \
+        --triggers \
+        appdb > /backup/appdb.sql
+      
+      test -s /backup/appdb.sql
+      
+      echo "Backup completed successfully"
+      echo "Backup file: /backup/appdb.sql"
+      
+      echo "Backup size in bytes:"
+      wc -c < /backup/appdb.sql
+      
+      echo "Backup checksum:"
+      sha256sum /backup/appdb.sql
+      
+      echo "Database statements found in dump:"
+      grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+        /backup/appdb.sql || true
+      
+      echo "First lines of backup:"
+      head -n 10 /backup/appdb.sql
+      
+    Environment:
+      BACKUP_PASSWORD:  <set to the key 'password' in secret 'backup-password'>  Optional: false
+    Mounts:
+      /backup from backup-data (rw)
+  Volumes:
+   backup-data:
+    Type:          EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:        
+    SizeLimit:     <unset>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Events:
+  Type    Reason            Age   From            Message
+  ----    ------            ----  ----            -------
+  Normal  SuccessfulCreate  6s    job-controller  Created pod: g3-backup-fggf5
+  Normal  Completed         3s    job-controller  Job completed
