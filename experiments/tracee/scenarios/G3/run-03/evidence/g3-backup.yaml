@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: g3-backup
+  namespace: database
+  labels:
+    experiment: benign
+    scenario: g3-backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        experiment: benign
+        scenario: g3-backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mariadb-backup-client
+          image: mariadb:11.8
+          env:
+            - name: BACKUP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backup-password
+                  key: password
+          volumeMounts:
+            - name: backup-data
+              mountPath: /backup
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+
+              echo "Starting authorized logical backup"
+
+              mariadb-dump \
+                --protocol=TCP \
+                --host=mariadb-galera.database.svc.cluster.local \
+                --port=3306 \
+                --user=backupuser \
+                --password="$BACKUP_PASSWORD" \
+                --single-transaction \
+                --skip-lock-tables \
+                --skip-add-locks \
+                --triggers \
+                appdb > /backup/appdb.sql
+
+              test -s /backup/appdb.sql
+
+              echo "Backup completed successfully"
+              echo "Backup file: /backup/appdb.sql"
+
+              echo "Backup size in bytes:"
+              wc -c < /backup/appdb.sql
+
+              echo "Backup checksum:"
+              sha256sum /backup/appdb.sql
+
+              echo "Database statements found in dump:"
+              grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+                /backup/appdb.sql || true
+
+              echo "First lines of backup:"
+              head -n 10 /backup/appdb.sql
+      volumes:
+        - name: backup-data
+          emptyDir: {}

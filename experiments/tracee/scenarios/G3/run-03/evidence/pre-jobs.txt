@@ -1,0 +1,2 @@
+NAME                  STATUS     COMPLETIONS   DURATION   AGE   CONTAINERS       IMAGES         SELECTOR
+g2-schema-migration   Complete   1/1           3s         17h   mariadb-client   mariadb:11.8   batch.kubernetes.io/controller-uid=73860b48-6bd0-4d39-b130-93aa69991c6b

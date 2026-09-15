@@ -1,0 +1,710 @@
+==================== cleanup-old-job.txt ====================
+job.batch "g3-backup" deleted
+
+==================== cluster-time-sync.txt ====================
+
+Node    NTPSynchronized
+----    ---------------
+master  yes
+worker1 yes
+worker2 yes
+
+
+
+==================== collection-start-utc.txt ====================
+2026-09-15T11:08:02.540Z
+
+==================== detections-overview.txt ====================
+
+Node              Timestamp Event              Process             PID Policies
+----              --------- -----              -------             --- --------
+master  1789470484751072280 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789470485001108620 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+master  1789470489501083960 do_truncate        systemd-journal 2730599 falco-ref-clear-log
+worker2 1789470485196857998 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470485670810310 sched_process_exec sh                    1 falco-ref-terminal-shell-container
+worker2 1789470485696856354 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470486196886028 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470487696912382 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470488013054411 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470488269173938 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470488696892231 do_truncate        systemd-journal  561015 falco-ref-clear-log
+worker2 1789470489196917046 do_truncate        systemd-journal  561015 falco-ref-clear-log
+
+
+
+==================== detections-summary.txt ====================
+
+Count Name
+----- ----
+   11 falco-ref-clear-log
+    1 falco-ref-terminal-shell-container
+
+
+
+==================== end-utc.txt ====================
+2026-09-15T11:08:09.507Z
+
+==================== g3-backup-job-describe.txt ====================
+Name:             g3-backup
+Namespace:        database
+Selector:         batch.kubernetes.io/controller-uid=cdd4262d-419b-4333-b99c-c5b2bf8677e7
+Labels:           experiment=benign
+                  scenario=g3-backup
+Annotations:      <none>
+Parallelism:      1
+Completions:      1
+Completion Mode:  NonIndexed
+Suspend:          false
+Backoff Limit:    0
+Start Time:       Tue, 15 Sep 2026 13:08:04 +0200
+Completed At:     Tue, 15 Sep 2026 13:08:08 +0200
+Duration:         4s
+Pods Statuses:    0 Active (0 Ready) / 1 Succeeded / 0 Failed
+Pod Template:
+  Labels:  batch.kubernetes.io/controller-uid=cdd4262d-419b-4333-b99c-c5b2bf8677e7
+           batch.kubernetes.io/job-name=g3-backup
+           controller-uid=cdd4262d-419b-4333-b99c-c5b2bf8677e7
+           experiment=benign
+           job-name=g3-backup
+           scenario=g3-backup
+  Containers:
+   mariadb-backup-client:
+    Image:      mariadb:11.8
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      set -eu
+      
+      echo "Starting authorized logical backup"
+      
+      mariadb-dump \
+        --protocol=TCP \
+        --host=mariadb-galera.database.svc.cluster.local \
+        --port=3306 \
+        --user=backupuser \
+        --password="$BACKUP_PASSWORD" \
+        --single-transaction \
+        --skip-lock-tables \
+        --skip-add-locks \
+        --triggers \
+        appdb > /backup/appdb.sql
+      
+      test -s /backup/appdb.sql
+      
+      echo "Backup completed successfully"
+      echo "Backup file: /backup/appdb.sql"
+      
+      echo "Backup size in bytes:"
+      wc -c < /backup/appdb.sql
+      
+      echo "Backup checksum:"
+      sha256sum /backup/appdb.sql
+      
+      echo "Database statements found in dump:"
+      grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+        /backup/appdb.sql || true
+      
+      echo "First lines of backup:"
+      head -n 10 /backup/appdb.sql
+      
+    Environment:
+      BACKUP_PASSWORD:  <set to the key 'password' in secret 'backup-password'>  Optional: false
+    Mounts:
+      /backup from backup-data (rw)
+  Volumes:
+   backup-data:
+    Type:          EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:        
+    SizeLimit:     <unset>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Events:
+  Type    Reason            Age   From            Message
+  ----    ------            ----  ----            -------
+  Normal  SuccessfulCreate  7s    job-controller  Created pod: g3-backup-tmpcg
+  Normal  Completed         3s    job-controller  Job completed
+
+==================== g3-backup-job.yaml ====================
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"labels":{"experiment":"benign","scenario":"g3-backup"},"name":"g3-backup","namespace":"database"},"spec":{"backoffLimit":0,"template":{"metadata":{"labels":{"experiment":"benign","scenario":"g3-backup"}},"spec":{"containers":[{"command":["sh","-c","set -eu\n\necho \"Starting authorized logical backup\"\n\nmariadb-dump \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=backupuser \\\n  --password=\"$BACKUP_PASSWORD\" \\\n  --single-transaction \\\n  --skip-lock-tables \\\n  --skip-add-locks \\\n  --triggers \\\n  appdb \u003e /backup/appdb.sql\n\ntest -s /backup/appdb.sql\n\necho \"Backup completed successfully\"\necho \"Backup file: /backup/appdb.sql\"\n\necho \"Backup size in bytes:\"\nwc -c \u003c /backup/appdb.sql\n\necho \"Backup checksum:\"\nsha256sum /backup/appdb.sql\n\necho \"Database statements found in dump:\"\ngrep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \\\n  /backup/appdb.sql || true\n\necho \"First lines of backup:\"\nhead -n 10 /backup/appdb.sql\n"],"env":[{"name":"BACKUP_PASSWORD","valueFrom":{"secretKeyRef":{"key":"password","name":"backup-password"}}}],"image":"mariadb:11.8","name":"mariadb-backup-client","volumeMounts":[{"mountPath":"/backup","name":"backup-data"}]}],"restartPolicy":"Never","volumes":[{"emptyDir":{},"name":"backup-data"}]}}}}
+  creationTimestamp: "2026-09-15T11:08:04Z"
+  generation: 1
+  labels:
+    experiment: benign
+    scenario: g3-backup
+  name: g3-backup
+  namespace: database
+  resourceVersion: "17492049"
+  uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+  suspend: false
+  template:
+    metadata:
+      labels:
+        batch.kubernetes.io/controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+        batch.kubernetes.io/job-name: g3-backup
+        controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+        experiment: benign
+        job-name: g3-backup
+        scenario: g3-backup
+    spec:
+      containers:
+      - command:
+        - sh
+        - -c
+        - |
+          set -eu
+
+          echo "Starting authorized logical backup"
+
+          mariadb-dump \
+            --protocol=TCP \
+            --host=mariadb-galera.database.svc.cluster.local \
+            --port=3306 \
+            --user=backupuser \
+            --password="$BACKUP_PASSWORD" \
+            --single-transaction \
+            --skip-lock-tables \
+            --skip-add-locks \
+            --triggers \
+            appdb > /backup/appdb.sql
+
+          test -s /backup/appdb.sql
+
+          echo "Backup completed successfully"
+          echo "Backup file: /backup/appdb.sql"
+
+          echo "Backup size in bytes:"
+          wc -c < /backup/appdb.sql
+
+          echo "Backup checksum:"
+          sha256sum /backup/appdb.sql
+
+          echo "Database statements found in dump:"
+          grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+            /backup/appdb.sql || true
+
+          echo "First lines of backup:"
+          head -n 10 /backup/appdb.sql
+        env:
+        - name: BACKUP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: backup-password
+        image: mariadb:11.8
+        imagePullPolicy: IfNotPresent
+        name: mariadb-backup-client
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /backup
+          name: backup-data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: backup-data
+status:
+  completionTime: "2026-09-15T11:08:08Z"
+  conditions:
+  - lastProbeTime: "2026-09-15T11:08:08Z"
+    lastTransitionTime: "2026-09-15T11:08:08Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: SuccessCriteriaMet
+  - lastProbeTime: "2026-09-15T11:08:08Z"
+    lastTransitionTime: "2026-09-15T11:08:08Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: Complete
+  ready: 0
+  startTime: "2026-09-15T11:08:04Z"
+  succeeded: 1
+  terminating: 0
+  uncountedTerminatedPods: {}
+
+==================== g3-backup-pod-wide.txt ====================
+NAME              READY   STATUS      RESTARTS   AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+g3-backup-tmpcg   0/1     Completed   0          6s    10.1.189.80   worker2   <none>           <none>
+
+==================== g3-backup-pod.yaml ====================
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 6d85a473cc8464e5214e172efafb3fe116a50de2b9857f787a4601ec32688e3e
+    cni.projectcalico.org/podIP: ""
+    cni.projectcalico.org/podIPs: ""
+  creationTimestamp: "2026-09-15T11:08:04Z"
+  generateName: g3-backup-
+  generation: 1
+  labels:
+    batch.kubernetes.io/controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+    batch.kubernetes.io/job-name: g3-backup
+    controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+    experiment: benign
+    job-name: g3-backup
+    scenario: g3-backup
+  name: g3-backup-tmpcg
+  namespace: database
+  ownerReferences:
+  - apiVersion: batch/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Job
+    name: g3-backup
+    uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+  resourceVersion: "17492048"
+  uid: 57b02d86-09bb-4087-8a41-5ddb5d8d0abd
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - |
+      set -eu
+
+      echo "Starting authorized logical backup"
+
+      mariadb-dump \
+        --protocol=TCP \
+        --host=mariadb-galera.database.svc.cluster.local \
+        --port=3306 \
+        --user=backupuser \
+        --password="$BACKUP_PASSWORD" \
+        --single-transaction \
+        --skip-lock-tables \
+        --skip-add-locks \
+        --triggers \
+        appdb > /backup/appdb.sql
+
+      test -s /backup/appdb.sql
+
+      echo "Backup completed successfully"
+      echo "Backup file: /backup/appdb.sql"
+
+      echo "Backup size in bytes:"
+      wc -c < /backup/appdb.sql
+
+      echo "Backup checksum:"
+      sha256sum /backup/appdb.sql
+
+      echo "Database statements found in dump:"
+      grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+        /backup/appdb.sql || true
+
+      echo "First lines of backup:"
+      head -n 10 /backup/appdb.sql
+    env:
+    - name: BACKUP_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: backup-password
+    image: mariadb:11.8
+    imagePullPolicy: IfNotPresent
+    name: mariadb-backup-client
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /backup
+      name: backup-data
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-m6rhj
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: worker2
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: backup-data
+  - name: kube-api-access-m6rhj
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:08Z"
+    observedGeneration: 1
+    status: "False"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:04Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:06Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:06Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:04Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab
+    image: docker.io/library/mariadb:11.8
+    imageID: docker.io/library/mariadb@sha256:efb4959ef2c835cd735dbc388eb9ad6aab0c78dd64febcd51bc17481111890c4
+    lastState: {}
+    name: mariadb-backup-client
+    ready: false
+    resources: {}
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab
+        exitCode: 0
+        finishedAt: "2026-09-15T11:08:05Z"
+        reason: Completed
+        startedAt: "2026-09-15T11:08:05Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /backup
+      name: backup-data
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-m6rhj
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.0.0.4
+  hostIPs:
+  - ip: 10.0.0.4
+  observedGeneration: 1
+  phase: Succeeded
+  podIP: 10.1.189.80
+  podIPs:
+  - ip: 10.1.189.80
+  qosClass: BestEffort
+  startTime: "2026-09-15T11:08:04Z"
+
+==================== g3-backup.log ====================
+Starting authorized logical backup
+Backup completed successfully
+Backup file: /backup/appdb.sql
+Backup size in bytes:
+2077
+Backup checksum:
+c840d5a8266a3f638de1def0a563a557dd83e5a5f483706fc6cc542b03fe580f  /backup/appdb.sql
+Database statements found in dump:
+1
+First lines of backup:
+/*M!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19-11.8.8-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: mariadb-galera.database.svc.cluster.local    Database: appdb
+-- ------------------------------------------------------
+-- Server version	11.8.8-MariaDB-ubu2404
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+
+==================== g3-backup.yaml ====================
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: g3-backup
+  namespace: database
+  labels:
+    experiment: benign
+    scenario: g3-backup
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        experiment: benign
+        scenario: g3-backup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mariadb-backup-client
+          image: mariadb:11.8
+          env:
+            - name: BACKUP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backup-password
+                  key: password
+          volumeMounts:
+            - name: backup-data
+              mountPath: /backup
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+
+              echo "Starting authorized logical backup"
+
+              mariadb-dump \
+                --protocol=TCP \
+                --host=mariadb-galera.database.svc.cluster.local \
+                --port=3306 \
+                --user=backupuser \
+                --password="$BACKUP_PASSWORD" \
+                --single-transaction \
+                --skip-lock-tables \
+                --skip-add-locks \
+                --triggers \
+                appdb > /backup/appdb.sql
+
+              test -s /backup/appdb.sql
+
+              echo "Backup completed successfully"
+              echo "Backup file: /backup/appdb.sql"
+
+              echo "Backup size in bytes:"
+              wc -c < /backup/appdb.sql
+
+              echo "Backup checksum:"
+              sha256sum /backup/appdb.sql
+
+              echo "Database statements found in dump:"
+              grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+                /backup/appdb.sql || true
+
+              echo "First lines of backup:"
+              head -n 10 /backup/appdb.sql
+      volumes:
+        - name: backup-data
+          emptyDir: {}
+
+==================== g3-pod-name.txt ====================
+g3-backup-tmpcg
+
+==================== master-since-start.jsonl ====================
+{"timestamp":1789470482001108280,"threadStartTime":1789020214866233757,"processorId":3,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+{"timestamp":1789470482501098989,"threadStartTime":1789020214866233757,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+{"timestamp":1789470484751072280,"threadStartTime":1789020214866233757,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+{"timestamp":1789470485001108620,"threadStartTime":1789020214866233757,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/user-1000.journal"},{"name":"inode","type":"uint64","value":130102},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789470489501083960,"threadStartTime":1789020214866233757,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+{"timestamp":1789470490001082000,"threadStartTime":1789020214866233757,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/user-1000.journal"},{"name":"inode","type":"uint64","value":130102},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789470490001181231,"threadStartTime":1789020214866233757,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+
+==================== master-tracee-log-errors.txt ====================
+
+==================== master-window.jsonl ====================
+{"timestamp":1789470484751072280,"threadStartTime":1789020214866233757,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+{"timestamp":1789470485001108620,"threadStartTime":1789020214866233757,"processorId":0,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/user-1000.journal"},{"name":"inode","type":"uint64","value":130102},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789470489501083960,"threadStartTime":1789020214866233757,"processorId":2,"processId":2730599,"cgroupId":405790,"threadId":2730599,"parentProcessId":1,"hostProcessId":2730599,"hostThreadId":2730599,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"master","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":545996022,"processEntityId":545996022,"parentEntityId":2829949948,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/6555aa9372484d1bae8b3e7524e1ea62/system.journal"},{"name":"inode","type":"uint64","value":129584},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":33554432}]}
+
+==================== post-all-pods.txt ====================
+NAMESPACE     NAME                                       READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      g2-schema-migration-ddqpc                  0/1     Completed   0             17h     10.1.189.67    worker2   <none>           <none>
+database      g3-backup-tmpcg                            0/1     Completed   0             7s      10.1.189.80    worker2   <none>           <none>
+database      mariadb-galera-0                           2/2     Running     0             5d13h   10.1.235.136   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running     2 (49d ago)   84d     10.1.189.84    worker2   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running     2 (49d ago)   104d    10.1.219.82    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running     1 (49d ago)   53d     10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running     1 (49d ago)   53d     10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running     1 (49d ago)   53d     10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running     2 (49d ago)   104d    10.1.219.83    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running     7 (18d ago)   91d     10.1.235.179   worker1   <none>           <none>
+tracee        tracee-9vpkj                               1/1     Running     0             65m     10.1.235.188   worker1   <none>           <none>
+tracee        tracee-hb4wn                               1/1     Running     0             65m     10.1.219.117   master    <none>           <none>
+tracee        tracee-mw454                               1/1     Running     0             65m     10.1.189.70    worker2   <none>           <none>
+tracee        tracee-operator-7864bd8bdf-hg27z           1/1     Running     0             5d2h    10.1.235.133   worker1   <none>           <none>
+
+==================== post-database-pods.txt ====================
+NAME                               READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+g2-schema-migration-ddqpc          0/1     Completed   0             17h     10.1.189.67    worker2   <none>           <none>
+g3-backup-tmpcg                    0/1     Completed   0             7s      10.1.189.80    worker2   <none>           <none>
+mariadb-galera-0                   2/2     Running     0             5d13h   10.1.235.136   worker1   <none>           <none>
+mariadb-galera-1                   2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+mariadb-galera-2                   2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+mariadb-operator-b6548b959-tqq6t   1/1     Running     2 (49d ago)   84d     10.1.189.84    worker2   <none>           <none>
+
+==================== post-tracee-pods.txt ====================
+NAME                               READY   STATUS    RESTARTS   AGE    IP             NODE      NOMINATED NODE   READINESS GATES
+tracee-9vpkj                       1/1     Running   0          65m    10.1.235.188   worker1   <none>           <none>
+tracee-hb4wn                       1/1     Running   0          65m    10.1.219.117   master    <none>           <none>
+tracee-mw454                       1/1     Running   0          65m    10.1.189.70    worker2   <none>           <none>
+tracee-operator-7864bd8bdf-hg27z   1/1     Running   0          5d2h   10.1.235.133   worker1   <none>           <none>
+
+==================== pre-all-pods.txt ====================
+NAMESPACE     NAME                                       READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+database      g2-schema-migration-ddqpc                  0/1     Completed   0             17h     10.1.189.67    worker2   <none>           <none>
+database      mariadb-galera-0                           2/2     Running     0             5d13h   10.1.235.136   worker1   <none>           <none>
+database      mariadb-galera-1                           2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+database      mariadb-galera-2                           2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+database      mariadb-operator-b6548b959-tqq6t           1/1     Running     2 (49d ago)   84d     10.1.189.84    worker2   <none>           <none>
+kube-system   calico-kube-controllers-676854dc5d-grbhn   1/1     Running     2 (49d ago)   104d    10.1.219.82    master    <none>           <none>
+kube-system   calico-node-gd572                          1/1     Running     1 (49d ago)   53d     10.0.0.2       master    <none>           <none>
+kube-system   calico-node-rpfwh                          1/1     Running     1 (49d ago)   53d     10.0.0.3       worker1   <none>           <none>
+kube-system   calico-node-zrwk5                          1/1     Running     1 (49d ago)   53d     10.0.0.4       worker2   <none>           <none>
+kube-system   coredns-78894c95f4-lh4z7                   1/1     Running     2 (49d ago)   104d    10.1.219.83    master    <none>           <none>
+kube-system   hostpath-provisioner-7f665d64f6-x84hc      1/1     Running     7 (18d ago)   91d     10.1.235.179   worker1   <none>           <none>
+tracee        tracee-9vpkj                               1/1     Running     0             65m     10.1.235.188   worker1   <none>           <none>
+tracee        tracee-hb4wn                               1/1     Running     0             65m     10.1.219.117   master    <none>           <none>
+tracee        tracee-mw454                               1/1     Running     0             65m     10.1.189.70    worker2   <none>           <none>
+tracee        tracee-operator-7864bd8bdf-hg27z           1/1     Running     0             5d2h    10.1.235.133   worker1   <none>           <none>
+
+==================== pre-database-pods.txt ====================
+NAME                               READY   STATUS      RESTARTS      AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+g2-schema-migration-ddqpc          0/1     Completed   0             17h     10.1.189.67    worker2   <none>           <none>
+mariadb-galera-0                   2/2     Running     0             5d13h   10.1.235.136   worker1   <none>           <none>
+mariadb-galera-1                   2/2     Running     0             24d     10.1.219.92    master    <none>           <none>
+mariadb-galera-2                   2/2     Running     0             24d     10.1.189.95    worker2   <none>           <none>
+mariadb-operator-b6548b959-tqq6t   1/1     Running     2 (49d ago)   84d     10.1.189.84    worker2   <none>           <none>
+
+==================== pre-jobs.txt ====================
+NAME                  STATUS     COMPLETIONS   DURATION   AGE   CONTAINERS       IMAGES         SELECTOR
+g2-schema-migration   Complete   1/1           3s         17h   mariadb-client   mariadb:11.8   batch.kubernetes.io/controller-uid=73860b48-6bd0-4d39-b130-93aa69991c6b
+
+==================== pre-tracee-pods.txt ====================
+NAME                               READY   STATUS    RESTARTS   AGE    IP             NODE      NOMINATED NODE   READINESS GATES
+tracee-9vpkj                       1/1     Running   0          65m    10.1.235.188   worker1   <none>           <none>
+tracee-hb4wn                       1/1     Running   0          65m    10.1.219.117   master    <none>           <none>
+tracee-mw454                       1/1     Running   0          65m    10.1.189.70    worker2   <none>           <none>
+tracee-operator-7864bd8bdf-hg27z   1/1     Running   0          5d2h   10.1.235.133   worker1   <none>           <none>
+
+==================== run-status.txt ====================
+G3 Job: COMPLETE
+Tracee stability: OK
+Scenario window: OK
+START: 2026-09-15T11:08:04.540Z
+END:   2026-09-15T11:08:09.507Z
+Tracee detections in strict window: 12
+
+==================== start-utc.txt ====================
+2026-09-15T11:08:04.540Z
+
+==================== tracee-agents-post.txt ====================
+
+Node    Pod          Phase   Restarts
+----    ---          -----   --------
+master  tracee-hb4wn Running        0
+worker1 tracee-9vpkj Running        0
+worker2 tracee-mw454 Running        0
+
+
+
+==================== tracee-agents-pre.txt ====================
+
+Node    Pod          Phase   Restarts
+----    ---          -----   --------
+master  tracee-hb4wn Running        0
+worker1 tracee-9vpkj Running        0
+worker2 tracee-mw454 Running        0
+
+
+
+==================== tracee-stability.txt ====================
+Tracee agents stable during the run.
+
+==================== window-validation.txt ====================
+Scenario window covers the Kubernetes Job timestamps.
+
+==================== worker1-since-start.jsonl ====================
+
+==================== worker1-tracee-log-errors.txt ====================
+
+==================== worker1-window.jsonl ====================
+
+==================== worker2-since-start.jsonl ====================
+{"timestamp":1789470482154263737,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470482430360417,"threadStartTime":1789107560462488880,"processorId":3,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/user-1000.journal"},{"name":"inode","type":"uint64","value":136453},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789470482430479497,"threadStartTime":1789107560462488880,"processorId":3,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470482688580010,"threadStartTime":1789107560462488880,"processorId":0,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470483196901270,"threadStartTime":1789107560462488880,"processorId":3,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470483197010610,"threadStartTime":1789107560462488880,"processorId":3,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/user-1000.journal"},{"name":"inode","type":"uint64","value":136453},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":8388608}]}
+{"timestamp":1789470484196897379,"threadStartTime":1789107560462488880,"processorId":3,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470485196857998,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"level":"error","ts":1789470485.5138261,"msg":"error enriching container in control plane","error":"container.(*Manager).EnrichCgroupInfo: runtime.(*Service).getFromKnownRuntime: unsupported runtime containerd","cgroup_id":443928}
+{"level":"error","ts":1789470485.6256502,"msg":"error enriching container in control plane","error":"container.(*Manager).EnrichCgroupInfo: runtime.(*Service).getFromKnownRuntime: unsupported runtime containerd","cgroup_id":444015}
+{"timestamp":1789470485670810310,"threadStartTime":1789470485627696097,"processorId":2,"processId":1,"cgroupId":444015,"threadId":1,"parentProcessId":0,"hostProcessId":2554830,"hostThreadId":2554830,"hostParentProcessId":2554781,"userId":0,"mountNamespace":4026532839,"pidNamespace":4026532840,"processName":"sh","executable":{"path":""},"hostName":"g3-backup-tmpcg","containerId":"efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab","container":{"id":"efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab"},"kubernetes":{},"eventId":"715","eventName":"sched_process_exec","matchedPolicies":["falco-ref-terminal-shell-container"],"argsNum":19,"returnValue":0,"syscall":"execve","stackAddresses":null,"contextFlags":{"containerStarted":true,"isCompat":false},"threadEntityId":1042646200,"processEntityId":1042646200,"parentEntityId":4023106411,"args":[{"name":"cmdpath","type":"string","value":"/usr/bin/sh"},{"name":"pathname","type":"string","value":"/usr/bin/dash"},{"name":"dev","type":"uint32","value":144},{"name":"inode","type":"uint64","value":784351},{"name":"ctime","type":"uint64","value":1784888989933612830},{"name":"inode_mode","type":"uint16","value":33261},{"name":"interpreter_pathname","type":"string","value":"/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"},{"name":"interpreter_dev","type":"uint32","value":144},{"name":"interpreter_inode","type":"uint64","value":784950},{"name":"interpreter_ctime","type":"uint64","value":1784888990154058470},{"name":"argv","type":"[]string","value":["sh","-c","set -eu\n\necho \"Starting authorized logical backup\"\n\nmariadb-dump \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=backupuser \\\n  --password=\"$BACKUP_PASSWORD\" \\\n  --single-transaction \\\n  --skip-lock-tables \\\n  --skip-add-locks \\\n  --triggers \\\n  appdb \u003e /backup/appdb.sql\n\ntest -s /backup/appdb.sql\n\necho \"Backup completed successfully\"\necho \"Backup file: /backup/appdb.sql\"\n\necho \"Backup size in bytes:\"\nwc -c \u003c /backup/appdb.sql\n\necho \"Backup checksum:\"\nsha256sum /backup/appdb.sql\n\necho \"Database statements found in dump:\"\ngrep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \\\n  /backup/appdb.sql || true\n\necho \"First lines of backup:\"\nhead -n 10 /backup/appdb.sql\n"]},{"name":"interp","type":"string","value":"/usr/bin/sh"},{"name":"stdin_type","type":"string","value":"S_IFCHR"},{"name":"stdin_path","type":"string","value":"/dev/null"},{"name":"invoked_from_kernel","type":"bool","value":false},{"name":"prev_comm","type":"string","value":"runc:[2:INIT]"},{"name":"env","type":"[]string","value":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","HOSTNAME=g3-backup-tmpcg","GOSU_VERSION=1.19","LANG=C.UTF-8","MARIADB_VERSION=1:11.8.8+maria~ubu2404","MIGRATION_PASSWORD=redacted","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_ADDR=10.152.183.54","KUBERNETES_PORT_443_TCP=tcp://10.152.183.1:443","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_ADDR=10.152.183.42","MARIADB_GALERA_SECONDARY_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_SECONDARY_PORT=tcp://10.152.183.54:3306","KUBERNETES_PORT_443_TCP_PROTO=tcp","KUBERNETES_PORT_443_TCP_ADDR=10.152.183.1","MARIADB_GALERA_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_PORT_3306_TCP=tcp://10.152.183.39:3306","MARIADB_GALERA_PRIMARY_SERVICE_HOST=10.152.183.42","MARIADB_GALERA_SERVICE_HOST=10.152.183.39","MARIADB_GALERA_SERVICE_PORT=3306","MARIADB_GALERA_PORT=tcp://10.152.183.39:3306","MARIADB_GALERA_PORT_3306_TCP_ADDR=10.152.183.39","MARIADB_GALERA_PRIMARY_PORT=tcp://10.152.183.42:3306","MARIADB_GALERA_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_SECONDARY_SERVICE_HOST=10.152.183.54","MARIADB_GALERA_SECONDARY_SERVICE_PORT=3306","KUBERNETES_SERVICE_HOST=10.152.183.1","KUBERNETES_SERVICE_PORT_HTTPS=443","MARIADB_GALERA_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_PRIMARY_SERVICE_PORT_MARIADB=3306","KUBERNETES_SERVICE_PORT=443","KUBERNETES_PORT=tcp://10.152.183.1:443","MARIADB_GALERA_PRIMARY_SERVICE_PORT=3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP=tcp://10.152.183.42:3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP=tcp://10.152.183.54:3306","KUBERNETES_PORT_443_TCP_PORT=443","HOME=/root"]},{"name":"pwd","type":"string","value":"/"},{"name":"sha256","type":"string","value":"86d31f6fb799e91fa21bad341484564510ca287703a16e9e46c53338776f4f42"}]}
+{"timestamp":1789470485696856354,"threadStartTime":1789107560462488880,"processorId":2,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470486196886028,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470487696912382,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470488013054411,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470488269173938,"threadStartTime":1789107560462488880,"processorId":2,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470488696892231,"threadStartTime":1789107560462488880,"processorId":2,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470489196917046,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+
+==================== worker2-tracee-log-errors.txt ====================
+
+==================== worker2-window.jsonl ====================
+{"timestamp":1789470485196857998,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470485670810310,"threadStartTime":1789470485627696097,"processorId":2,"processId":1,"cgroupId":444015,"threadId":1,"parentProcessId":0,"hostProcessId":2554830,"hostThreadId":2554830,"hostParentProcessId":2554781,"userId":0,"mountNamespace":4026532839,"pidNamespace":4026532840,"processName":"sh","executable":{"path":""},"hostName":"g3-backup-tmpcg","containerId":"efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab","container":{"id":"efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab"},"kubernetes":{},"eventId":"715","eventName":"sched_process_exec","matchedPolicies":["falco-ref-terminal-shell-container"],"argsNum":19,"returnValue":0,"syscall":"execve","stackAddresses":null,"contextFlags":{"containerStarted":true,"isCompat":false},"threadEntityId":1042646200,"processEntityId":1042646200,"parentEntityId":4023106411,"args":[{"name":"cmdpath","type":"string","value":"/usr/bin/sh"},{"name":"pathname","type":"string","value":"/usr/bin/dash"},{"name":"dev","type":"uint32","value":144},{"name":"inode","type":"uint64","value":784351},{"name":"ctime","type":"uint64","value":1784888989933612830},{"name":"inode_mode","type":"uint16","value":33261},{"name":"interpreter_pathname","type":"string","value":"/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2"},{"name":"interpreter_dev","type":"uint32","value":144},{"name":"interpreter_inode","type":"uint64","value":784950},{"name":"interpreter_ctime","type":"uint64","value":1784888990154058470},{"name":"argv","type":"[]string","value":["sh","-c","set -eu\n\necho \"Starting authorized logical backup\"\n\nmariadb-dump \\\n  --protocol=TCP \\\n  --host=mariadb-galera.database.svc.cluster.local \\\n  --port=3306 \\\n  --user=backupuser \\\n  --password=\"$BACKUP_PASSWORD\" \\\n  --single-transaction \\\n  --skip-lock-tables \\\n  --skip-add-locks \\\n  --triggers \\\n  appdb \u003e /backup/appdb.sql\n\ntest -s /backup/appdb.sql\n\necho \"Backup completed successfully\"\necho \"Backup file: /backup/appdb.sql\"\n\necho \"Backup size in bytes:\"\nwc -c \u003c /backup/appdb.sql\n\necho \"Backup checksum:\"\nsha256sum /backup/appdb.sql\n\necho \"Database statements found in dump:\"\ngrep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \\\n  /backup/appdb.sql || true\n\necho \"First lines of backup:\"\nhead -n 10 /backup/appdb.sql\n"]},{"name":"interp","type":"string","value":"/usr/bin/sh"},{"name":"stdin_type","type":"string","value":"S_IFCHR"},{"name":"stdin_path","type":"string","value":"/dev/null"},{"name":"invoked_from_kernel","type":"bool","value":false},{"name":"prev_comm","type":"string","value":"runc:[2:INIT]"},{"name":"env","type":"[]string","value":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","HOSTNAME=g3-backup-tmpcg","GOSU_VERSION=1.19","LANG=C.UTF-8","MARIADB_VERSION=1:11.8.8+maria~ubu2404","MIGRATION_PASSWORD=redacted","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_ADDR=10.152.183.54","KUBERNETES_PORT_443_TCP=tcp://10.152.183.1:443","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_ADDR=10.152.183.42","MARIADB_GALERA_SECONDARY_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_SECONDARY_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_SECONDARY_PORT=tcp://10.152.183.54:3306","KUBERNETES_PORT_443_TCP_PROTO=tcp","KUBERNETES_PORT_443_TCP_ADDR=10.152.183.1","MARIADB_GALERA_SERVICE_PORT_MARIADB=3306","MARIADB_GALERA_PORT_3306_TCP=tcp://10.152.183.39:3306","MARIADB_GALERA_PRIMARY_SERVICE_HOST=10.152.183.42","MARIADB_GALERA_SERVICE_HOST=10.152.183.39","MARIADB_GALERA_SERVICE_PORT=3306","MARIADB_GALERA_PORT=tcp://10.152.183.39:3306","MARIADB_GALERA_PORT_3306_TCP_ADDR=10.152.183.39","MARIADB_GALERA_PRIMARY_PORT=tcp://10.152.183.42:3306","MARIADB_GALERA_PORT_3306_TCP_PROTO=tcp","MARIADB_GALERA_SECONDARY_SERVICE_HOST=10.152.183.54","MARIADB_GALERA_SECONDARY_SERVICE_PORT=3306","KUBERNETES_SERVICE_HOST=10.152.183.1","KUBERNETES_SERVICE_PORT_HTTPS=443","MARIADB_GALERA_PORT_3306_TCP_PORT=3306","MARIADB_GALERA_PRIMARY_SERVICE_PORT_MARIADB=3306","KUBERNETES_SERVICE_PORT=443","KUBERNETES_PORT=tcp://10.152.183.1:443","MARIADB_GALERA_PRIMARY_SERVICE_PORT=3306","MARIADB_GALERA_PRIMARY_PORT_3306_TCP=tcp://10.152.183.42:3306","MARIADB_GALERA_SECONDARY_PORT_3306_TCP=tcp://10.152.183.54:3306","KUBERNETES_PORT_443_TCP_PORT=443","HOME=/root"]},{"name":"pwd","type":"string","value":"/"},{"name":"sha256","type":"string","value":"86d31f6fb799e91fa21bad341484564510ca287703a16e9e46c53338776f4f42"}]}
+{"timestamp":1789470485696856354,"threadStartTime":1789107560462488880,"processorId":2,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470486196886028,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470487696912382,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470488013054411,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470488269173938,"threadStartTime":1789107560462488880,"processorId":2,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470488696892231,"threadStartTime":1789107560462488880,"processorId":2,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+{"timestamp":1789470489196917046,"threadStartTime":1789107560462488880,"processorId":1,"processId":561015,"cgroupId":397791,"threadId":561015,"parentProcessId":1,"hostProcessId":561015,"hostThreadId":561015,"hostParentProcessId":1,"userId":0,"mountNamespace":4026531832,"pidNamespace":4026531836,"processName":"systemd-journal","executable":{"path":""},"hostName":"worker2","containerId":"","container":{},"kubernetes":{},"eventId":"775","eventName":"do_truncate","matchedPolicies":["falco-ref-clear-log"],"argsNum":4,"returnValue":0,"syscall":"ftruncate","stackAddresses":null,"contextFlags":{"containerStarted":false,"isCompat":false},"threadEntityId":2708718927,"processEntityId":2708718927,"parentEntityId":1162770002,"args":[{"name":"pathname","type":"string","value":"/var/log/journal/41cee12265b84ff6ad707ec9f5801051/system.journal"},{"name":"inode","type":"uint64","value":129524},{"name":"dev","type":"uint32","value":8388609},{"name":"length","type":"uint64","value":16777216}]}
+

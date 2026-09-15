@@ -1,0 +1,196 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/containerID: 6d85a473cc8464e5214e172efafb3fe116a50de2b9857f787a4601ec32688e3e
+    cni.projectcalico.org/podIP: ""
+    cni.projectcalico.org/podIPs: ""
+  creationTimestamp: "2026-09-15T11:08:04Z"
+  generateName: g3-backup-
+  generation: 1
+  labels:
+    batch.kubernetes.io/controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+    batch.kubernetes.io/job-name: g3-backup
+    controller-uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+    experiment: benign
+    job-name: g3-backup
+    scenario: g3-backup
+  name: g3-backup-tmpcg
+  namespace: database
+  ownerReferences:
+  - apiVersion: batch/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Job
+    name: g3-backup
+    uid: cdd4262d-419b-4333-b99c-c5b2bf8677e7
+  resourceVersion: "17492048"
+  uid: 57b02d86-09bb-4087-8a41-5ddb5d8d0abd
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - |
+      set -eu
+
+      echo "Starting authorized logical backup"
+
+      mariadb-dump \
+        --protocol=TCP \
+        --host=mariadb-galera.database.svc.cluster.local \
+        --port=3306 \
+        --user=backupuser \
+        --password="$BACKUP_PASSWORD" \
+        --single-transaction \
+        --skip-lock-tables \
+        --skip-add-locks \
+        --triggers \
+        appdb > /backup/appdb.sql
+
+      test -s /backup/appdb.sql
+
+      echo "Backup completed successfully"
+      echo "Backup file: /backup/appdb.sql"
+
+      echo "Backup size in bytes:"
+      wc -c < /backup/appdb.sql
+
+      echo "Backup checksum:"
+      sha256sum /backup/appdb.sql
+
+      echo "Database statements found in dump:"
+      grep -cE '^(CREATE TABLE|INSERT INTO|CREATE.*VIEW)' \
+        /backup/appdb.sql || true
+
+      echo "First lines of backup:"
+      head -n 10 /backup/appdb.sql
+    env:
+    - name: BACKUP_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: backup-password
+    image: mariadb:11.8
+    imagePullPolicy: IfNotPresent
+    name: mariadb-backup-client
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /backup
+      name: backup-data
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-m6rhj
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: worker2
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: backup-data
+  - name: kube-api-access-m6rhj
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:08Z"
+    observedGeneration: 1
+    status: "False"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:04Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:06Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:06Z"
+    observedGeneration: 1
+    reason: PodCompleted
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-15T11:08:04Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab
+    image: docker.io/library/mariadb:11.8
+    imageID: docker.io/library/mariadb@sha256:efb4959ef2c835cd735dbc388eb9ad6aab0c78dd64febcd51bc17481111890c4
+    lastState: {}
+    name: mariadb-backup-client
+    ready: false
+    resources: {}
+    restartCount: 0
+    started: false
+    state:
+      terminated:
+        containerID: containerd://efd210ecc9a3967715ed7546431fda74bfeb7da6ba92046b56f814f865dcf9ab
+        exitCode: 0
+        finishedAt: "2026-09-15T11:08:05Z"
+        reason: Completed
+        startedAt: "2026-09-15T11:08:05Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        uid: 0
+    volumeMounts:
+    - mountPath: /backup
+      name: backup-data
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-m6rhj
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 10.0.0.4
+  hostIPs:
+  - ip: 10.0.0.4
+  observedGeneration: 1
+  phase: Succeeded
+  podIP: 10.1.189.80
+  podIPs:
+  - ip: 10.1.189.80
+  qosClass: BestEffort
+  startTime: "2026-09-15T11:08:04Z"
