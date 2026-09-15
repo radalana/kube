@@ -1,0 +1,7 @@
+G4a scenario: COMPLETE
+G4a ground truth: OK
+Target Pod stability: OK
+Tracee stability: OK
+START: 2026-09-15T13:03:20.351Z
+END:   2026-09-15T13:03:21.273Z
+Tracee detections in strict window: 5

@@ -1,0 +1,8 @@
+Starting G4a: authorized non-interactive kubectl exec
+uid=999(mysql) gid=999(mysql) groups=999(mysql)
+mariadb-galera-0
+    PID TTY          TIME CMD
+      1 ?        00:20:55 mariadbd
+    387 ?        00:00:00 sh
+    395 ?        00:00:00 ps
+G4a completed successfully
