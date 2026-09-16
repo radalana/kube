@@ -1,0 +1,12 @@
+
+Pod               : mariadb-galera-0
+UID               : ba83c117-a023-4f10-a807-166c52ed3ddb
+Node              : worker1
+Phase             : Running
+Ready             : True
+Container         : mariadb
+ContainerID       : containerd://50c6cfba68fdc17cf07d750209b6d342bf18ff06f15fff1c9e4fb905234547b7
+ContainerRestarts : 0
+PodIP             : 10.1.235.130
+
+

@@ -1,0 +1,5 @@
+NAME                               READY   STATUS    RESTARTS   AGE     IP             NODE      NOMINATED NODE   READINESS GATES
+tracee-operator-7864bd8bdf-hg27z   1/1     Running   0          6d      10.1.235.133   worker1   <none>           <none>
+tracee-qb7t5                       1/1     Running   0          4h42m   10.1.235.190   worker1   <none>           <none>
+tracee-qz47n                       1/1     Running   0          4h41m   10.1.219.119   master    <none>           <none>
+tracee-tvjr8                       1/1     Running   0          4h42m   10.1.189.82    worker2   <none>           <none>

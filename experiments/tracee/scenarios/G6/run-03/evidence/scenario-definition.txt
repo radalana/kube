@@ -1,0 +1,19 @@
+Scenario: G6 Pod deletion and recovery
+Target: namespace=database pod=mariadb-galera-0 container=mariadb
+
+Operation inside the strict scenario window:
+1. Record the state of mariadb-galera-0.
+2. Query wsrep_cluster_size and wsrep_local_state_comment.
+3. Record the old Pod UID.
+4. Delete mariadb-galera-0.
+5. Wait for a new Pod object with a different UID.
+6. Wait until the recreated Pod becomes Ready.
+7. Record the state of the recreated Pod.
+8. Query wsrep_cluster_size and wsrep_local_state_comment again.
+
+Validation:
+- old and new Pod UIDs differ
+- recreated Pod is Running and Ready
+- Galera cluster size is 3 before and after recovery
+- Galera local state is Synced before and after recovery
+- Tracee agents remain stable

@@ -1,0 +1,10 @@
+G6 scenario: COMPLETE
+G6 ground truth: OK
+Tracee stability: OK
+START: 2026-09-16T09:42:11.654Z
+END:   2026-09-16T09:42:45.130Z
+Old Pod UID: 30c2000c-4e4d-4759-9ccb-56975f27eebe
+New Pod UID: 2675dcb6-a43a-49ff-bea9-0cd0ea3aab5c
+Pre-deletion node: worker1
+Post-recovery node: worker1
+Tracee detections in strict window: 53

@@ -1,0 +1,11 @@
+G6 ground truth: OK
+Old Pod UID: 0c4af262-0f24-49cf-a752-3e0afa1ca86b
+New Pod UID: 30c2000c-4e4d-4759-9ccb-56975f27eebe
+Pod UID changed: CONFIRMED
+Recreated Pod Running and Ready: CONFIRMED
+Pre-deletion Galera cluster size 3: CONFIRMED
+Pre-deletion Galera local state Synced: CONFIRMED
+Post-recovery Galera cluster size 3: CONFIRMED
+Post-recovery Galera local state Synced: CONFIRMED
+Pre-deletion node: worker1
+Post-recovery node: worker1

@@ -1,0 +1,8 @@
+
+Count Name
+----- ----
+   45 falco-ref-clear-log
+    6 falco-ref-terminal-shell-container
+    2 falco-ref-k8s-api-contact
+
+
