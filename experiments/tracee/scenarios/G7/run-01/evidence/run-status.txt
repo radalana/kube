@@ -1,0 +1,12 @@
+G7 scenario script: COMPLETE
+G7 ground truth: OK
+Tracee stability: OK
+START: 2026-09-16T17:36:23.256Z
+END:   2026-09-16T17:37:03.783Z
+Validated G7 script: C:\Users\sveta\Documents\kube\tests\scenarios\G7-combined-benign-workload\run-g7-combined-benign-workload.ps1
+Pre-G7 Pod UID: fb0e8882-f092-4054-890b-44132247034c
+G6 old Pod UID: fb0e8882-f092-4054-890b-44132247034c
+G6 new Pod UID: f572c79f-36da-401f-8072-699b20594f21
+Post-G7 Pod UID: f572c79f-36da-401f-8072-699b20594f21
+Node: worker1 -> worker1
+Tracee detections in strict window: 76

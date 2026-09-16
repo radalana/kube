@@ -1,0 +1,106 @@
+
+Node              Timestamp Event              Process             PID Container                                                        Policies
+----              --------- -----              -------             --- ---------                                                        --------
+master  1789581048251107433 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581048251222363 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581049001089268 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581049200111792 sched_process_exec sh                    1 30a75df10c7f780333447085fb71694621e8791dada8a2ab2d77c3a6875bc636 falco-ref-terminal-shell-container
+master  1789581049309034887 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581049751122634 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581050123505150 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581050501107850 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581051251111916 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581051690901734 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581052001090802 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581052501086508 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581053251097924 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581054244954489 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581054501081606 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581055480984842 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581055751120760 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581056751104204 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581057751077239 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581059001122821 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581059501097218 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581059743505575 sched_process_exec sh                 3928 236fa52377016a0c048ddc3e5e30941a3d064ae350a63e0a4a70aae50ef8ded2 falco-ref-terminal-shell-container
+master  1789581059748302001 sched_process_exec bash               3929 236fa52377016a0c048ddc3e5e30941a3d064ae350a63e0a4a70aae50ef8ded2 falco-ref-terminal-shell-container
+master  1789581060001900211 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581061001110029 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581062236937353 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581062501093851 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581063251079227 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581064251118731 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581065251086096 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581066251101259 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581068501125986 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581069501069030 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581070299482703 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581070751113263 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581071501099648 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581072501089694 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581073751087337 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581075251112947 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581076501104430 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581077501099324 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581078501124288 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581079444216148 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581079751088211 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581080751049525 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581081751085519 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581082501113185 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581083001114822 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581084001068687 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581085001236620 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581086001072175 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581087001110939 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+master  1789581087501080937 do_truncate        systemd-journal 2730599                                                                  falco-ref-clear-log
+worker1 1789581049116721357 sched_process_exec sh                  324 d15a121bd2f84233f5ad87cb537c0a3fa0d045ef4dd2918e19d02fca39de9eaa falco-ref-terminal-shell-container
+worker1 1789581049431656364 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581049434361011 sched_process_exec sh                  333 d15a121bd2f84233f5ad87cb537c0a3fa0d045ef4dd2918e19d02fca39de9eaa falco-ref-terminal-shell-container
+worker1 1789581049748433635 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581050102176948 sched_process_exec sh                  345 d15a121bd2f84233f5ad87cb537c0a3fa0d045ef4dd2918e19d02fca39de9eaa falco-ref-terminal-shell-container
+worker1 1789581050498414119 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581051998461476 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581051998565237 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581053843698151 sched_process_exec sh                  356 d15a121bd2f84233f5ad87cb537c0a3fa0d045ef4dd2918e19d02fca39de9eaa falco-ref-terminal-shell-container
+worker1 1789581054248439257 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581054529792503 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581054825978833 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581055248432352 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581055733792200 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581055998416215 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581056425232927 k8s_api_connection mariadb-operato       1 e0f0cb108ebe152fbd89174a21b089ec3c92b41ae5def4b487ba6d321aef228e falco-ref-k8s-api-contact
+worker1 1789581056470470323 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581056748398749 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581057998380884 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581058498444057 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581059212348083 sched_process_exec sh                   36 02bf663a75b56194b895548b322ac988bd9644c9e950834045bca46e632cd39f falco-ref-terminal-shell-container
+worker1 1789581059216401815 sched_process_exec bash                 37 02bf663a75b56194b895548b322ac988bd9644c9e950834045bca46e632cd39f falco-ref-terminal-shell-container
+worker1 1789581070748428332 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581071498433116 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581084882131334 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581085248421314 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581085916117011 k8s_api_connection mariadb-operato       1 2379adecd2c542b6562841b0362fc2753a14712bedc8f5871fa72db030bbfc08 falco-ref-k8s-api-contact
+worker1 1789581086624793099 sched_process_exec sh                  310 02bf663a75b56194b895548b322ac988bd9644c9e950834045bca46e632cd39f falco-ref-terminal-shell-container
+worker1 1789581086998485521 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker1 1789581087044205069 sched_process_exec sh                  317 02bf663a75b56194b895548b322ac988bd9644c9e950834045bca46e632cd39f falco-ref-terminal-shell-container
+worker1 1789581087498693465 do_truncate        systemd-journal  622175                                                                  falco-ref-clear-log
+worker2 1789581048696894650 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581049007836227 sched_process_exec sh                    1 3af238a187ed6d6ad57c016b0cef99dd6559a37f708fb10ba074125e4b0a70db falco-ref-terminal-shell-container
+worker2 1789581049106291786 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581049368255349 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581049506900437 sched_process_exec sh                    1 4e38f648b444ab9164d6ad72853df58b51cbf10e7aa4252b106a019d078dd9d4 falco-ref-terminal-shell-container
+worker2 1789581049693920971 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581049946932130 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581051041957021 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581051377169086 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581051696894868 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581052196874457 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581053196915144 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581053197025604 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581059788080970 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581060196912978 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581069446926568 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+worker2 1789581072946894654 do_truncate        systemd-journal  561015                                                                  falco-ref-clear-log
+
+

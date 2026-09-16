@@ -1,0 +1,5 @@
+Tracee JSONL is parsed as JSON before sanitization.
+Only values of sensitive environment entries are replaced with <redacted>;
+argv/command strings are left structurally unchanged.
+Each sanitized Tracee line is parsed again to verify that valid JSON is preserved.
+Scenario output is sanitized for wsrep_sst_auth and common secret key=value patterns.

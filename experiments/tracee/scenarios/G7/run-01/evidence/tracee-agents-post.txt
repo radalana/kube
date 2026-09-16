@@ -1,0 +1,8 @@
+
+Node    Pod          Phase   Restarts
+----    ---          -----   --------
+master  tracee-26ff7 Running        0
+worker1 tracee-dlrgf Running        0
+worker2 tracee-26hcd Running        0
+
+

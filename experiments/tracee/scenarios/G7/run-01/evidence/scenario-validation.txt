@@ -1,0 +1,16 @@
+G7 ground truth: OK
+G1 Job Complete: CONFIRMED
+G2 Job Complete: CONFIRMED
+G3 Job Complete: CONFIRMED
+G4a: CONFIRMED
+G5a: CONFIRMED
+G5c: CONFIRMED
+G6 recovery: CONFIRMED
+Old Pod UID: fb0e8882-f092-4054-890b-44132247034c
+New Pod UID: f572c79f-36da-401f-8072-699b20594f21
+Pod UID changed: CONFIRMED
+Recreated Pod Running and Ready: CONFIRMED
+Final Galera cluster size 3: CONFIRMED
+Final Galera local state Synced: CONFIRMED
+Pre-G7 node: worker1
+Post-G7 node: worker1

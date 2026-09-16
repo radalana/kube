@@ -1,0 +1,5 @@
+Scenario: G7 combined benign workload
+Implementation: existing validated G7 PowerShell script
+Wrapper scope: one Tracee measurement window around that script
+Included: G1, G2, G3, G4a, G5a, G5c, G6
+Excluded: G4b

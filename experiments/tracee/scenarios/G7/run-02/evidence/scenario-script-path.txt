@@ -1,0 +1,1 @@
+C:\Users\sveta\Documents\kube\tests\scenarios\G7-combined-benign-workload\run-g7-combined-benign-workload.ps1
