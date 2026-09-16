@@ -20,7 +20,7 @@ EXIT   0
 | `private-key-search`       |          24 |                        24 | 8            16
 | `terminal-shell-container` |           6 |                         6 | 6 out 6
 | `k8s-api-contact`          |           2 |                         2 | 2 out 2
-| `directory-traversal-read` |           1 |                         1 |
+| `directory-traversal-read` |           1 |                         1 |1
 | **Total**                  |     **213** |                    **42** | **17*  |     **25**
 
 
